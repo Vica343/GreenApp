@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GreenApp.Data;
 using Microsoft.EntityFrameworkCore;
+using GreenApp.Interfaces;
+using GreenApp.Services;
 
 namespace GreenApp
 {
@@ -28,6 +30,7 @@ namespace GreenApp
             services.AddControllersWithViews();
             services.AddDbContext<GreenAppContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("GreenAppContext")));
+            services.AddSingleton<IChallangeRepository, ChallangeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

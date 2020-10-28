@@ -7,25 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GreenApp.Data;
 using GreenApp.Models;
+using GreenApp.Interfaces;
 
 namespace GreenApp.Controllers
 {
-    public class TasksController : Controller
+    public class ChallangesController : Controller
     {
         private readonly GreenAppContext _context;
 
-        public TasksController(GreenAppContext context)
+        public ChallangesController(GreenAppContext context)
         {
             _context = context;
         }
 
-        // GET: Tasks
+        // GET: Challanges
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Task.ToListAsync());
+            return View(await _context.Challange.ToListAsync());
         }
 
-        // GET: Tasks/Details/5
+        // GET: Challanges/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,39 @@ namespace GreenApp.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Task
+            var challange = await _context.Challange
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (task == null)
+            if (challange == null)
             {
                 return NotFound();
             }
 
-            return View(task);
+            return View(challange);
         }
 
-        // GET: Tasks/Create
+        // GET: Challanges/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tasks/Create
+        // POST: Challanges/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,Category,Reward")] Models.Task task)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,Type,Reward")] Challange challange)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(task);
+                _context.Add(challange);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(task);
+            return View(challange);
         }
 
-        // GET: Tasks/Edit/5
+        // GET: Challanges/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +74,22 @@ namespace GreenApp.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Task.FindAsync(id);
-            if (task == null)
+            var challange = await _context.Challange.FindAsync(id);
+            if (challange == null)
             {
                 return NotFound();
             }
-            return View(task);
+            return View(challange);
         }
 
-        // POST: Tasks/Edit/5
+        // POST: Challanges/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,Category,Reward")] Models.Task task)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,Type,Reward")] Challange challange)
         {
-            if (id != task.Id)
+            if (id != challange.Id)
             {
                 return NotFound();
             }
@@ -97,12 +98,12 @@ namespace GreenApp.Controllers
             {
                 try
                 {
-                    _context.Update(task);
+                    _context.Update(challange);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TaskExists(task.Id))
+                    if (!ChallangeExists(challange.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +114,10 @@ namespace GreenApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(task);
+            return View(challange);
         }
 
-        // GET: Tasks/Delete/5
+        // GET: Challanges/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +125,32 @@ namespace GreenApp.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Task
+            var challange = await _context.Challange
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (task == null)
+            if (challange == null)
             {
                 return NotFound();
             }
 
-            return View(task);
+            return View(challange);
         }
 
-        // POST: Tasks/Delete/5
+        // POST: Challanges/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var task = await _context.Task.FindAsync(id);
-            _context.Task.Remove(task);
+            var challange = await _context.Challange.FindAsync(id);
+            _context.Challange.Remove(challange);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TaskExists(int id)
+        private bool ChallangeExists(int id)
         {
-            return _context.Task.Any(e => e.Id == id);
+            return _context.Challange.Any(e => e.Id == id);
         }
+
+       
     }
 }

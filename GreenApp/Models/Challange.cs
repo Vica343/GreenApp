@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GreenApp.Models
 {
-    public class Task
+    public class Challange
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -18,7 +18,7 @@ namespace GreenApp.Models
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
-        public string Category { get; set; }
+        public string Type { get; set; }
         public string Reward { get; set; }
 
     }

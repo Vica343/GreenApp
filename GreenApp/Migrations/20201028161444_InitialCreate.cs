@@ -8,7 +8,7 @@ namespace GreenApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Task",
+                name: "Challange",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -17,19 +17,19 @@ namespace GreenApp.Migrations
                     Description = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    Category = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
                     Reward = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Task", x => x.Id);
+                    table.PrimaryKey("PK_Challange", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Task");
+                name: "Challange");
         }
     }
 }
