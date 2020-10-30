@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenApp", "GreenApp.csproj", "{C913D6B1-1173-468D-97C3-98AE3BAAB88A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenApp", "GreenApp.csproj", "{C913D6B1-1173-468D-97C3-98AE3BAAB88A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenApp.Service", "..\GreenApp.Service\GreenApp.Service.csproj", "{97C6374C-ACD2-46BE-9A3D-4AAB0E2FD60A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenApp.Model", "..\GreenApp.Model\GreenApp.Model.csproj", "{53D5A223-F521-4438-A982-9F0128E0971C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenApp.Data", "..\GreenApp.Data\GreenApp.Data.csproj", "{6F300897-0004-414B-9B5F-5E43EB888029}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{C913D6B1-1173-468D-97C3-98AE3BAAB88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C913D6B1-1173-468D-97C3-98AE3BAAB88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C913D6B1-1173-468D-97C3-98AE3BAAB88A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C6374C-ACD2-46BE-9A3D-4AAB0E2FD60A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C6374C-ACD2-46BE-9A3D-4AAB0E2FD60A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C6374C-ACD2-46BE-9A3D-4AAB0E2FD60A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C6374C-ACD2-46BE-9A3D-4AAB0E2FD60A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D5A223-F521-4438-A982-9F0128E0971C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D5A223-F521-4438-A982-9F0128E0971C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D5A223-F521-4438-A982-9F0128E0971C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D5A223-F521-4438-A982-9F0128E0971C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F300897-0004-414B-9B5F-5E43EB888029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F300897-0004-414B-9B5F-5E43EB888029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F300897-0004-414B-9B5F-5E43EB888029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F300897-0004-414B-9B5F-5E43EB888029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
