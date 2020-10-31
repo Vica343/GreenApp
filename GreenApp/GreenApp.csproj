@@ -14,4 +14,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GreenApp.Data\GreenApp.Data.csproj" />
+    <ProjectReference Include="..\GreenApp.Model\GreenApp.Model.csproj" />
+    <ProjectReference Include="..\GreenApp.Service\GreenApp.Service.csproj" />
+  </ItemGroup>
+
 </Project>
