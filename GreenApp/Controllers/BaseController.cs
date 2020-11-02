@@ -11,15 +11,19 @@ namespace GreenApp.Controllers
     public class BaseController : Controller
     {
         protected readonly IGreenService _greenService;
+        protected readonly ApplicationState _applicationState;
 
-        public BaseController(IGreenService greenService)
+        public BaseController(IGreenService greenService, ApplicationState applicationState)
         {
             _greenService = greenService;
+            _applicationState = applicationState;
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            base.OnActionExecuted(context);           
+            base.OnActionExecuted(context);
+
+            ViewBag.CurrentGuestName = String.IsNullOrEmpty(User.Identity.Name) ? null : User.Identity.Name;
         }
     }
 }

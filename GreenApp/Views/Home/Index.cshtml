@@ -6,3 +6,37 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="headerAdmin">
+    @if (ViewBag.CurrentGuestName == null)
+    {
+        <table>
+            <tr>
+                <td>
+                    <a asp-controller="Account" asp-action="Login">Bejelentkezés</a>
+                </td>
+                <td>
+                    <a asp-controller="Account" asp-action="Register">Regisztráció</a>
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        <table>
+            <tr>
+                <td colspan="2">
+                    Üdvözöljük, @ViewBag.CurrentGuestName!
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a asp-controller="Account" asp-action="Logout">Kijelentkezés</a>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr></tr>
+        </table>
+    }
+</div>

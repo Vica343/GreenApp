@@ -72,6 +72,7 @@ namespace GreenApp.Service
 
             app.UseRouting();
 
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

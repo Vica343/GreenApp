@@ -190,3 +190,5 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\GreenApp.Service.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\GreenApp.Service.pdb
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs

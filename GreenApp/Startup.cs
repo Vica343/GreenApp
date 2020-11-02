@@ -57,6 +57,7 @@ namespace GreenApp
             });
 
 
+            services.AddSingleton<ApplicationState>();
             services.AddTransient<IGreenService, GreenService>();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();

@@ -14,15 +14,8 @@ namespace GreenApp.Model
 
         public string Name { get; set; }
 
-        /// <summary>
-        /// Cím.
-        /// </summary>
         public string Address { get; set; }
 
-
-        /// <summary>
-        /// Foglalások.
-        /// </summary>
         public ICollection<Challange> Challanges { get; set; }
 
     }
