@@ -11,21 +11,17 @@ namespace GreenApp.Controllers
 {
     public class AccountController : BaseController
     {
-		/// <summary>
-		/// Felhasználókezelési szolgáltatás.
-		/// </summary>
-		private readonly UserManager<Guest> _userManager;
-		/// <summary>
-		/// Authentikációs szolgáltatás.
-		/// </summary>
+		private readonly UserManager<Guest> _userManager;		
 		private readonly SignInManager<Guest> _signInManager;
+		private static RoleManager<IdentityRole<int>> _roleManager;
 
 		public AccountController(IGreenService greenService, ApplicationState applicationState,
-			UserManager<Guest> userManager, SignInManager<Guest> signInManager)
+			UserManager<Guest> userManager, SignInManager<Guest> signInManager, RoleManager<IdentityRole<int>> roleManager)
 			: base(greenService, applicationState)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
+			_roleManager = roleManager;
 		}
 
 		public IActionResult Index()
@@ -33,19 +29,12 @@ namespace GreenApp.Controllers
 			return RedirectToAction("Login");
 		}
 
-		/// <summary>
-		/// Bejelentkezés.
-		/// </summary>
 		[HttpGet]
 		public IActionResult Login()
 		{
 			return View("Login");
 		}
 
-		/// <summary>
-		/// Bejelentkezés.
-		/// </summary>
-		/// <param name="user">A bejelentkezés adatai.</param>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginViewModel user)
@@ -53,41 +42,27 @@ namespace GreenApp.Controllers
 			if (!ModelState.IsValid)
 				return View("Login", user);
 
-			// bejelentkeztetjük a felhasználót
 			var result = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);
 			if (!result.Succeeded)
-			{
-				// nem szeretnénk, ha a felhasználó tudná, hogy a felhasználónévvel, vagy a jelszóval van-e baj, így csak általános hibát jelzünk
+			{				
 				ModelState.AddModelError("", "Hibás felhasználónév, vagy jelszó.");
 				return View("Login", user);
-			}
-
-			// ha sikeres volt az ellenőrzés
-
-
-			// ha sikeres volt az ellenőrzés, akkor a SignInManager már beállította a munkamenetet      
-			_applicationState.UserCount++; // módosítjuk a felhasználók számát
-			return RedirectToAction("Index", "Home"); // átirányítjuk a főoldalra
+			}	
+			
+			_applicationState.UserCount++; 
+			return RedirectToAction("Index", "Home"); 
 		}
 
-		/// <summary>
-		/// Regisztráció.
-		/// </summary>
 		[HttpGet]
 		public IActionResult Register()
 		{
 			return View("Register");
 		}
-
-		/// <summary>
-		/// Regisztráció.
-		/// </summary>
-		/// <param name="user">Regisztrációs adatok.</param>
+	
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Register(RegistrationViewModel user)
 		{
-			// végrehajtjuk az ellenőrzéseket
 			if (!ModelState.IsValid)
 				return View("Register", user);
 
@@ -95,33 +70,33 @@ namespace GreenApp.Controllers
 			{
 				UserName = user.UserName,
 				Email = user.GuestEmail,
-				Name = user.GuestName,
-				Address = user.GuestAddress,
+				FirstName = user.GuestFirstName,
+				LastName = user.GuestLastName,
+				Company = user.GuestCompany,
 				PhoneNumber = user.GuestPhoneNumber
 			};
 			var result = await _userManager.CreateAsync(guest, user.UserPassword);
+			var companyAdminRole = new IdentityRole<int>("companyAdmin");
+			var result2 = _roleManager.CreateAsync(companyAdminRole).Result;
+			var result3 = _userManager.AddToRoleAsync(guest, companyAdminRole.Name).Result;
 			if (!result.Succeeded)
 			{
-				// Felvesszük a felhasználó létrehozásával kapcsolatos hibákat.
 				foreach (var error in result.Errors)
 					ModelState.AddModelError("", error.Description);
 				return View("Register", user);
 			}
 
-			await _signInManager.SignInAsync(guest, false); // be is jelentkeztetjük egyből a felhasználót
-			_applicationState.UserCount++; // módosítjuk a felhasználók számát
-			return RedirectToAction("Index", "Home"); // átirányítjuk a főoldalra
+			await _signInManager.SignInAsync(guest, false); 
+			_applicationState.UserCount++; 
+			return RedirectToAction("Index", "Home"); 
 		}
 
-		/// <summary>
-		/// Kijelentkezés.
-		/// </summary>
 		public async Task<IActionResult> Logout()
 		{
 			await _signInManager.SignOutAsync();
 
-			_applicationState.UserCount--; // módosítjuk a felhasználók számát
-			return RedirectToAction("Index", "Home"); // átirányítjuk a főoldalra
+			_applicationState.UserCount--;
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

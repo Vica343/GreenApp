@@ -13,8 +13,11 @@ namespace GreenApp.Models
         /// </summary>
         [Required(ErrorMessage = "A név megadása kötelező.")] // feltételek a validáláshoz
         [StringLength(60, ErrorMessage = "A foglaló neve maximum 60 karakter lehet.")]
-        public String GuestName { get; set; }
+        public String GuestFirstName { get; set; }
 
+        [Required(ErrorMessage = "A név megadása kötelező.")] // feltételek a validáláshoz
+        [StringLength(60, ErrorMessage = "A foglaló neve maximum 60 karakter lehet.")]
+        public String GuestLastName { get; set; }
         /// <summary>
         /// Vendég e-mail címe.
         /// </summary>
@@ -26,8 +29,8 @@ namespace GreenApp.Models
         /// <summary>
         /// Vendég címe.
         /// </summary>
-        [Required(ErrorMessage = "A cím megadása kötelező.")]
-        public String GuestAddress { get; set; }
+        [Required(ErrorMessage = "A cég megadása kötelező.")]
+        public String GuestCompany { get; set; }
 
         /// <summary>
         /// Vendég telefonszáma.

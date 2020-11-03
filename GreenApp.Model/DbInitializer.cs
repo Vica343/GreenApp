@@ -38,13 +38,14 @@ namespace GreenApp.Models
 			var adminUser = new Guest
 			{
 				UserName = "admin",
-				Name = "Adminisztrátor",
+				FirstName = "Adminisztrátor",
+				LastName = "Admin",
 				Email = "admin@example.com",
 				PhoneNumber = "+36123456789",
-				Address = "Nevesincs utca 1."
+				Company = "Company"
 			};
 			var adminPassword = "Almafa123";
-			var adminRole = new IdentityRole<int>("administrator");
+			var adminRole = new IdentityRole<int>("superAdmin");
 
 			var result1 = _userManager.CreateAsync(adminUser, adminPassword).Result;
 			var result2 = _roleManager.CreateAsync(adminRole).Result;

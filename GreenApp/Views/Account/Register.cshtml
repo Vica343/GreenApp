@@ -20,21 +20,29 @@
         </tr>
         <tr>
             <td width="120">
-                Név:
+                Vezetéknév:
             </td>
             <td class="failureNotification" colspan="2">
-                <input asp-for="GuestName" size="40" />
-                <span asp-validation-for="GuestName"></span>
+                <input asp-for="GuestLastName" size="40" />
+                <span asp-validation-for="GuestLastName"></span>
             </td>
-
+        </tr>
+        <tr>
+            <td width="120">
+                Keresztnév:
+            </td>
+            <td class="failureNotification" colspan="2">
+                <input asp-for="GuestFirstName" size="40" />
+                <span asp-validation-for="GuestFirstName"></span>
+            </td>
         </tr>
         <tr>
             <td width="120">
                 Számlázási cím:
             </td>
             <td class="failureNotification" colspan="2">
-                <input asp-for="GuestAddress" size="40" />
-                <span asp-validation-for="GuestAddress"></span>
+                <input asp-for="GuestCompany" size="40" />
+                <span asp-validation-for="GuestCompany"></span>
             </td>
         </tr>
         <tr>
