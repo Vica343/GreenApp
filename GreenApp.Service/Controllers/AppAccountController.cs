@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GreenApp.Data;
 using GreenApp.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +19,6 @@ using NHibernate.Cfg;
 
 namespace GreenApp.Service.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     [ApiConventionType(typeof(DefaultApiConventions))]
@@ -35,10 +35,8 @@ namespace GreenApp.Service.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
             _userManager = userManager;
-            _configuration = configuration;
-            
-
-    }
+            _configuration = configuration;           
+        }
 
         [AllowAnonymous]
         [HttpPost("login")]
@@ -60,7 +58,7 @@ namespace GreenApp.Service.Controllers
                     authClaims.Add(new Claim(ClaimTypes.Role, appUser));
                 }
 
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
 
                 var creds = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha512Signature);
 
@@ -86,7 +84,6 @@ namespace GreenApp.Service.Controllers
         }
 
         [HttpGet("logout")]
-        [Authorize] 
         public async Task<IActionResult> Logout()
         {
             try
@@ -99,9 +96,9 @@ namespace GreenApp.Service.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-
-        [AllowAnonymous]
+  
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]GuestDTO guestDTO)
         {
             Guest guest = new Guest
@@ -126,6 +123,37 @@ namespace GreenApp.Service.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("profile")]
+        public async Task<IActionResult> Profile()
+        { 
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+                    return Ok(new GuestDTO
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Username = user.UserName
+                    });
+
+                }
+                return StatusCode(StatusCodes.Status401Unauthorized);
+            }
+            catch
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 
 }

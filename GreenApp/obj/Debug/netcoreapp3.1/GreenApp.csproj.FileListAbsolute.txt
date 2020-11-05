@@ -197,3 +197,5 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\NHibernate.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Remotion.Linq.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Remotion.Linq.EagerFetching.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\jose-jwt.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
