@@ -76,9 +76,8 @@ namespace GreenApp.Controllers
 				PhoneNumber = user.GuestPhoneNumber
 			};
 			var result = await _userManager.CreateAsync(guest, user.UserPassword);
-			var companyAdminRole = new IdentityRole<int>("companyAdmin");
-			var result2 = _roleManager.CreateAsync(companyAdminRole).Result;
-			var result3 = _userManager.AddToRoleAsync(guest, companyAdminRole.Name).Result;
+			var companyAdminRole = await _roleManager.FindByNameAsync("companyAdmin");
+			var result3 =  _userManager.AddToRoleAsync(guest, companyAdminRole.Name).Result;
 			if (!result.Succeeded)
 			{
 				foreach (var error in result.Errors)

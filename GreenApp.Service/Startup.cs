@@ -79,12 +79,14 @@ namespace GreenApp.Service
                         ValidateAudience = false,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes((Configuration["JWT:Key"])))
-                    
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes((Configuration["Jwt:Key"])))
+
                     };
                 });
-            
-           
+
+            services.AddMvc();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,12 +96,10 @@ namespace GreenApp.Service
             {
                 app.UseDeveloperExceptionPage();
             }
-
-           // app.UseHttpsRedirection();
+            
+            app.UseAuthentication();
 
             app.UseRouting();
-
-            app.UseAuthentication();
 
             app.UseAuthorization();
 

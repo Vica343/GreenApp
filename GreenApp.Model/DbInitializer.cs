@@ -46,10 +46,14 @@ namespace GreenApp.Models
 			};
 			var adminPassword = "Almafa123";
 			var adminRole = new IdentityRole<int>("superAdmin");
+			var companyAdminRole = new IdentityRole<int>("companyAdmin");
+			var appUserRole = new IdentityRole<int>("appUser");
 
 			var result1 = _userManager.CreateAsync(adminUser, adminPassword).Result;
 			var result2 = _roleManager.CreateAsync(adminRole).Result;
-			var result3 = _userManager.AddToRoleAsync(adminUser, adminRole.Name).Result;
+			var result3 = _roleManager.CreateAsync(companyAdminRole).Result;
+			var result4 = _roleManager.CreateAsync(appUserRole).Result;
+			var result5 = _userManager.AddToRoleAsync(adminUser, adminRole.Name).Result;
 		}
 
 		private static void SeedChallanges()

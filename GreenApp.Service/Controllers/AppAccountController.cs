@@ -38,7 +38,6 @@ namespace GreenApp.Service.Controllers
             _configuration = configuration;           
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]GuestDTO guestDTO)
         {
@@ -110,10 +109,9 @@ namespace GreenApp.Service.Controllers
             };           
             try
             {
-                var appUser = new IdentityRole<int>("appUser");
+                var appUser = await _roleManager.FindByNameAsync("appUser");
                 var result1 = await _userManager.CreateAsync(guest, guestDTO.Password);
-                var result2 = _roleManager.CreateAsync(appUser).Result;
-                var result3 = _userManager.AddToRoleAsync(guest, appUser.Name).Result;
+                var result2 = _userManager.AddToRoleAsync(guest, appUser.Name).Result;
                
                 return Ok();
             }
