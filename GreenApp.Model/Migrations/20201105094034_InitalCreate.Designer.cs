@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenApp.Model.Migrations
 {
     [DbContext(typeof(GreenAppContext))]
-    [Migration("20201103211124_InitalCreate")]
+    [Migration("20201105094034_InitalCreate")]
     partial class InitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
