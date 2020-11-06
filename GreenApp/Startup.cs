@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
 
 namespace GreenApp
 {
@@ -35,9 +36,10 @@ namespace GreenApp
                     x => x.MigrationsAssembly("GreenApp.Model")));
 
             services.AddIdentity<Guest, IdentityRole<int>>()
-                .AddEntityFrameworkStores<GreenAppContext>() 
-                .AddDefaultTokenProviders(); 
+                .AddEntityFrameworkStores<GreenAppContext>()
+                .AddDefaultTokenProviders();
 
+         
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -83,6 +85,7 @@ namespace GreenApp
                     };
                 });
 
+            
             services.AddMvc();
         }
 

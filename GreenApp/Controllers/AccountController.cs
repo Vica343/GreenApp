@@ -42,8 +42,15 @@ namespace GreenApp.Controllers
 			if (!ModelState.IsValid)
 				return View("Login", user);
 
-			var result = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);
-			if (!result.Succeeded)
+			var result1 = await _userManager.FindByNameAsync(user.UserName);
+			var userRoles = await _userManager.GetRolesAsync(result1);
+			if (!userRoles.Contains("companyAdmin") && !userRoles.Contains("superAdmin"))
+			{
+				ModelState.AddModelError("", "Csak cégadmin vagy admin jelentkezhet be.");
+				return View("Login", user);
+			}
+			var result2 = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);
+			if (!result2.Succeeded)
 			{				
 				ModelState.AddModelError("", "Hibás felhasználónév, vagy jelszó.");
 				return View("Login", user);

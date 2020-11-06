@@ -38,6 +38,7 @@ namespace GreenApp.Service.Controllers
             _configuration = configuration;           
         }
 
+      
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]GuestDTO guestDTO)
         {
@@ -45,6 +46,11 @@ namespace GreenApp.Service.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, guestDTO.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
+
+                if (!userRoles.Contains("appUser"))
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden);
+                }
 
                 var authClaims = new List<Claim>
                 {
