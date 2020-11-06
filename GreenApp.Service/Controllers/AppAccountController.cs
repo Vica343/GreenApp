@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.ModelBinding;
 using GreenApp.Data;
 using GreenApp.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using NHibernate.Cfg;
 
 namespace GreenApp.Service.Controllers
@@ -115,10 +117,60 @@ namespace GreenApp.Service.Controllers
             };           
             try
             {
+
+                List<string> errors = new List<string>();
+                var validators1 = _userManager.PasswordValidators;
+
+                foreach (var validator in validators1)
+                {
+                    var result = await validator.ValidateAsync(_userManager, null, guestDTO.Password);
+
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            errors.Add(error.Description);
+                        }
+                    }
+                }
+                var validators2 = _userManager.UserValidators;
+
+                foreach (var validator in validators2)
+                {
+                    var result = await validator.ValidateAsync(_userManager, guest);
+
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            errors.Add(error.Description);
+                        }
+                    }
+                }
+                if (errors.Count != 0)
+                {
+                    var errorWrapper = new
+                    {
+                        errors = errors
+
+                    };
+
+                    return BadRequest(JsonConvert.SerializeObject(errorWrapper));
+                }
+
                 var appUser = await _roleManager.FindByNameAsync("appUser");
                 var result1 = await _userManager.CreateAsync(guest, guestDTO.Password);
                 var result2 = _userManager.AddToRoleAsync(guest, appUser.Name).Result;
-               
+
+                if (!result1.Succeeded)
+                {
+                    return BadRequest(result1.Errors);
+                } 
+                if (!result2.Succeeded)
+                {
+                    return BadRequest(result2.Errors);
+                }              
+
                 return Ok();
             }
             catch 
