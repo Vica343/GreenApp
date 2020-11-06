@@ -204,3 +204,5 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Index.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Result.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Image\Index.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Image\Details.cshtml.g.cs

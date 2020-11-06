@@ -1,0 +1,33 @@
+﻿@model ImageUploadViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4>Start Uploading Files Here</h4>
+<hr />
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success alert-dismissible" style="margin-top:20px">
+        @ViewBag.Message
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" multiple required />
+    <button class="btn btn-success" type="submit" asp-controller="Image" asp-action="UploadToDatabase">Upload to Database</button>
+</form>
+
+<hr />
+<tbody>
+    <tr>
+        <th>@Model.Name</th>
+        <td>@Model.FileType</td>
+        <td>@Model.CreatedOn</td>
+        <td>
+            <a type="button" class="btn btn-primary" asp-controller="Image" asp-action="DownloadFileFromDatabase" asp-route-id="@Model.Id">Download</a>
+        </td>
+    </tr>
+
+</tbody>
+
+

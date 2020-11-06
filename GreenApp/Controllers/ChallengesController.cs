@@ -44,7 +44,6 @@ namespace GreenApp.Controllers
 
             ViewBag.Message = "A foglalását sikeresen rögzítettük!";
             return View("Result");
-
         }
     }
 }

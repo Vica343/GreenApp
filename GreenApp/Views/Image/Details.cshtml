@@ -1,0 +1,19 @@
+﻿@model ImageUploadViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<hr />
+<tbody>
+    <tr>
+        <th>@Model.Name</th>
+        <td>@Model.FileType</td>
+        <td>@Model.CreatedOn</td>
+        <td>
+            <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromFileSystem" asp-route-id="@Model.Id">Download</a>
+        </td>
+    </tr>
+
+</tbody>

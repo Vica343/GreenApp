@@ -22,6 +22,7 @@ namespace GreenApp.Model
 
 
         public virtual DbSet<Challenge> Challenges { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
 
     }
 }
