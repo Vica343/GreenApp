@@ -19,12 +19,18 @@ namespace GreenApp.Model.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GreenApp.Model.Challange", b =>
+            modelBuilder.Entity("GreenApp.Model.Challenge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("DataImage")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -38,20 +44,23 @@ namespace GreenApp.Model.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Reward")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Reward")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GuestId");
 
-                    b.ToTable("Challanges");
+                    b.ToTable("Challenges");
                 });
 
             modelBuilder.Entity("GreenApp.Model.Guest", b =>
@@ -260,7 +269,7 @@ namespace GreenApp.Model.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("GreenApp.Model.Challange", b =>
+            modelBuilder.Entity("GreenApp.Model.Challenge", b =>
                 {
                     b.HasOne("GreenApp.Model.Guest", null)
                         .WithMany("Challanges")

@@ -46,7 +46,7 @@ namespace GreenApp.Controllers
 			var userRoles = await _userManager.GetRolesAsync(result1);
 			if (!userRoles.Contains("companyAdmin") && !userRoles.Contains("superAdmin"))
 			{
-				ModelState.AddModelError("", "Csak cégadmin vagy admin jelentkezhet be.");
+				ModelState.AddModelError("", "Csak admin jelentkezhet be.");
 				return View("Login", user);
 			}
 			var result2 = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);

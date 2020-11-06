@@ -8,6 +8,9 @@ namespace GreenApp.Models
 {
     public interface IGreenService
     {
-        IEnumerable<Challange> Challanges { get; }
+        IEnumerable<Challenge> Challenges { get; }
+
+        Task<Boolean> SaveChallengeAsync(String userName, ChallangeViewModel challenge);
+
     }
 }

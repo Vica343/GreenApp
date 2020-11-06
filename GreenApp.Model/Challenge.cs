@@ -1,18 +1,22 @@
-﻿using System;
+﻿using GreenApp.Data;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GreenApp.Model
 {
-    public class Challange
+    public class Challenge
     {       
 
         public int Id { get; set; }
+        public int CreatorId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }    
         public DateTime StartDate { get; set; } 
         public DateTime EndDate { get; set; }
-        public string Type { get; set; }
-        public string Reward { get; set; }
+        public ChallengeType Type { get; set; }
+        public RewardType Reward { get; set; }
+        public StatusType Status { get; set; }
+        public byte[] DataImage { get; set; }
 
     }
 }

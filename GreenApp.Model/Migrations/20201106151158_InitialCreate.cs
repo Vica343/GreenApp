@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GreenApp.Model.Migrations
 {
-    public partial class InitalCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -158,24 +158,27 @@ namespace GreenApp.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Challanges",
+                name: "Challenges",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatorId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    Type = table.Column<string>(nullable: true),
-                    Reward = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    Reward = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    DataImage = table.Column<byte[]>(nullable: true),
                     GuestId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Challanges", x => x.Id);
+                    table.PrimaryKey("PK_Challenges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Challanges_Guests_GuestId",
+                        name: "FK_Challenges_Guests_GuestId",
                         column: x => x.GuestId,
                         principalTable: "Guests",
                         principalColumn: "Id",
@@ -210,8 +213,8 @@ namespace GreenApp.Model.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Challanges_GuestId",
-                table: "Challanges",
+                name: "IX_Challenges_GuestId",
+                table: "Challenges",
                 column: "GuestId");
 
             migrationBuilder.CreateIndex(
@@ -245,7 +248,7 @@ namespace GreenApp.Model.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Challanges");
+                name: "Challenges");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

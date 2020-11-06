@@ -21,7 +21,7 @@ namespace GreenApp.Model
         }
 
 
-        public virtual DbSet<Challange> Challanges { get; set; }
+        public virtual DbSet<Challenge> Challenges { get; set; }
 
     }
 }

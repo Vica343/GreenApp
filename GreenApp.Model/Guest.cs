@@ -9,7 +9,7 @@ namespace GreenApp.Model
    {
         public Guest()
         {
-            Challanges = new HashSet<Challange>();
+            Challanges = new HashSet<Challenge>();
         }
 
         public string FirstName { get; set; }
@@ -18,7 +18,7 @@ namespace GreenApp.Model
 
         public string Company { get; set; }
 
-        public ICollection<Challange> Challanges { get; set; }
+        public ICollection<Challenge> Challanges { get; set; }
 
     }
 }

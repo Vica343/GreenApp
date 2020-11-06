@@ -29,7 +29,7 @@ namespace GreenApp.Service.Controllers
         {
             try
             {
-                return Ok(_context.Challanges                    
+                return Ok(_context.Challenges                    
                     .ToList()
                     .Select(challange => new ChallangeDTO
                     {
