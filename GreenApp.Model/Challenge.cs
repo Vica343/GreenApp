@@ -1,6 +1,5 @@
 ﻿using GreenApp.Data;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace GreenApp.Model
 {
@@ -16,7 +15,7 @@ namespace GreenApp.Model
         public ChallengeType Type { get; set; }
         public RewardType Reward { get; set; }
         public StatusType Status { get; set; }
-        public byte[] DataImage { get; set; }
+        public byte[] Image { get; set; }
 
     }
 }

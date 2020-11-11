@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenApp.Model.Migrations
 {
     [DbContext(typeof(GreenAppContext))]
-    [Migration("20201106200306_InitalCreate")]
-    partial class InitalCreate
+    [Migration("20201111110545_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,6 @@ namespace GreenApp.Model.Migrations
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("DataImage")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -42,6 +39,9 @@ namespace GreenApp.Model.Migrations
 
                     b.Property<int?>("GuestId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

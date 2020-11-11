@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GreenApp.Model.Migrations
 {
-    public partial class InitalCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -189,7 +189,7 @@ namespace GreenApp.Model.Migrations
                     Type = table.Column<int>(nullable: false),
                     Reward = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    DataImage = table.Column<byte[]>(nullable: true),
+                    Image = table.Column<byte[]>(nullable: true),
                     GuestId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

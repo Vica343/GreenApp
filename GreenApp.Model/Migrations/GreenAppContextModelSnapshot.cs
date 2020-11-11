@@ -29,9 +29,6 @@ namespace GreenApp.Model.Migrations
                     b.Property<int>("CreatorId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("DataImage")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,6 +37,9 @@ namespace GreenApp.Model.Migrations
 
                     b.Property<int?>("GuestId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

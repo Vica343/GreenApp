@@ -11,9 +11,10 @@ namespace GreenApp.Models
     {
         IEnumerable<Challenge> Challenges { get; }
 
-        Task<Boolean> SaveChallengeAsync(String userName, ChallangeViewModel challenge);
+        Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
         Task<Boolean> SaveImageAsync(String userName, ImageUploadViewModel image);
         Image GetImage(Int32? imageId);
         Task<Image> DownLoadFileAsync(Int32? id);
+        Byte[] GetChallangeImage(Int32? challangeId);
     }
 }

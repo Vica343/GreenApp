@@ -1,0 +1,102 @@
+﻿@using GreenApp.Model;
+@using GreenApp.Data;
+
+@model ChallengeViewModel
+
+<form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data">>
+    @* Automatikus védelem XSRF támadás ellen *@
+
+    <table>
+        <tr>
+            <td colspan="2">
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="contentHead">
+                    A kihívás adatai:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                A kihívás neve:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="ChallengeName" />
+                <span asp-validation-for="ChallengeName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Leírás:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="ChallengeDescription" />
+                <span asp-validation-for="ChallengeDescription"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Kezdődátum:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="ChallengeStartDate" asp-format="{0:yyyy-MM-dd}" />
+                <span asp-validation-for="ChallengeStartDate"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Végső dátum:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="ChallengeEndDate" asp-format="{0:yyyy-MM-dd}" />
+                <span asp-validation-for="ChallengeEndDate"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Típus:
+            </td>
+            <td class="failureNotification">
+                <select asp-for="ChallengeSelectedType" asp-items="Html.GetEnumSelectList<ChallengeType>()">
+                    <option selected="selected" value="">Kérem válasszon</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Kép feltöltése:
+            </td>
+            <td class="failureNotification">
+                <input type="file" name="ChallengeImage" id ="ChallengeImage" multiple required  />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Jutalom:
+            </td>
+            <td class="failureNotification">
+                <select asp-for="ChallengeReward" asp-items="Html.GetEnumSelectList<RewardType>()">
+                    <option selected="selected" value="">Kérem válasszon</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="50">
+                <input type="submit" value="Beküldés" class="button" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+@section Scripts
+{
+    @* jQuery Validation használata a kliens oldali validációra *@
+    <partial name="_ValidationScriptsPartial" />
+
+}
+
+
+
