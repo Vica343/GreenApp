@@ -52,24 +52,6 @@ namespace GreenApp.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    FileType = table.Column<string>(nullable: true),
-                    UploadedBy = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    Data = table.Column<byte[]>(nullable: true),
-                    Extension = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -203,6 +185,31 @@ namespace GreenApp.Model.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserChallenges",
+                columns: table => new
+                {
+                    ChallengeId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserChallenges", x => new { x.UserId, x.ChallengeId });
+                    table.ForeignKey(
+                        name: "FK_UserChallenges_Challenges_ChallengeId",
+                        column: x => x.ChallengeId,
+                        principalTable: "Challenges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserChallenges_Guests_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Guests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -246,6 +253,11 @@ namespace GreenApp.Model.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenges_ChallengeId",
+                table: "UserChallenges",
+                column: "ChallengeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -266,13 +278,13 @@ namespace GreenApp.Model.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Challenges");
-
-            migrationBuilder.DropTable(
-                name: "Images");
+                name: "UserChallenges");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Challenges");
 
             migrationBuilder.DropTable(
                 name: "Guests");

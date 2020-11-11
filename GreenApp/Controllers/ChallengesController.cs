@@ -25,8 +25,8 @@ namespace GreenApp.Controllers
         public IActionResult Index()
         {
             var challanges = _greenService.Challenges;
-            return View("Index", challanges.ToList());
-            //return View("AddChallenge");
+            //return View("Index", challanges.ToList());
+            return View("AddChallenge");
         }
 
         [HttpPost]

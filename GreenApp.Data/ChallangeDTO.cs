@@ -34,8 +34,7 @@ namespace GreenApp.Data
         public ChallengeType Type { get; set; }
         public RewardType Reward { get; set; }
         public StatusType Status { get; set; }
-
-        public Byte[] DataImage { get; set; }
+        public Byte[] Image { get; set; }
 
         public ChallangeDTO()
         {

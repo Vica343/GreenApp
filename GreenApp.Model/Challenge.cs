@@ -1,5 +1,6 @@
 ﻿using GreenApp.Data;
 using System;
+using System.Collections.Generic;
 
 namespace GreenApp.Model
 {
@@ -16,6 +17,8 @@ namespace GreenApp.Model
         public RewardType Reward { get; set; }
         public StatusType Status { get; set; }
         public byte[] Image { get; set; }
+
+        public IList<UserChallenge> UserChallenges { get; set; }
 
     }
 }

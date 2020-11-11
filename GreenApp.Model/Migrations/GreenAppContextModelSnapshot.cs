@@ -139,34 +139,22 @@ namespace GreenApp.Model.Migrations
                     b.ToTable("Guests");
                 });
 
-            modelBuilder.Entity("GreenApp.Model.Image", b =>
+            modelBuilder.Entity("GreenApp.Model.UserChallenge", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Data")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Extension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UploadedBy")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Images");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ChallengeId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("UserChallenges");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -302,8 +290,23 @@ namespace GreenApp.Model.Migrations
             modelBuilder.Entity("GreenApp.Model.Challenge", b =>
                 {
                     b.HasOne("GreenApp.Model.Guest", null)
-                        .WithMany("Challanges")
+                        .WithMany("AdminChallenges")
                         .HasForeignKey("GuestId");
+                });
+
+            modelBuilder.Entity("GreenApp.Model.UserChallenge", b =>
+                {
+                    b.HasOne("GreenApp.Model.Challenge", "Challenge")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GreenApp.Model.Guest", "User")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

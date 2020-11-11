@@ -17,12 +17,20 @@ namespace GreenApp.Model
         {
             base.OnModelCreating(builder);
             builder.Entity<Guest>().ToTable("Guests");
-            // A felhasználói tábla alapértelmezett neve AspNetUsers lenne az adatbázisban, de ezt felüldefiniálhatjuk.
+            builder.Entity<UserChallenge>().HasKey(sc => new { sc.UserId, sc.ChallengeId });
+            builder.Entity<UserChallenge>()
+               .HasOne(pt => pt.User)
+               .WithMany(p => p.UserChallenges)
+               .HasForeignKey(pt => pt.UserId);
+
+            builder.Entity<UserChallenge>()
+                .HasOne(pt => pt.Challenge)
+                .WithMany(t => t.UserChallenges)
+                .HasForeignKey(pt => pt.ChallengeId);
         }
 
-
         public virtual DbSet<Challenge> Challenges { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
+       public virtual DbSet<UserChallenge> UserChallenges { get; set; }
 
     }
 }
