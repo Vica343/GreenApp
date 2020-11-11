@@ -15,5 +15,6 @@ namespace GreenApp.Model
         public Guest User { get; set; }
 
         public StatusType Status { get; set; }
+        public byte[] Image { get; set; }
     }
 }

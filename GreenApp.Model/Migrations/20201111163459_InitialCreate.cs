@@ -191,7 +191,8 @@ namespace GreenApp.Model.Migrations
                 {
                     ChallengeId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    Image = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {

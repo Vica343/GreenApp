@@ -147,6 +147,9 @@ namespace GreenApp.Model.Migrations
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
