@@ -3,7 +3,8 @@
 
 @model ChallengeViewModel
 
-<form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data">>
+<form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data">
+    >
     @* Automatikus védelem XSRF támadás ellen *@
 
     <table>
@@ -60,17 +61,18 @@
                 Típus:
             </td>
             <td class="failureNotification">
+
                 <select asp-for="ChallengeSelectedType" asp-items="Html.GetEnumSelectList<ChallengeType>()">
                     <option selected="selected" value="">Kérem válasszon</option>
                 </select>
-            </td>
+            </td>           
         </tr>
         <tr>
             <td>
                 Kép feltöltése:
             </td>
             <td class="failureNotification">
-                <input type="file" name="ChallengeImage" id ="ChallengeImage" multiple required  />
+                <input type="file" name="ChallengeImage" id="ChallengeImage" multiple required />
             </td>
         </tr>
         <tr>
@@ -95,7 +97,6 @@
 {
     @* jQuery Validation használata a kliens oldali validációra *@
     <partial name="_ValidationScriptsPartial" />
-
 }
 
 

@@ -35,14 +35,14 @@ namespace GreenApp.Model.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GuestId")
-                        .HasColumnType("int");
-
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("QRCode")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Reward")
                         .HasColumnType("int");
@@ -57,8 +57,6 @@ namespace GreenApp.Model.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
 
                     b.ToTable("Challenges");
                 });
@@ -288,13 +286,6 @@ namespace GreenApp.Model.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("GreenApp.Model.Challenge", b =>
-                {
-                    b.HasOne("GreenApp.Model.Guest", null)
-                        .WithMany("AdminChallenges")
-                        .HasForeignKey("GuestId");
                 });
 
             modelBuilder.Entity("GreenApp.Model.UserChallenge", b =>

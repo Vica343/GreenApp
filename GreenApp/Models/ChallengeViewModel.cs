@@ -41,6 +41,7 @@ namespace GreenApp.Models
         [DataType(DataType.Upload)]
         public IFormFile ChallengeImage { get; set; }
 
+        public byte[] ChallengeQr { get; set; }
 
     }
 }

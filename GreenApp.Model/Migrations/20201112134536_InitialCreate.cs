@@ -23,6 +23,28 @@ namespace GreenApp.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Challenges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatorId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Reward = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    Image = table.Column<byte[]>(nullable: true),
+                    QRCode = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Challenges", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Guests",
                 columns: table => new
                 {
@@ -158,34 +180,6 @@ namespace GreenApp.Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Challenges",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatorId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    Type = table.Column<int>(nullable: false),
-                    Reward = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    Image = table.Column<byte[]>(nullable: true),
-                    GuestId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Challenges", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Challenges_Guests_GuestId",
-                        column: x => x.GuestId,
-                        principalTable: "Guests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserChallenges",
                 columns: table => new
                 {
@@ -237,11 +231,6 @@ namespace GreenApp.Model.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Challenges_GuestId",
-                table: "Challenges",
-                column: "GuestId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",

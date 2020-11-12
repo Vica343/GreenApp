@@ -17,6 +17,7 @@ namespace GreenApp.Model
         public RewardType Reward { get; set; }
         public StatusType Status { get; set; }
         public byte[] Image { get; set; }
+        public byte[] QRCode { get; set; }
 
         public IList<UserChallenge> UserChallenges { get; set; }
 

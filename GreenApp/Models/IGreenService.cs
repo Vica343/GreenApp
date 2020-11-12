@@ -14,5 +14,8 @@ namespace GreenApp.Models
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
        
         Byte[] GetChallangeImage(Int32? challangeId);
+
+        Challenge GetChallenge(ChallengeViewModel challenge);
+        Boolean UpdateChallange(ChallengeViewModel challenge);
     }
 }

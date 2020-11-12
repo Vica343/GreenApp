@@ -49,6 +49,7 @@ namespace GreenApp.Models
                 Type = challenge.ChallengeSelectedType,
                 Reward = challenge.ChallengeReward,               
                 Image = bytes,
+                QRCode = challenge.ChallengeQr,
                 Status = Data.StatusType.Pending             
             });
 
@@ -62,7 +63,23 @@ namespace GreenApp.Models
             }
             return true;
 
-        }       
+        }   
+        
+        public Boolean UpdateChallange(ChallengeViewModel challenge)
+        {
+            Challenge challangeindb = GetChallenge(challenge);
+            challangeindb.QRCode = challenge.ChallengeQr;
+            try
+            {
+                _context.Challenges.Update(challangeindb);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public Byte[] GetChallangeImage(Int32? challangeId)
         {
@@ -74,6 +91,21 @@ namespace GreenApp.Models
                 .Where(image => image.Id == challangeId)
                 .FirstOrDefault();
             return c.Image;
+        }
+
+        public Challenge GetChallenge(ChallengeViewModel challenge)
+        {
+            if (challenge == null)
+                return null;
+            Challenge c = _context.Challenges
+                .Where(ch => ch.Name == challenge.ChallengeName)
+                .Where(ch => ch.StartDate == challenge.ChallengeStartDate)
+                .Where(ch => ch.EndDate == challenge.ChallengeEndDate)
+                .Where(ch => ch.Reward == challenge.ChallengeReward)
+                .Where(ch => ch.Description == challenge.ChallengeDescription)
+                .FirstOrDefault();
+            return c;
+
         }
     }
 }

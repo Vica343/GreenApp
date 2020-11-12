@@ -1,3 +1,9 @@
 ﻿@using GreenApp.Model;
 
 <div class="contentHead">A foglalását sikeresen rögzítettük!</div>
+
+
+@if (ViewBag.QrCode != null)
+{
+    <img src="@ViewBag.QrCode" style="width:200px;height:200px;" />
+}

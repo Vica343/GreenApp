@@ -13,9 +13,12 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Antlr3.Runtime.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Iesi.Collections.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\jose-jwt.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Web.Http.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Features.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
@@ -62,9 +65,12 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\NHibernate.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\QRCoder.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Remotion.Linq.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Remotion.Linq.EagerFetching.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\SQLitePCLRaw.batteries_v2.dll
@@ -79,7 +85,9 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Composition.TypedParts.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Runtime.Caching.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Text.Json.dll
@@ -137,6 +145,7 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
@@ -152,6 +161,8 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
@@ -175,6 +186,9 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.RazorCoreGenerate.cache
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\AddChallenge.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Index.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Result.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
@@ -188,11 +202,3 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.csproj.CopyComplete
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.pdb
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.Web.Http.dll
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Result.cshtml.g.cs
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Features.dll
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Index.cshtml.g.cs
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\AddChallenge.cshtml.g.cs

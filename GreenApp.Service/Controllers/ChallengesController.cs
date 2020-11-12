@@ -15,9 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenApp.Service.Controllers
 {
-    [ApiController] 
-    [Route("api/[controller]")] 
-    [ApiConventionType(typeof(DefaultApiConventions))] 
+    [ApiController]
+    [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class ChallengesController : ControllerBase
     {
         private readonly GreenAppContext _context;
@@ -36,7 +36,7 @@ namespace GreenApp.Service.Controllers
         {
             try
             {
-                return Ok(_context.Challenges                    
+                return Ok(_context.Challenges
                     .ToList()
                     .Select(challenge => new ChallangeDTO
                     {
@@ -78,14 +78,14 @@ namespace GreenApp.Service.Controllers
                     .Single(c => c.Id == id);
                 return Ok(new ChallangeDTO
                 {
-                        Id = challenge.Id,
-                        Name = challenge.Name,
-                        Description = challenge.Description,
-                        StartDate = challenge.StartDate,
-                        EndDate = challenge.EndDate,
-                        Type = challenge.Type,
-                        Reward = challenge.Reward,
-                        Image = challenge.Image
+                    Id = challenge.Id,
+                    Name = challenge.Name,
+                    Description = challenge.Description,
+                    StartDate = challenge.StartDate,
+                    EndDate = challenge.EndDate,
+                    Type = challenge.Type,
+                    Reward = challenge.Reward,
+                    Image = challenge.Image
                 });
             }
             catch
@@ -112,43 +112,101 @@ namespace GreenApp.Service.Controllers
             Challenge challenge = _context.Challenges
               .Where(ch => ch.Id == id)
               .FirstOrDefault();
-            
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
                 IEnumerable<Claim> claims = identity.Claims;
                 var user = await _userManager.FindByNameAsync(identity.Name);
-                challenge.UserChallenges = new List<UserChallenge>
+                if (challenge.UserChallenges == null)
                 {
-                    new UserChallenge
+                    challenge.UserChallenges = new List<UserChallenge>
+                    {
+                        new UserChallenge
+                        {
+                            Challenge = challenge,
+                            User = user,
+                            Status = StatusType.Pending,
+                            Image = bytes
+                        }
+                    };
+                }
+                else
+                {
+                    challenge.UserChallenges.Add(new UserChallenge
                     {
                         Challenge = challenge,
                         User = user,
                         Status = StatusType.Pending,
                         Image = bytes
-                    }
-                };
-
+                    });
+                }
                 try
                 {
                     _context.Challenges.Update(challenge);
                     _context.SaveChanges();
-                   
-                    return Ok(); 
+
+                    return Ok();
                 }
                 catch
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
-                
+
             }
             return StatusCode(StatusCodes.Status401Unauthorized);
 
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("QR/{id}")]
+        public async Task<IActionResult> QrScan(Int32 id)
+        {
+            var challenge = _context.Challenges
+                .Single(c => c.Id == id);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+                var user = await _userManager.FindByNameAsync(identity.Name);
+                if (challenge.UserChallenges == null)
+                {
+                    challenge.UserChallenges = new List<UserChallenge>
+                    {
+                        new UserChallenge
+                        {
+                            Challenge = challenge,
+                            User = user,
+                            Status = StatusType.Pending
+                        }
+                    };
+                }
+                else
+                {
+                    challenge.UserChallenges.Add(new UserChallenge
+                    {
+                        Challenge = challenge,
+                        User = user,
+                        Status = StatusType.Pending,
+                    });
+                }
+                
+            }
+
+            try
+            {
+                _context.Challenges.Update(challenge);
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
     }
-   
-    
 
 }
