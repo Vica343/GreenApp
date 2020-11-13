@@ -14,7 +14,7 @@ namespace GreenApp.Models
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
        
         Byte[] GetChallangeImage(Int32? challangeId);
-
+        Task<byte[]> SaveQRAsync(Int32? id);
         Challenge GetChallenge(ChallengeViewModel challenge);
         Boolean UpdateChallange(ChallengeViewModel challenge);
     }

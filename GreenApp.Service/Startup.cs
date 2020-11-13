@@ -33,8 +33,7 @@ namespace GreenApp.Service
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+       
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GreenAppContext>(options =>
@@ -42,12 +41,11 @@ namespace GreenApp.Service
                     x => x.MigrationsAssembly("GreenApp.Model")));
 
             services.AddIdentity<Guest, IdentityRole<int>>()
-              .AddEntityFrameworkStores<GreenAppContext>() // EF használata a TravelAgencyContext entitás kontextussal
-              .AddDefaultTokenProviders(); // Alapértelmezett token generátor használata (pl. SecurityStamp-hez)
+              .AddEntityFrameworkStores<GreenAppContext>() 
+              .AddDefaultTokenProviders(); 
 
             services.Configure<IdentityOptions>(options =>
             {
-                // Jelszó komplexitására vonatkozó konfiguráció
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
@@ -55,12 +53,10 @@ namespace GreenApp.Service
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 3;
 
-                // Hibás bejelentkezés esetén az (ideiglenes) kizárásra vonatkozó konfiguráció
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.AllowedForNewUsers = true;
 
-                // Felhasználókezelésre vonatkozó konfiguráció
                 options.User.RequireUniqueEmail = true;
             });
 
@@ -90,7 +86,6 @@ namespace GreenApp.Service
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())

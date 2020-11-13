@@ -36,7 +36,6 @@ namespace GreenApp.Models
                 await challenge.ChallengeImage.CopyToAsync(memoryStream);
                 bytes = memoryStream.ToArray();
 
-                // do what you want with the bytes
             }
 
             _context.Challenges.Add(new Challenge
@@ -63,8 +62,16 @@ namespace GreenApp.Models
             }
             return true;
 
-        }   
-        
+        }
+
+        public async Task<byte[]> SaveQRAsync(Int32? id)
+        {
+            var challenge = await _context.Challenges.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var qr = challenge.QRCode;
+            if (qr == null) return null;
+            return qr;
+        }
+
         public Boolean UpdateChallange(ChallengeViewModel challenge)
         {
             Challenge challangeindb = GetChallenge(challenge);
@@ -86,7 +93,6 @@ namespace GreenApp.Models
             if (challangeId == null)
                 return null;
 
-            // lekérjük az épület első tárolt képjét (kicsiben)
             Challenge c =  _context.Challenges
                 .Where(image => image.Id == challangeId)
                 .FirstOrDefault();

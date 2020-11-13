@@ -62,7 +62,8 @@ namespace GreenApp.Controllers
                     using (Bitmap oBitmap = oQRCode.GetGraphic(20))
                     {
                         oBitmap.Save(ms, ImageFormat.Png);
-                        challenge.ChallengeQr = new byte[ms.ToArray().Length];
+                        challenge.ChallengeQr = ms.ToArray();
+
                         if (!_greenService.UpdateChallange(challenge))
                         {
                             ModelState.AddModelError("", "A foglalás rögzítése sikertelen, kérem próbálja újra!");
@@ -72,7 +73,7 @@ namespace GreenApp.Controllers
                     }
                 }
             }
-            return View("Result");
+            return View("Result", challenge);
         }
 
 
@@ -94,6 +95,14 @@ namespace GreenApp.Controllers
 
             return View("AddChallenge", challange);
         }
+
+        public async Task<IActionResult> Save(ChallengeViewModel challenge)
+        {
+            var id = _greenService.GetChallenge(challenge).Id;
+            var file = await _greenService.SaveQRAsync(id);
+            return File(file, "image/png");
+        }
+
 
         public ActionResult ChallengeImage(Int32? challangeId)
         {
