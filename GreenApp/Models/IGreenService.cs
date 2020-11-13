@@ -12,7 +12,7 @@ namespace GreenApp.Models
         IEnumerable<Challenge> Challenges { get; }
 
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
-       
+        Task<Boolean> SaveCuponAsync(String userName, CuponViewModel cupon);       
         Byte[] GetChallangeImage(Int32? challangeId);
         Task<byte[]> SaveQRAsync(Int32? id);
         Challenge GetChallenge(ChallengeViewModel challenge);

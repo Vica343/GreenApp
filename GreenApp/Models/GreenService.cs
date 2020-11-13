@@ -64,6 +64,40 @@ namespace GreenApp.Models
 
         }
 
+        public async Task<Boolean> SaveCuponAsync(String userName, CuponViewModel cupon)
+        {
+            if (!Validator.TryValidateObject(cupon, new ValidationContext(cupon, null, null), null))
+                return false;
+
+            Guest guest = await _userManager.FindByNameAsync(userName);
+
+            byte[] bytes = null;
+            using (var memoryStream = new MemoryStream())
+            {
+                await cupon.CuponImage.CopyToAsync(memoryStream);
+                bytes = memoryStream.ToArray();
+            }
+
+            _context.Cupons.Add(new Cupon
+            {
+                CreatorId = guest.Id,
+                Name = cupon.CuponName,
+                StartDate = cupon.CuponStartDate,
+                EndDate = cupon.CuponEndDate,
+                Image = bytes
+            });
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<byte[]> SaveQRAsync(Int32? id)
         {
             var challenge = await _context.Challenges.Where(x => x.Id == id).FirstOrDefaultAsync();

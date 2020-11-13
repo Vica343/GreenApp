@@ -202,3 +202,6 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.csproj.CopyComplete
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.pdb
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\AddCupon.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\Result.cshtml.g.cs

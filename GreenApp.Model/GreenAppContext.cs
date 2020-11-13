@@ -30,7 +30,8 @@ namespace GreenApp.Model
         }
 
         public virtual DbSet<Challenge> Challenges { get; set; }
-       public virtual DbSet<UserChallenge> UserChallenges { get; set; }
+        public virtual DbSet<Cupon> Cupons { get; set; }
+        public virtual DbSet<UserChallenge> UserChallenges { get; set; }
 
     }
 }

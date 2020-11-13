@@ -1,0 +1,65 @@
+﻿@using GreenApp.Model;
+@using GreenApp.Data;
+
+@model CuponViewModel
+
+<form asp-controller="Cupons" asp-action="Add" method="post" enctype="multipart/form-data">
+    @* Automatikus védelem XSRF támadás ellen *@
+
+    <table>
+        <tr>
+            <td colspan="2">
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+            </td>
+        </tr>        
+        <tr>
+            <td>
+                A kupon neve:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="CuponName" />
+                <span asp-validation-for="CuponName"></span>
+            </td>
+        </tr>       
+        <tr>
+            <td>
+                Kezdődátum:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="CuponStartDate" asp-format="{0:yyyy-MM-dd}" />
+                <span asp-validation-for="CuponStartDate"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Végső dátum:
+            </td>
+            <td class="failureNotification">
+                <input asp-for="CuponEndDate" asp-format="{0:yyyy-MM-dd}" />
+                <span asp-validation-for="CuponEndDate"></span>
+            </td>
+        </tr>        
+        <tr>
+            <td>
+                Kép feltöltése:
+            </td>
+            <td class="failureNotification">
+                <input type="file" name="CuponImage" id="CuponImage" multiple required />
+            </td>
+        </tr>       
+        <tr>
+            <td colspan="2" height="50">
+                <input type="submit" value="Beküldés" class="button" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+@section Scripts
+{
+    @* jQuery Validation használata a kliens oldali validációra *@
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
