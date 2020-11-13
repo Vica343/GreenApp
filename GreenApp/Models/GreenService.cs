@@ -22,6 +22,7 @@ namespace GreenApp.Models
             _userManager = userManager;
         }
         public IEnumerable<Challenge> Challenges => _context.Challenges;
+        public IEnumerable<Cupon> Cupons => _context.Cupons;
 
         public async Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge)
         {

@@ -15,6 +15,7 @@ namespace GreenApp.Model
         public DateTime EndDate { get; set; }
         public ChallengeType Type { get; set; }
         public RewardType Reward { get; set; }
+        public int RewardValue { get; set; }
         public StatusType Status { get; set; }
         public byte[] Image { get; set; }
         public byte[] QRCode { get; set; }

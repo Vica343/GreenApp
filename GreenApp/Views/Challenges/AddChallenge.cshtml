@@ -3,8 +3,7 @@
 
 @model ChallengeViewModel
 
-<form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data">
-    >
+<form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data"> 
     @* Automatikus védelem XSRF támadás ellen *@
 
     <table>
@@ -62,10 +61,10 @@
             </td>
             <td class="failureNotification">
 
-                <select asp-for="ChallengeSelectedType" asp-items="Html.GetEnumSelectList<ChallengeType>()">
+                <select asp-for="ChallengeSelectedType" asp-items="(SelectList)ViewBag.types">
                     <option selected="selected" value="">Kérem válasszon</option>
                 </select>
-            </td>           
+            </td>
         </tr>
         <tr>
             <td>
@@ -80,9 +79,19 @@
                 Jutalom:
             </td>
             <td class="failureNotification">
-                <select asp-for="ChallengeReward" asp-items="Html.GetEnumSelectList<RewardType>()">
+                <select id="reward" asp-for="ChallengeReward" asp-items="(SelectList)ViewBag.rewards">
                     <option selected="selected" value="">Kérem válasszon</option>
                 </select>
+            </td>
+
+            <td>
+                <select id="cupon" asp-for="ChallengeRewardValue" asp-items="(SelectList)ViewBag.cupons">
+                    <option selected="selected" value="">Kérem válasszon</option>
+                </select>
+            </td>
+            <td>
+                <input id="money" asp-for="ChallengeRewardValue" />
+                <span asp-validation-for="ChallengeRewardValue"></span>
             </td>
         </tr>
         <tr>
@@ -97,6 +106,17 @@
 {
     @* jQuery Validation használata a kliens oldali validációra *@
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById('money').style.display = 'none';
+          document.getElementById('cupon').style.display = 'none';
+       document.getElementById('reward').addEventListener('change', function () {
+            var style = this.value == 1 ? 'block' : 'none';
+           document.getElementById('money').style.display = style;
+           var style2 = this.value == 0 ? 'block' : 'none';
+            document.getElementById('cupon').style.display = style2;
+        });
+    </script>
 }
 
 

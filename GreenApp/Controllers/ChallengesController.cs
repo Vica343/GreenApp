@@ -6,11 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using GreenApp.Data;
 using GreenApp.Model;
 using GreenApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using QRCoder;
 
 namespace GreenApp.Controllers
@@ -29,7 +31,22 @@ namespace GreenApp.Controllers
         public IActionResult Index()
         {
             var challanges = _greenService.Challenges;
-            //return View("Index", challanges.ToList());
+            var cupons = _greenService.Cupons.ToList();
+            var rewards = new SelectList(Enum.GetValues(typeof(RewardType)).Cast<RewardType>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList(), "Value", "Text");
+            var types = new SelectList(Enum.GetValues(typeof(ChallengeType)).Cast<ChallengeType>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList(), "Value", "Text");
+
+
+            ViewBag.cupons = new SelectList(cupons, "Id", "Name");
+            ViewBag.rewards = rewards;
+            ViewBag.types = types;
             return View("AddChallenge");
         }
 
@@ -95,14 +112,7 @@ namespace GreenApp.Controllers
 
             return View("AddChallenge", challange);
         }
-
-        public async Task<IActionResult> Save(ChallengeViewModel challenge)
-        {
-            var id = _greenService.GetChallenge(challenge).Id;
-            var file = await _greenService.SaveQRAsync(id);
-            return File(file, "image/png");
-        }
-
+             
 
         public ActionResult ChallengeImage(Int32? challangeId)
         {

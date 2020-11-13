@@ -38,6 +38,10 @@ namespace GreenApp.Models
         [EnumDataType(typeof(RewardType))]
         public RewardType ChallengeReward { get; set; }
 
+        [Required(ErrorMessage = "A jutalom kötelező.")]
+        [RegularExpression("[0-9]*$", ErrorMessage = "A pénz formátuma nem megfelelő, csak szám lehet.")]
+        public Int32 ChallengeRewardValue { get; set; }
+
         [DataType(DataType.Upload)]
         public IFormFile ChallengeImage { get; set; }
 
