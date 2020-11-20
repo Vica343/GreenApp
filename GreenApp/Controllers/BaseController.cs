@@ -24,6 +24,28 @@ namespace GreenApp.Controllers
             base.OnActionExecuted(context);
 
             ViewBag.CurrentGuestName = String.IsNullOrEmpty(User.Identity.Name) ? null : User.Identity.Name;
+
+            if(!String.IsNullOrEmpty(User.Identity.Name))
+            {
+                if (User.IsInRole("companyAdmin"))
+                {
+                    ViewBag.menulist = new List<string>
+                {
+                    "Saját kampányok",
+                    "Egyéb kampányok",
+                    "Kuponok"
+                };
+                }
+                else if (User.IsInRole("companyAdmin"))
+                {
+                    ViewBag.menulist = new List<string>
+                {
+                    "Kampányok",
+                    "Cégadminok",
+                    "Non-profit szervezetek"
+                };
+                }
+            }            
         }
     }
 }

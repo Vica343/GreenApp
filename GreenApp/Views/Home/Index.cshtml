@@ -4,41 +4,40 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GreenApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div id="bg">    </div>
+    <nav class="navbar transparent navbar-inverse">
+        <div class="col-sm-12 text-right">
+            <div class="navbar-inner">
+                <button class="btn btn-dark btn-lg" onclick="location.href='@Url.Action("Register", "Account")'">Regisztráció</button>
+                <button class="btn btn-dark btn-lg m-4" onclick="location.href='@Url.Action("Login", "Account")'">Bejelentkezés</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <!--Grid row-->
+        <div class="row">
+            <div class="col-md-6 white-text text-center text-md-left mt-xl-5 m-2">
+                <h1 class="h1-responsive display-1 font-weight-bold mt-sm-5">Green App</h1>
+                <hr class="hr-light">
+                <h6 class="display-4 mb-4">
+                    A zöldebb jövőnkért.
+                </h6>
 
-<div class="headerAdmin">
-    @if (ViewBag.CurrentGuestName == null)
-    {
-        <table>
-            <tr>
-                <td>
-                    <a asp-controller="Account" asp-action="Login">Bejelentkezés</a>
-                </td>
-                <td>
-                    <a asp-controller="Account" asp-action="Register">Regisztráció</a>
-                </td>
-            </tr>
-        </table>
-    }
-    else
-    {
-        <table>
-            <tr>
-                <td colspan="2">
-                    Üdvözöljük, @ViewBag.CurrentGuestName!
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a asp-controller="Account" asp-action="Logout">Kijelentkezés</a>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr></tr>
-        </table>
-    }
-</div>
+            </div>
+            </div>
+        </div>
+</body>
+</html>

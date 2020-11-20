@@ -190,7 +190,7 @@ namespace GreenApp.Service.Controllers
                         Status = StatusType.Pending,
                     });
                 }
-                
+
             }
 
             try
@@ -207,6 +207,50 @@ namespace GreenApp.Service.Controllers
 
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("pending")]
+        public async Task<IActionResult> GetPendingChallenges()
+        {          
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+
+                    var challenges = _context.UserChallenges
+                       .ToList()
+                       .Where(c => c.User == user)
+                       .Where(c => c.Status == StatusType.Pending);
+
+                    return Ok(_context.Challenges
+                        .ToList()
+                        .Select(challenge => new ChallangeDTO
+                        {
+                            Id = challenge.Id,
+                            Name = challenge.Name,
+                            Description = challenge.Description,
+                            StartDate = challenge.StartDate,
+                            EndDate = challenge.EndDate,
+                            Type = challenge.Type,
+                            Reward = challenge.Reward,
+                            Image = challenge.Image
+                        }));
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
+                
+
+                
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 
 }

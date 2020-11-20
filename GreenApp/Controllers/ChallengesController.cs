@@ -30,7 +30,13 @@ namespace GreenApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var challanges = _greenService.Challenges;
+            var challanges = _greenService.Challenges.ToList();
+            return View("Index", challanges);            
+        }
+
+        [HttpGet]
+        public IActionResult AddChallenge()
+        {
             var cupons = _greenService.Cupons.ToList();
             var rewards = new SelectList(Enum.GetValues(typeof(RewardType)).Cast<RewardType>().Select(v => new SelectListItem
             {
@@ -43,21 +49,19 @@ namespace GreenApp.Controllers
                 Value = ((int)v).ToString()
             }).ToList(), "Value", "Text");
 
-
             ViewBag.cupons = new SelectList(cupons, "Id", "Name");
             ViewBag.rewards = rewards;
             ViewBag.types = types;
             return View("AddChallenge");
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken] // védelem XSRF támadás ellen
         public async Task<IActionResult> Add(ChallengeViewModel challenge)
         {
             if (challenge == null)
-                return RedirectToAction("Index", "Home");
-            
-
+                return RedirectToAction("Index", "Home");          
 
             Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
             

@@ -3,121 +3,82 @@
 
 @model ChallengeViewModel
 
-<form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data"> 
-    @* Automatikus védelem XSRF támadás ellen *@
 
-    <table>
-        <tr>
-            <td colspan="2">
-                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="contentHead">
-                    A kihívás adatai:
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-controller="Challenges" asp-action="Add" method="post" enctype="multipart/form-data">
+                <div class="contentHead py-3">
+                    <h1>A kihívás adatai: </h1>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                A kihívás neve:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="ChallengeName" />
-                <span asp-validation-for="ChallengeName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Leírás:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="ChallengeDescription" />
-                <span asp-validation-for="ChallengeDescription"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Kezdődátum:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="ChallengeStartDate" asp-format="{0:yyyy-MM-dd}" />
-                <span asp-validation-for="ChallengeStartDate"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Végső dátum:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="ChallengeEndDate" asp-format="{0:yyyy-MM-dd}" />
-                <span asp-validation-for="ChallengeEndDate"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Típus:
-            </td>
-            <td class="failureNotification">
+                <div class="form-group">
+                    <h5>A kihívás neve:</h5>
+                    <input class="form-control" asp-for="ChallengeName" />
+                    <span asp-validation-for="ChallengeName"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Leírás:</h5>
+                    <input class="form-control" asp-for="ChallengeDescription" />
+                    <span asp-validation-for="ChallengeDescription"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Kezdődátum:</h5>
+                    <input asp-for="ChallengeStartDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="ChallengeStartDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Végső dátum:</h5>
+                    <input asp-for="ChallengeEndDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="ChallengeEndDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Típus:</h5>
+                    <select asp-for="ChallengeSelectedType" asp-items="(SelectList)ViewBag.types">
+                        <option selected="selected" value="">Kérem válasszon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <h5>Kép feltöltése:</h5>
+                    <input type="file" name="ChallengeImage" id="ChallengeImage" multiple required />
+                </div>
+                <div class="form-group">
+                    <h5>Jutalom:</h5>
+                    <select id="reward" asp-for="ChallengeReward" asp-items="(SelectList)ViewBag.rewards">
+                        <option selected="selected" value="">Kérem válasszon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="cupon" asp-for="ChallengeRewardValue" asp-items="(SelectList)ViewBag.cupons">
+                        <option selected="selected" value="">Kérem válasszon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input id="money" asp-for="ChallengeRewardValue" />
+                    <span asp-validation-for="ChallengeRewardValue"></span>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>                
+            </form>
+            </div>
+        </div>
+</div>
 
-                <select asp-for="ChallengeSelectedType" asp-items="(SelectList)ViewBag.types">
-                    <option selected="selected" value="">Kérem válasszon</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Kép feltöltése:
-            </td>
-            <td class="failureNotification">
-                <input type="file" name="ChallengeImage" id="ChallengeImage" multiple required />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Jutalom:
-            </td>
-            <td class="failureNotification">
-                <select id="reward" asp-for="ChallengeReward" asp-items="(SelectList)ViewBag.rewards">
-                    <option selected="selected" value="">Kérem válasszon</option>
-                </select>
-            </td>
-
-            <td>
-                <select id="cupon" asp-for="ChallengeRewardValue" asp-items="(SelectList)ViewBag.cupons">
-                    <option selected="selected" value="">Kérem válasszon</option>
-                </select>
-            </td>
-            <td>
-                <input id="money" asp-for="ChallengeRewardValue" />
-                <span asp-validation-for="ChallengeRewardValue"></span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" height="50">
-                <input type="submit" value="Beküldés" class="button" />
-            </td>
-        </tr>
-    </table>
-</form>
-
-@section Scripts
+            @section Scripts
 {
-    @* jQuery Validation használata a kliens oldali validációra *@
-    <partial name="_ValidationScriptsPartial" />
+                @* jQuery Validation használata a kliens oldali validációra *@
+                <partial name="_ValidationScriptsPartial" />
 
-    <script>
-        document.getElementById('money').style.display = 'none';
-          document.getElementById('cupon').style.display = 'none';
-       document.getElementById('reward').addEventListener('change', function () {
-            var style = this.value == 1 ? 'block' : 'none';
-           document.getElementById('money').style.display = style;
-           var style2 = this.value == 0 ? 'block' : 'none';
-            document.getElementById('cupon').style.display = style2;
-        });
-    </script>
-}
+                <script>
+                    document.getElementById('money').style.display = 'none';
+                    document.getElementById('cupon').style.display = 'none';
+                    document.getElementById('reward').addEventListener('change', function () {
+                        var style = this.value == 1 ? 'block' : 'none';
+                        document.getElementById('money').style.display = style;
+                        var style2 = this.value == 0 ? 'block' : 'none';
+                        document.getElementById('cupon').style.display = style2;
+                    });
+                </script>
+            }
 
 
 

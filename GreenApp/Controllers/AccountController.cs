@@ -43,12 +43,19 @@ namespace GreenApp.Controllers
 				return View("Login", user);
 
 			var result1 = await _userManager.FindByNameAsync(user.UserName);
+			if (result1 == null)
+			{
+				ModelState.AddModelError("", "Hibás felhasználónév, vagy jelszó.");
+				return View("Login", user);
+			}
 			var userRoles = await _userManager.GetRolesAsync(result1);
 			if (!userRoles.Contains("companyAdmin") && !userRoles.Contains("superAdmin"))
 			{
 				ModelState.AddModelError("", "Csak admin jelentkezhet be.");
 				return View("Login", user);
 			}
+			
+			
 			var result2 = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);
 			if (!result2.Succeeded)
 			{				
@@ -57,7 +64,7 @@ namespace GreenApp.Controllers
 			}	
 			
 			_applicationState.UserCount++; 
-			return RedirectToAction("Index", "Home"); 
+			return RedirectToAction("Index", "Challenges"); 
 		}
 
 		[HttpGet]
@@ -82,16 +89,21 @@ namespace GreenApp.Controllers
 				Company = user.GuestCompany,
 				PhoneNumber = user.GuestPhoneNumber
 			};
-			var result = await _userManager.CreateAsync(guest, user.UserPassword);
-			var companyAdminRole = await _roleManager.FindByNameAsync("companyAdmin");
-			var result3 =  _userManager.AddToRoleAsync(guest, companyAdminRole.Name).Result;
+			var result = await _userManager.CreateAsync(guest, user.UserPassword);		
 			if (!result.Succeeded)
 			{
 				foreach (var error in result.Errors)
 					ModelState.AddModelError("", error.Description);
 				return View("Register", user);
 			}
-
+			var companyAdminRole = await _roleManager.FindByNameAsync("companyAdmin");
+			var result3 = _userManager.AddToRoleAsync(guest, companyAdminRole.Name).Result;
+			if (!result3.Succeeded)
+			{
+				foreach (var error in result.Errors)
+					ModelState.AddModelError("", error.Description);
+				return View("Register", user);
+			}
 			await _signInManager.SignInAsync(guest, false); 
 			_applicationState.UserCount++; 
 			return RedirectToAction("Index", "Home"); 
