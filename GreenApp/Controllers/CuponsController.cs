@@ -20,6 +20,12 @@ namespace GreenApp.Controllers
         }
         public IActionResult Index()
         {
+            var cupons = _greenService.Cupons.ToList();
+            return View("Index", cupons);
+        }
+
+        public IActionResult AddCupon(CuponViewModel cupon)
+        {
             return View("AddCupon");
         }
 
@@ -41,6 +47,18 @@ namespace GreenApp.Controllers
             ViewBag.Message = "A foglalását sikeresen rögzítettük!";
           
             return View("Result");
+        }
+
+        public ActionResult CuponImage(Int32? cuponid)
+        {
+            Byte[] imageContent = _greenService.GetCuponImage(cuponid);
+
+            if (imageContent == null)
+            {
+                return Content("No file name provided");
+            }
+
+            return File(imageContent, "image/png");
         }
 
 

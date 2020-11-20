@@ -45,15 +45,59 @@ namespace GreenApp.Service.Controllers
                         Description = challenge.Description,
                         StartDate = challenge.StartDate,
                         EndDate = challenge.EndDate,
+                        Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                         Type = challenge.Type,
-                        Reward = challenge.Reward,
-                        Image = challenge.Image
+                        Reward = challenge.Reward
                     }));
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("Future")]
+        public async Task<IActionResult> GetFutureChallenges()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                try
+                 {
+               
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+                    var userchallenges = _context.UserChallenges
+                     .ToList()
+                     .Where(c => c.User == user)
+                     .Select(c => c.ChallengeId);
+
+                    var challenges = _context.Challenges
+                        .ToList()
+                        .Where(c => !(userchallenges.Contains(c.Id)));
+
+                    return Ok(challenges
+                        .ToList()
+                        .Select(challenge => new ChallangeDTO
+                        {
+                            Id = challenge.Id,
+                            Name = challenge.Name,
+                            Description = challenge.Description,
+                            StartDate = challenge.StartDate,
+                            EndDate = challenge.EndDate,
+                            Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
+                            Type = challenge.Type,
+                            Reward = challenge.Reward
+                        }));
+                }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+    
+            return StatusCode(StatusCodes.Status401Unauthorized);
         }
 
         [HttpGet("Image/{id}")]
@@ -83,6 +127,7 @@ namespace GreenApp.Service.Controllers
                     Description = challenge.Description,
                     StartDate = challenge.StartDate,
                     EndDate = challenge.EndDate,
+                    Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                     Type = challenge.Type,
                     Reward = challenge.Reward,
                     Image = challenge.Image
@@ -190,7 +235,6 @@ namespace GreenApp.Service.Controllers
                         Status = StatusType.Pending,
                     });
                 }
-
             }
 
             try
@@ -219,12 +263,17 @@ namespace GreenApp.Service.Controllers
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
 
-                    var challenges = _context.UserChallenges
+                    var userchallenges = _context.UserChallenges
                        .ToList()
                        .Where(c => c.User == user)
-                       .Where(c => c.Status == StatusType.Pending);
+                       .Where(c => c.Status == StatusType.Pending)
+                       .Select(c => c.ChallengeId);
 
-                    return Ok(_context.Challenges
+                    var challenges = _context.Challenges
+                        .ToList()
+                        .Where(c => userchallenges.Contains(c.Id));
+
+                    return Ok(challenges
                         .ToList()
                         .Select(challenge => new ChallangeDTO
                         {
@@ -233,24 +282,164 @@ namespace GreenApp.Service.Controllers
                             Description = challenge.Description,
                             StartDate = challenge.StartDate,
                             EndDate = challenge.EndDate,
+                            Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
-                            Reward = challenge.Reward,
-                            Image = challenge.Image
+                            Reward = challenge.Reward
                         }));
                 }
                 else
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized);
                 }
-                
-
-                
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-    }
 
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("Accepted")]
+        public async Task<IActionResult> GetAcceptedChallenges()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+
+                    var userchallenges = _context.UserChallenges
+                       .ToList()
+                       .Where(c => c.User == user)
+                       .Where(c => c.Status == StatusType.Accepted)
+                       .Select(c => c.ChallengeId);
+
+                    var challenges = _context.Challenges
+                        .ToList()
+                        .Where(c => userchallenges.Contains(c.Id));
+
+                    return Ok(challenges
+                        .ToList()
+                        .Select(challenge => new ChallangeDTO
+                        {
+                            Id = challenge.Id,
+                            Name = challenge.Name,
+                            Description = challenge.Description,
+                            StartDate = challenge.StartDate,
+                            EndDate = challenge.EndDate,
+                            Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
+                            Type = challenge.Type,
+                            Reward = challenge.Reward
+                        }));
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("Declined")]
+        public async Task<IActionResult> GetDeclinedChallenges()
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+
+                    var userchallenges = _context.UserChallenges
+                       .ToList()
+                       .Where(c => c.User == user)
+                       .Where(c => c.Status == StatusType.Declined)
+                       .Select(c => c.ChallengeId);
+
+                    var challenges = _context.Challenges
+                        .ToList()
+                        .Where(c => userchallenges.Contains(c.Id));
+
+                    return Ok(challenges
+                        .ToList()
+                        .Select(challenge => new ChallangeDTO
+                        {
+                            Id = challenge.Id,
+                            Name = challenge.Name,
+                            Description = challenge.Description,
+                            StartDate = challenge.StartDate,
+                            EndDate = challenge.EndDate,
+                            Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
+                            Type = challenge.Type,
+                            Reward = challenge.Reward
+                        }));
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("Search/{search}")]
+        public async Task<IActionResult> SearchChallenges(string search)
+        {
+            try
+            {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+                                
+                    var challenges = _context.Challenges
+                        .ToList()
+                        .Where(c => c.Name.ToLower().Contains(search.Trim().ToLower()) || c.Description.ToLower().Contains(search.Trim().ToLower()));
+
+                    return Ok(challenges
+                        .ToList()
+                        .Select(challenge => new ChallangeDTO
+                        {
+                            Id = challenge.Id,
+                            Name = challenge.Name,
+                            Description = challenge.Description,
+                            StartDate = challenge.StartDate,
+                            EndDate = challenge.EndDate,
+                            Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
+                            Type = challenge.Type,
+                            Reward = challenge.Reward
+                        }));
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+
+    }
 }
+
+   
+
+

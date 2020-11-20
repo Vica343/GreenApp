@@ -29,6 +29,7 @@ namespace GreenApp.Data
         public Int32 Id { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }    
+        public String Company { get; set; }    
         public DateTime StartDate { get; set; }     
         public DateTime EndDate { get; set; }
         public ChallengeType Type { get; set; }

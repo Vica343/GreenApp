@@ -134,6 +134,17 @@ namespace GreenApp.Models
             return c.Image;
         }
 
+        public Byte[] GetCuponImage(Int32? cuponId)
+        {
+            if (cuponId == null)
+                return null;
+
+            Cupon c = _context.Cupons
+                .Where(image => image.Id == cuponId)
+                .FirstOrDefault();
+            return c.Image;
+        }
+
         public Challenge GetChallenge(ChallengeViewModel challenge)
         {
             if (challenge == null)

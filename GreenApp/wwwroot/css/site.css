@@ -154,11 +154,16 @@ body {
 }
 
 .navbar-custom {
-    background-color: rgb(204, 232, 217);
+    background-color: rgb(69, 93, 88);
 }
 
 .custom-image {
     width: 200px;
+    height: 200px;
+}
+
+.custom-image {
+    width: 600px;
     height: 200px;
 }
 
