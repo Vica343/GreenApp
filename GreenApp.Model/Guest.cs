@@ -15,5 +15,7 @@ namespace GreenApp.Model
 
         public IList<UserChallenge> UserChallenges { get; set; }
 
+        public IList<UserCupon> UserCupons { get; set; }
+
     }
 }

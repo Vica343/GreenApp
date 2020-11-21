@@ -129,6 +129,7 @@ namespace GreenApp.Models
 					Name = "Kedvezmény a zoldjovo.hu webáruházba",
 					StartDate = new DateTime(2020,12,20),
 					EndDate = new DateTime(2021,05,20),
+					CreatorId = 2,
 					Image = image1
 
 				}

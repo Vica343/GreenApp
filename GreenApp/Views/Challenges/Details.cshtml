@@ -1,0 +1,56 @@
+﻿@using GreenApp.Model
+@using GreenApp.Data
+
+@model Challenge
+
+@if (Model == null)
+{
+    <div class="contentText">Nincs ilyen kihívás.</div>
+}
+else
+{
+    <div class="pt-5">
+            <div class="row challenges mb-5 shadow-sm pb-2 pt-3">
+                <div class="col">
+                    <img class="img-thumbnail" src="@Url.Action("ChallengeImage", "Challenges", new { challangeId = @Model.Id })" />
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <h3> @Model.Name </h3>
+                        <p class="ml-auto mr-3"> @Model.StartDate.Year. @Model.StartDate.Month. @Model.StartDate.Day. - @Model.EndDate.Year. @Model.EndDate.Month. @Model.EndDate.Day. </p>
+                    </div>
+                    <div class="row">
+                        <p class="description"> @Model.Description </p>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p>Típus: @Model.Type </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p> Jutalom: @Model.Reward </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p> Jutalom értéke: @Model.RewardValue</p>
+                        </div>
+                    </div>
+                    @if (Model.Type == ChallengeType.QRCode)
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p> QR kód: </p>
+                            </div>
+                            <div class="col-md-4">
+                                <img class="img-thumbnail" src="@Url.Action("QRImage", "Challenges", new { challangeId = @Model.Id })" />
+                            </div>
+                        </div>
+                    }
+                </div>
+               
+            </div>
+        
+
+    </div>
+
+}

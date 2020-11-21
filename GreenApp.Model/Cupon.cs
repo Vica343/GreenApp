@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,5 +13,6 @@ namespace GreenApp.Model
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public byte[] Image { get; set; }
+        public IList<UserCupon> UserCupons { get; set; }
     }
 }

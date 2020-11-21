@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace GreenApp.Data
-{
+{  
     public class GuestDTO
     {
         public int Id { get; set; }

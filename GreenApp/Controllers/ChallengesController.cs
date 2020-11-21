@@ -28,10 +28,17 @@ namespace GreenApp.Controllers
         }
 
         [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var challange = _greenService.Challenges.Where(i => i.Id == id).FirstOrDefault();
+            return View("Details", challange);            
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
             var challanges = _greenService.Challenges.ToList();
-            return View("Index", challanges);            
+            return View("Index", challanges);
         }
 
         [HttpGet]
@@ -123,6 +130,18 @@ namespace GreenApp.Controllers
             Byte[] imageContent = _greenService.GetChallangeImage(challangeId);
 
             if(imageContent == null)
+            {
+                return Content("No file name provided");
+            }
+
+            return File(imageContent, "image/png");
+        }
+
+        public ActionResult QRImage(Int32? challangeId)
+        {
+            Byte[] imageContent = _greenService.GetQRImage(challangeId);
+
+            if (imageContent == null)
             {
                 return Content("No file name provided");
             }

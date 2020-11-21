@@ -21,11 +21,14 @@
     <div class="d-flex" id="wrapper">
         <div class="bg-light border-right" id="sidebar-wrapper">
             <div class="list-group list-group-flush">
-                @for (Int32 i = 0; i < ViewBag.menulist.Count; i++)
+                @if (ViewBag.menulist.Count != null)
                 {
-                    <a href="#" class="list-group-item list-group-item-action bg-light">@ViewBag.menulist[i]</a>
+                    for (Int32 i = 0; i < ViewBag.menulist.Count; i++)
+                    {
+                        <a href="#" class="list-group-item list-group-item-action bg-light">@ViewBag.menulist[i]</a>
+                    }
                 }
-                </div>
+            </div>
         </div>
 
         <div id="page-content-wrapper">

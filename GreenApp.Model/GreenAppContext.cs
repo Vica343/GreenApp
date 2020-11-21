@@ -27,11 +27,23 @@ namespace GreenApp.Model
                 .HasOne(pt => pt.Challenge)
                 .WithMany(t => t.UserChallenges)
                 .HasForeignKey(pt => pt.ChallengeId);
+
+            builder.Entity<UserCupon>().HasKey(sc => new { sc.UserId, sc.CuponId });
+            builder.Entity<UserCupon>()
+               .HasOne(pt => pt.User)
+               .WithMany(p => p.UserCupons)
+               .HasForeignKey(pt => pt.UserId);
+
+            builder.Entity<UserCupon>()
+                .HasOne(pt => pt.Cupon)
+                .WithMany(t => t.UserCupons)
+                .HasForeignKey(pt => pt.CuponId);
         }
 
         public virtual DbSet<Challenge> Challenges { get; set; }
         public virtual DbSet<Cupon> Cupons { get; set; }
         public virtual DbSet<UserChallenge> UserChallenges { get; set; }
+        public virtual DbSet<UserCupon> UserCupons { get; set; }
 
     }
 }

@@ -52,7 +52,7 @@ else
                         <button class="btn btn-light" onclick="location.href='@Url.Action("Participants", "Challenges")'">Résztvevők</button>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-light" onclick="location.href='@Url.Action("Details", "Challenges")'">Részletek</button>
+                        <button class="btn btn-light" onclick="location.href='@Url.Action("Details", "Challenges", new { id = @Model[i].Id})'">Részletek</button>
                         </div>
                         <div class="col-md-4">
                             <p class="font-italic float-right"> @Model[i].Type </p>

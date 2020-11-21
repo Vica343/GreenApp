@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net.Http.Headers;
+using GreenApp.Data;
 
 namespace GreenApp.Models
 {
@@ -132,6 +133,17 @@ namespace GreenApp.Models
                 .Where(image => image.Id == challangeId)
                 .FirstOrDefault();
             return c.Image;
+        }
+
+        public Byte[] GetQRImage(Int32? challangeId)
+        {
+            if (challangeId == null)
+                return null;
+
+            Challenge c = _context.Challenges
+                .Where(image => image.Id == challangeId)
+                .FirstOrDefault();
+            return c.QRCode;
         }
 
         public Byte[] GetCuponImage(Int32? cuponId)
