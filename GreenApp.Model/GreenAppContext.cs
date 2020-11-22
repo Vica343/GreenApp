@@ -17,27 +17,31 @@ namespace GreenApp.Model
         {
             base.OnModelCreating(builder);
             builder.Entity<Guest>().ToTable("Guests");
-            builder.Entity<UserChallenge>().HasKey(sc => new { sc.UserId, sc.ChallengeId });
-            builder.Entity<UserChallenge>()
-               .HasOne(pt => pt.User)
-               .WithMany(p => p.UserChallenges)
-               .HasForeignKey(pt => pt.UserId);
 
             builder.Entity<UserChallenge>()
-                .HasOne(pt => pt.Challenge)
-                .WithMany(t => t.UserChallenges)
-                .HasForeignKey(pt => pt.ChallengeId);
+                  .HasKey(bc => new { bc.UserId, bc.ChallengeId });
 
-            builder.Entity<UserCupon>().HasKey(sc => new { sc.UserId, sc.CuponId });
-            builder.Entity<UserCupon>()
-               .HasOne(pt => pt.User)
-               .WithMany(p => p.UserCupons)
-               .HasForeignKey(pt => pt.UserId);
+            builder.Entity<UserChallenge>()
+                .HasOne(bc => bc.User)
+                .WithMany(b => b.UserChallenges)
+                .HasForeignKey(bc => bc.UserId);
+
+            builder.Entity<UserChallenge>()
+               .HasOne(bc => bc.Challenge)
+               .WithMany(b => b.UserChallenges)
+               .HasForeignKey(bc => bc.ChallengeId);
 
             builder.Entity<UserCupon>()
-                .HasOne(pt => pt.Cupon)
-                .WithMany(t => t.UserCupons)
-                .HasForeignKey(pt => pt.CuponId);
+                 .HasKey(bc => new { bc.UserId, bc.CuponId });
+            builder.Entity<UserCupon>()
+                .HasOne(bc => bc.User)
+                .WithMany(b => b.UserCupons)
+                .HasForeignKey(bc => bc.UserId);
+
+            builder.Entity<UserCupon>()
+               .HasOne(bc => bc.Cupon)
+               .WithMany(b => b.UserCupons)
+               .HasForeignKey(bc => bc.CuponId);
         }
 
         public virtual DbSet<Challenge> Challenges { get; set; }

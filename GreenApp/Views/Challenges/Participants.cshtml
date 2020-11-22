@@ -1,0 +1,52 @@
+﻿@using GreenApp.Model
+@using GreenApp.Data
+
+@model IList<UserChallenge>
+
+@if (Model == null)
+{
+    <div class="row"><p> Nincs résztvevő erre a kihvásra még. </p></div>
+}
+else
+{
+    @for (Int32 i = 0; i < Model.Count; i++)
+    {
+        <div class="pt-5">
+            <div class="row challenges mb-5 shadow-sm pb-2 pt-3">
+                <div class="col-md-6">
+                    <div class="row">
+                        <h3> @Model[i].User.LastName @Model[i].User.FirstName </h3>
+                    </div>
+                    <div class="row">
+                        <p> Státusz: @Model[i].Status </p>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-light" onclick="location.href='@Url.Action("Accept", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })'" @if (Model[i].Status != StatusType.Pending) { Write("disabled"); }>Elfogadás</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-light" onclick="location.href='@Url.Action("Decline", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })'" @if (Model[i].Status != StatusType.Pending) { Write("disabled"); }>Elutasítás</button>
+                        </div>
+                    </div>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="row">
+                            <p> @ViewBag.Message </p>
+                        </div>
+
+                    }
+                </div>
+
+                @if (Model[i].Image != null)
+                {
+                    <div class="col-md-6">
+                        <div class="row">
+                            <img class="img-fluid" src="@Url.Action("ChallengeSolutionImage", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    }
+}

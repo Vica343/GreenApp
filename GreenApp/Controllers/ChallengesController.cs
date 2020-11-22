@@ -62,6 +62,14 @@ namespace GreenApp.Controllers
             return View("AddChallenge");
         }
 
+        [HttpGet]
+        public IActionResult Participants(int challengeid)
+        {
+            var solutions = _greenService.GetSolutions(challengeid).ToList();
+         
+            return View("Participants", solutions);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken] // védelem XSRF támadás ellen
@@ -74,11 +82,11 @@ namespace GreenApp.Controllers
             
             if (!await _greenService.SaveChallengeAsync(guest.UserName, challenge))
             {
-                ModelState.AddModelError("", "A foglalás rögzítése sikertelen, kérem próbálja újra!");
-                return View("Index");
+                ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
+                return View("AddChallenge");
             }
 
-            ViewBag.Message = "A foglalását sikeresen rögzítettük!";
+            ViewBag.Message = "A kihívást sikeresen rögzítettük!";
             if (challenge.ChallengeSelectedType == Data.ChallengeType.QRCode)
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -94,8 +102,8 @@ namespace GreenApp.Controllers
 
                         if (!_greenService.UpdateChallange(challenge))
                         {
-                            ModelState.AddModelError("", "A foglalás rögzítése sikertelen, kérem próbálja újra!");
-                            return View("Index");
+                            ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
+                            return View("AddChallenge");
                         }
                         ViewBag.QrCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
                     }
@@ -123,13 +131,53 @@ namespace GreenApp.Controllers
 
             return View("AddChallenge", challange);
         }
-             
+
+        [HttpGet]
+        public async Task<IActionResult> Accept(Int32? challengeId, Int32? userId)
+        {
+            if (!await _greenService.AcceptChallengeSolution(challengeId, userId)) 
+            {
+                ModelState.AddModelError("", "A kihívás elfogadása sikertelen, kérem próbálja újra!");
+                return View("Participants");
+            }
+
+            var solutions = _greenService.GetSolutions(challengeId).ToList();
+            ViewBag.Message = "A kihívás megoldása elfogadva.";
+            return View("Participants", solutions);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Decline(Int32? challengeId, Int32? userId)
+        {
+            if (!await _greenService.DeclineChallengeSolution(challengeId, userId))
+            {
+                ModelState.AddModelError("", "A kihívás elutasítása sikertelen, kérem próbálja újra!");
+                return View("Participants");
+            }
+
+            var solutions = _greenService.GetSolutions(challengeId).ToList();
+            ViewBag.Message = "A kihívás megoldása elutasítva.";
+            return View("Participants", solutions);
+        }
+
 
         public ActionResult ChallengeImage(Int32? challangeId)
         {
             Byte[] imageContent = _greenService.GetChallangeImage(challangeId);
 
             if(imageContent == null)
+            {
+                return Content("No file name provided");
+            }
+
+            return File(imageContent, "image/png");
+        }
+
+        public ActionResult ChallengeSolutionImage(Int32? challengeId, Int32? userId)
+        {
+            Byte[] imageContent = _greenService.GetChallangeSolutionImage(challengeId, userId);
+
+            if (imageContent == null)
             {
                 return Content("No file name provided");
             }

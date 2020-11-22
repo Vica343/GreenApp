@@ -13,6 +13,6 @@ namespace GreenApp.Model
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public byte[] Image { get; set; }
-        public IList<UserCupon> UserCupons { get; set; }
+        public virtual IList<UserCupon> UserCupons { get; set; }
     }
 }

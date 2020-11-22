@@ -152,9 +152,7 @@ namespace GreenApp.Service.Controllers
             {
                 file.CopyTo(memoryStream);
                 bytes = memoryStream.ToArray();
-            }
-
-         
+            }         
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
@@ -167,9 +165,15 @@ namespace GreenApp.Service.Controllers
 
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
-                    if (challenge.UserChallenges == null)
+
+                    var uc = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
+                    if (uc == null)
                     {
-                        challenge.UserChallenges = new List<UserChallenge>
+
+
+                        if (challenge.UserChallenges == null)
+                        {
+                            challenge.UserChallenges = new List<UserChallenge>
                     {
                         new UserChallenge
                         {
@@ -179,20 +183,21 @@ namespace GreenApp.Service.Controllers
                             Image = bytes
                         }
                     };
-                    }
-                    else
-                    {
-                        challenge.UserChallenges.Add(new UserChallenge
+                        }
+                        else
                         {
-                            Challenge = challenge,
-                            User = user,
-                            Status = StatusType.Pending,
-                            Image = bytes
-                        });
-                    }
+                            challenge.UserChallenges.Add(new UserChallenge
+                            {
+                                Challenge = challenge,
+                                User = user,
+                                Status = StatusType.Pending,
+                                Image = bytes
+                            });
+                        }
+                  
                     if (challenge.Reward == RewardType.Cupon)
                     {
-                        var cupon = _context.Cupons.Where(c => c.Id == (challenge.RewardValue +1)).FirstOrDefault();
+                        var cupon = _context.Cupons.Where(c => c.Id == (challenge.RewardValue)).FirstOrDefault();
                         if (cupon.UserCupons == null)
                         {
                             cupon.UserCupons = new List<UserCupon>
@@ -214,8 +219,15 @@ namespace GreenApp.Service.Controllers
                                 State = StateType.UnUsed
                             });
                         }
+                        _context.Cupons.Update(cupon);
                     }
+                    }
+                    else
+                    {
+                        uc.Image = bytes;
+                        uc.Status = StatusType.Pending;
 
+                    }
                     _context.Challenges.Update(challenge);
                     _context.SaveChanges();
 
@@ -240,7 +252,9 @@ namespace GreenApp.Service.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
-                IEnumerable<Claim> claims = identity.Claims;
+                try
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
                 var user = await _userManager.FindByNameAsync(identity.Name);
                 if (challenge.UserChallenges == null)
                 {
@@ -288,11 +302,11 @@ namespace GreenApp.Service.Controllers
                             State = StateType.UnUsed
                         });
                     }
+                    _context.Cupons.Update(cupon);
                 }
-            }
+           
 
-            try
-            {
+          
                 _context.Challenges.Update(challenge);
                 _context.SaveChanges();
 
@@ -302,7 +316,8 @@ namespace GreenApp.Service.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
+            }
+            return StatusCode(StatusCodes.Status401Unauthorized);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

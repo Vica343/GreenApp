@@ -25,6 +25,11 @@ namespace GreenApp.Models
         public IEnumerable<Challenge> Challenges => _context.Challenges;
         public IEnumerable<Cupon> Cupons => _context.Cupons;
 
+        public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
+        {
+           return  _context.UserChallenges.Where(u => u.ChallengeId == challengeid).Include(i => i.User).Include(c => c.Challenge).OrderBy(u => u.Status);
+        }
+
         public async Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge)
         {
             if (!Validator.TryValidateObject(challenge, new ValidationContext(challenge, null, null), null))
@@ -100,6 +105,44 @@ namespace GreenApp.Models
             return true;
         }
 
+        public async Task<Boolean> AcceptChallengeSolution(Int32? challengeId, Int32? userId)
+        {
+            UserChallenge c = await _context.UserChallenges
+                .Where(i => i.ChallengeId == challengeId)
+                .Where(i => i.UserId == userId)
+                .FirstOrDefaultAsync();
+            c.Status = StatusType.Accepted;
+            try
+            {
+                _context.UserChallenges.Update(c);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<Boolean> DeclineChallengeSolution(Int32? challengeId, Int32? userId)
+        {
+            UserChallenge c = await _context.UserChallenges
+                .Where(i => i.ChallengeId == challengeId)
+                .Where(i => i.UserId == userId)
+                .FirstOrDefaultAsync();
+            c.Status = StatusType.Declined;
+            try
+            {
+                _context.UserChallenges.Update(c);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<byte[]> SaveQRAsync(Int32? id)
         {
             var challenge = await _context.Challenges.Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -132,6 +175,19 @@ namespace GreenApp.Models
             Challenge c =  _context.Challenges
                 .Where(image => image.Id == challangeId)
                 .FirstOrDefault();
+            return c.Image;
+        }
+
+        public Byte[] GetChallangeSolutionImage(Int32? solutionId, Int32? userId)
+        {
+            if (solutionId == null)
+                return null;
+
+            UserChallenge c = _context.UserChallenges
+                .Where(i => i.ChallengeId == solutionId)
+                .Where(i => i.UserId == userId)
+                .FirstOrDefault();
+
             return c.Image;
         }
 

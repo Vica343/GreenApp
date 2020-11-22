@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace GreenApp.Model
@@ -13,9 +14,9 @@ namespace GreenApp.Model
 
         public string Company { get; set; }
 
-        public IList<UserChallenge> UserChallenges { get; set; }
+        public virtual IList<UserChallenge> UserChallenges { get; set; }
 
-        public IList<UserCupon> UserCupons { get; set; }
+        public virtual IList<UserCupon> UserCupons { get; set; }
 
     }
 }

@@ -19,7 +19,7 @@ namespace GreenApp.Model
         public StatusType Status { get; set; }
         public byte[] Image { get; set; }
         public byte[] QRCode { get; set; }
-        public IList<UserChallenge> UserChallenges { get; set; }
+        public virtual IList<UserChallenge> UserChallenges { get; set; }
 
     }
 }

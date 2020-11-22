@@ -49,7 +49,7 @@ else
                 </div>
                 <div class="row bottomrow">
                     <div class="col-md-4">
-                        <button class="btn btn-light" onclick="location.href='@Url.Action("Participants", "Challenges")'">Résztvevők</button>
+                        <button class="btn btn-light" onclick="location.href='@Url.Action("Participants", "Challenges", new { challengeid = @Model[i].Id})'">Résztvevők</button>
                     </div>
                     <div class="col-md-4">
                         <button class="btn btn-light" onclick="location.href='@Url.Action("Details", "Challenges", new { id = @Model[i].Id})'">Részletek</button>

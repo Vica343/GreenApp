@@ -187,8 +187,13 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\AddChallenge.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Details.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Index.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Participants.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Result.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\AddCupon.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\Index.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\Result.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
@@ -202,7 +207,3 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.csproj.CopyComplete
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.dll
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.pdb
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\AddCupon.cshtml.g.cs
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\Result.cshtml.g.cs
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\Index.cshtml.g.cs
-C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\Details.cshtml.g.cs

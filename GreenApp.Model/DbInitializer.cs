@@ -87,6 +87,18 @@ namespace GreenApp.Models
 			var User2Password = "Anna1234";
 			var result8 = _userManager.CreateAsync(User2, User2Password).Result;
 			var result9 = _userManager.AddToRoleAsync(User2, companyAdminRole.Name).Result;
+
+			var User3 = new Guest
+			{
+				UserName = "Andris1",
+				FirstName = "Andris",
+				LastName = "Kovács",
+				Email = "andris@example.com"
+			};
+			var User3Password = "Andris1234";
+			var result10 = _userManager.CreateAsync(User3, User3Password).Result;
+			var result11 = _userManager.AddToRoleAsync(User3, appUserRole.Name).Result;
+
 		}
 
 		private static void SeedChallenges()
