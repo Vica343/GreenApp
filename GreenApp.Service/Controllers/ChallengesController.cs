@@ -75,7 +75,7 @@ namespace GreenApp.Service.Controllers
 
                     var challenges = _context.Challenges
                         .ToList()
-                        .Where(c => !(userchallenges.Contains(c.Id)));
+                        .Where(c => !(userchallenges.Contains(c.Id)) || c.Status == StatusType.Declined);
 
                     return Ok(challenges
                         .ToList()
@@ -179,6 +179,10 @@ namespace GreenApp.Service.Controllers
                     var user = await _userManager.FindByNameAsync(identity.Name);
 
                     var uc = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
+                    if (uc.Status == StatusType.Accepted)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                    }
                     if (uc == null)
                     {
                         if (challenge.UserChallenges == null)
