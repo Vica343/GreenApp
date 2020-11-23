@@ -64,7 +64,7 @@ namespace GreenApp.Controllers
 			}	
 			
 			_applicationState.UserCount++; 
-			return RedirectToAction("Index", "Challenges"); 
+			return RedirectToAction("OwnCampaigns", "Challenges"); 
 		}
 
 		[HttpGet]

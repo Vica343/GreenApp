@@ -25,7 +25,16 @@
                 {
                     for (Int32 i = 0; i < ViewBag.menulist.Count; i++)
                     {
-                        <a href="#" class="list-group-item list-group-item-action bg-light">@ViewBag.menulist[i]</a>
+                        if (ViewBag.menulist[i] == "Saját kampányok")
+                        {
+                            <button class="btn btn-dark btn-lg" onclick="location.href='@Url.Action("OwnCampaigns", "Challenges")'">@ViewBag.menulist[i]</button>
+
+                        }
+                        else
+                        {
+                            <a href="#" class="list-group-item list-group-item-action bg-light">@ViewBag.menulist[i]</a>
+                        }
+
                     }
                 }
             </div>

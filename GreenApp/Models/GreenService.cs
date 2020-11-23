@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Net.Http.Headers;
 using GreenApp.Data;
+using Microsoft.AspNetCore.Http;
+using QRCoder;
+using Ubiety.Dns.Core;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace GreenApp.Models
 {
@@ -24,10 +29,18 @@ namespace GreenApp.Models
         }
         public IEnumerable<Challenge> Challenges => _context.Challenges;
         public IEnumerable<Cupon> Cupons => _context.Cupons;
-
+        public Int32 GetCurrentUserId(HttpContext user) {
+            return  _userManager.GetUserAsync(user.User).Result.Id;            
+        }
+        
         public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
         {
            return  _context.UserChallenges.Where(u => u.ChallengeId == challengeid).Include(i => i.User).Include(c => c.Challenge).OrderBy(u => u.Status);
+        }
+        
+        public IEnumerable<Challenge> GetOwnChallenges(Int32? creator)
+        {
+            return _context.Challenges.Where(c => c.CreatorId == creator);
         }
 
         public async Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge)
@@ -69,6 +82,65 @@ namespace GreenApp.Models
                 return false;
             }
             return true;
+
+        }
+
+        public async Task<Boolean> UpdateChallengeAsync(String userName, ChallengeViewModel challenge, Int32? id, String input)
+        {
+            Guest guest = await _userManager.FindByNameAsync(userName);
+            Challenge dbchallenge = _context.Challenges.Where(c => c.Id == id).FirstOrDefault();
+
+            if (dbchallenge.Type == ChallengeType.Upload && challenge.ChallengeSelectedType == ChallengeType.QRCode)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    string inputText = input + id;
+                    QRCodeGenerator oQRCodeGenerator = new QRCodeGenerator();
+                    QRCodeData oQRCodeData = oQRCodeGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.Q);
+                    QRCode oQRCode = new QRCode(oQRCodeData);
+                    using (Bitmap oBitmap = oQRCode.GetGraphic(20))
+                    {
+                        oBitmap.Save(ms, ImageFormat.Png);
+                        challenge.ChallengeQr = ms.ToArray();
+                    }
+                }
+                dbchallenge.QRCode = challenge.ChallengeQr;
+            } else if (dbchallenge.Type == ChallengeType.QRCode && challenge.ChallengeSelectedType == ChallengeType.Upload)
+            {
+                dbchallenge.QRCode = null;
+            }
+
+            if (challenge.ChallengeImage != null)
+            {
+                byte[] bytes = null;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await challenge.ChallengeImage.CopyToAsync(memoryStream);
+                    bytes = memoryStream.ToArray();
+
+                }
+                dbchallenge.Image = bytes;
+            }
+            
+            dbchallenge.Name = challenge.ChallengeName;
+            dbchallenge.Description = challenge.ChallengeDescription;
+            dbchallenge.StartDate = challenge.ChallengeStartDate;
+            dbchallenge.EndDate = challenge.ChallengeEndDate;
+            dbchallenge.Type = challenge.ChallengeSelectedType;
+            dbchallenge.Reward = challenge.ChallengeReward;
+            dbchallenge.RewardValue = challenge.ChallengeRewardValue;
+
+            try
+            {
+                _context.Challenges.Update(dbchallenge);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+
 
         }
 
@@ -225,6 +297,15 @@ namespace GreenApp.Models
                 .Where(ch => ch.EndDate == challenge.ChallengeEndDate)
                 .Where(ch => ch.Reward == challenge.ChallengeReward)
                 .Where(ch => ch.Description == challenge.ChallengeDescription)
+                .FirstOrDefault();
+            return c;
+
+        }
+
+        public Challenge GetChallengeById(Int32? id)
+        {         
+            Challenge c = _context.Challenges
+                .Where(ch => ch.Id == id)
                 .FirstOrDefault();
             return c;
 

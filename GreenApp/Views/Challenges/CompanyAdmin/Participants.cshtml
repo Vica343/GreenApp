@@ -20,14 +20,18 @@ else
                     <div class="row">
                         <p> Státusz: @Model[i].Status </p>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-light" onclick="location.href='@Url.Action("Accept", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })'" @if (Model[i].Status != StatusType.Pending) { Write("disabled"); }>Elfogadás</button>
+                    @if (Model[i].Status == StatusType.Pending)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-light" onclick="location.href='@Url.Action("Accept", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })'">Elfogadás</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-light" onclick="location.href='@Url.Action("Decline", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })'">Elutasítás</button>
+                            </div>
                         </div>
-                        <div class="col">
-                            <button class="btn btn-light" onclick="location.href='@Url.Action("Decline", "Challenges", new { challengeId = @Model[i].ChallengeId, userId = @Model[i].UserId })'" @if (Model[i].Status != StatusType.Pending) { Write("disabled"); }>Elutasítás</button>
-                        </div>
-                    </div>
+                    }
+
                     @if (ViewBag.Message != null)
                     {
                         <div class="row">

@@ -29,17 +29,106 @@ namespace GreenApp.Controllers
 
         [HttpGet]
         public IActionResult Details(int id)
-        {
+        {           
             var challange = _greenService.Challenges.Where(i => i.Id == id).FirstOrDefault();
-            return View("Details", challange);            
+            if (challange.Reward == RewardType.Cupon)
+            {
+                ViewBag.cuponname = _greenService.Cupons.Where(c => c.Id == challange.RewardValue).FirstOrDefault().Name;
+            }
+          
+            return View("CompanyAdmin/Details", challange);            
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             var challanges = _greenService.Challenges.ToList();
-            return View("Index", challanges);
+            return View("Superadmin/Index", challanges);
         }
+
+        [HttpGet]
+        public IActionResult OwnCampaigns()
+        {
+            var userid =  _greenService.GetCurrentUserId(HttpContext);
+            var challanges = _greenService.GetOwnChallenges(userid).ToList();
+            return View("CompanyAdmin/Index", challanges);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(Int32? challengeId)
+        {
+            var challange = _greenService.GetChallengeById(challengeId);
+            var stream = new MemoryStream(challange.Image);
+            IFormFile file = new FormFile(stream, 0, challange.Image.Length, "name", "fileName");
+
+            ChallengeViewModel challengeview = new ChallengeViewModel
+            {
+                ChallengeName = challange.Name,
+                ChallengeDescription = challange.Description,
+                ChallengeStartDate = challange.StartDate,
+                ChallengeEndDate = challange.EndDate,
+                ChallengeImage = file,
+                ChallengeQr = challange.QRCode,
+                ChallengeSelectedType = challange.Type,
+                ChallengeReward = challange.Reward,
+                ChallengeRewardValue = challange.RewardValue
+            };
+
+            var cupons = _greenService.Cupons.ToList();
+            var rewards = new SelectList(Enum.GetValues(typeof(RewardType)).Cast<RewardType>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList(), "Value", "Text");
+            var types = new SelectList(Enum.GetValues(typeof(ChallengeType)).Cast<ChallengeType>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList(), "Value", "Text");
+
+            ViewBag.cupons = cupons.ConvertAll(a =>
+            {
+                return new SelectListItem()
+                {
+                    Text = a.Name,
+                    Value = a.Id.ToString()
+                };
+            }
+                );
+
+            ViewBag.rewards = rewards;
+
+            ViewBag.types = types;
+
+            ViewBag.image = File(challange.Image, "image/png");
+
+            return View("CompanyAdmin/Edit", challengeview);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ChallengeViewModel challenge, Int32? id)
+        {
+            if (challenge == null)
+                return RedirectToAction("Index", "Home");
+
+            Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            string inputText = Request.Scheme + "://" + Request.Host.Value + "/api/Challenges/QR/";
+
+            if (!await _greenService.UpdateChallengeAsync(guest.UserName, challenge, id, inputText))
+            {
+                ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
+                return View("CompanyAdmin/AddChallenge");
+            }
+               
+            var createdchallenge = _greenService.GetChallengeById(id);
+            ViewBag.result = "A kihívás sikeresen módosítva!";
+
+            return View("CompanyAdmin/Details", createdchallenge);
+        }
+
 
         [HttpGet]
         public IActionResult AddChallenge()
@@ -70,7 +159,7 @@ namespace GreenApp.Controllers
             ViewBag.rewards = rewards;
 
             ViewBag.types = types;
-            return View("AddChallenge");
+            return View("CompanyAdmin/AddChallenge");
         }
 
         [HttpGet]
@@ -78,12 +167,12 @@ namespace GreenApp.Controllers
         {
             var solutions = _greenService.GetSolutions(challengeid).ToList();
          
-            return View("Participants", solutions);
+            return View("CompanyAdmin/Participants", solutions);
         }
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken] // védelem XSRF támadás ellen
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Add(ChallengeViewModel challenge)
         {
             if (challenge == null)
@@ -94,7 +183,7 @@ namespace GreenApp.Controllers
             if (!await _greenService.SaveChallengeAsync(guest.UserName, challenge))
             {
                 ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
-                return View("AddChallenge");
+                return View("CompanyAdmin/AddChallenge");
             }
 
             ViewBag.Message = "A kihívást sikeresen rögzítettük!";
@@ -114,15 +203,16 @@ namespace GreenApp.Controllers
                         if (!_greenService.UpdateChallange(challenge))
                         {
                             ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
-                            return View("AddChallenge");
+                            return View("CompanyAdmin/AddChallenge");
                         }
-                        ViewBag.QrCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                       
                     }
                 }
             }
-            return View("Result", challenge);
+            var createdchallenge = _greenService.GetChallenge(challenge);
+            ViewBag.result = "A kihívás sikeresen létrehozva!";
+            return View("CompanyAdmin/Details", createdchallenge);
         }
-
 
         [HttpGet]
         public IActionResult QRGenerate(ChallengeViewModel challange, int id)
@@ -140,7 +230,7 @@ namespace GreenApp.Controllers
                 }
             }
 
-            return View("AddChallenge", challange);
+            return View("CompanyAdmin/AddChallenge", challange);
         }
 
         [HttpGet]
@@ -149,12 +239,12 @@ namespace GreenApp.Controllers
             if (!await _greenService.AcceptChallengeSolution(challengeId, userId)) 
             {
                 ModelState.AddModelError("", "A kihívás elfogadása sikertelen, kérem próbálja újra!");
-                return View("Participants");
+                return View("CompanyAdmin/Participants");
             }
 
             var solutions = _greenService.GetSolutions(challengeId).ToList();
             ViewBag.Message = "A kihívás megoldása elfogadva.";
-            return View("Participants", solutions);
+            return View("CompanyAdmin/Participants", solutions);
         }
 
         [HttpGet]
@@ -163,12 +253,12 @@ namespace GreenApp.Controllers
             if (!await _greenService.DeclineChallengeSolution(challengeId, userId))
             {
                 ModelState.AddModelError("", "A kihívás elutasítása sikertelen, kérem próbálja újra!");
-                return View("Participants");
+                return View("CompanyAdmin/Participants");
             }
 
             var solutions = _greenService.GetSolutions(challengeId).ToList();
             ViewBag.Message = "A kihívás megoldása elutasítva.";
-            return View("Participants", solutions);
+            return View("CompanyAdmin/Participants", solutions);
         }
 
 

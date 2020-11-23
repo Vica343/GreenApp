@@ -1,0 +1,107 @@
+﻿@using GreenApp.Model;
+@using GreenApp.Data;
+
+@model ChallengeViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-controller="Challenges" asp-action="Edit" asp-route-id="@Context.Request.Query["challengeId"]"  method="post" enctype="multipart/form-data">
+                <div class="contentHead py-3">
+                    <h1>A kihívás adatai: </h1>
+                </div>
+                <div class="form-group">
+                    <h5>A kihívás neve:</h5>
+                    <input class="form-control" asp-for="ChallengeName" />
+                    <span asp-validation-for="ChallengeName"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Leírás:</h5>
+                    <input class="form-control" asp-for="ChallengeDescription" />
+                    <span asp-validation-for="ChallengeDescription"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Kezdődátum:</h5>
+                    <input asp-for="ChallengeStartDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="ChallengeStartDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Végső dátum:</h5>
+                    <input asp-for="ChallengeEndDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="ChallengeEndDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Típus:</h5>
+                    <select asp-for="ChallengeSelectedType" asp-items="(SelectList)ViewBag.types">
+                        <option selected="selected" value="">Kérem válasszon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <h5>Jelenlegi kép:</h5>
+                    <img class="img-thumbnail" src="@ViewBag.image" />
+                    <label for="myCheck">Kép megváltoztatása:</label>
+                    <input type="checkbox" id="myCheck" onclick="myFunction()">
+                </div>
+                <div class="form-group" id="imageupload">
+                    <h5>Kép feltöltése:</h5>
+                    <input type="file" name="ChallengeImage" id="ChallengeImage" multiple required value="@ViewBag.image"/>
+                </div>
+                <div class="form-group">
+                    <h5>Jutalom:</h5>
+                    <select id="reward" asp-for="ChallengeReward" asp-items="(SelectList)ViewBag.rewards">
+                        <option selected="selected" value="">Kérem válasszon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="cupon" asp-for="ChallengeRewardValue" asp-items="(List<SelectListItem>)ViewBag.cupons">
+                        <option selected="selected" value="">Kérem válasszon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input id="money" asp-for="ChallengeRewardValue" />
+                    <span asp-validation-for="ChallengeRewardValue"></span>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @* jQuery Validation használata a kliens oldali validációra *@
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+                    document.getElementById('money').style.display = 'none';
+                    document.getElementById('cupon').style.display = 'none';
+                    document.getElementById('reward').addEventListener('change', function () {
+                        var style = this.value == 1 ? 'block' : 'none';
+                        document.getElementById('money').style.display = style;
+                        var style2 = this.value == 0 ? 'block' : 'none';
+                        document.getElementById('cupon').style.display = style2;
+                        if (this.value == 1) {
+                            $('input[name$=ChallengeRewardValue]').prop('disabled', false);
+                            $('select[name$=ChallengeRewardValue]').prop('disabled', true);
+                        } else {
+                            $('select[name$=ChallengeRewardValue]').prop('disabled', false);
+                            $('input[name$=ChallengeRewardValue]').prop('disabled', true);
+                        }
+                    });
+        document.getElementById("imageupload").style.display = "none";
+        function myFunction() {
+          var checkBox = document.getElementById("myCheck");
+          var text = document.getElementById("imageupload");
+          if (checkBox.checked == true){
+            text.style.display = "block";
+          } else {
+             text.style.display = "none";
+          }
+        }
+    </script>
+}
+
+
+
