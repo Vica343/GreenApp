@@ -47,10 +47,10 @@ namespace GreenApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult OwnCampaigns()
+        public async Task<IActionResult> OwnCampaigns()
         {
-            var userid =  _greenService.GetCurrentUserId(HttpContext);
-            var challanges = _greenService.GetOwnChallenges(userid).ToList();
+            Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+            var challanges = _greenService.GetOwnChallenges(guest.Id).ToList();
             return View("CompanyAdmin/Index", challanges);
         }
 
@@ -129,6 +129,19 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/Details", createdchallenge);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Int32? id)
+        {
+            if (!await _greenService.DeleteChallengeAsync(id))
+            {
+                ModelState.AddModelError("", "A kihívás törlése sikertelen, kérem próbálja újra!");
+                return View("CompanyAdmin/AddChallenge");
+            }
+
+            return RedirectToAction("OwnCampaigns", "Challenges");
+        }
 
         [HttpGet]
         public IActionResult AddChallenge()
@@ -211,7 +224,7 @@ namespace GreenApp.Controllers
             }
             var createdchallenge = _greenService.GetChallenge(challenge);
             ViewBag.result = "A kihívás sikeresen létrehozva!";
-            return View("CompanyAdmin/Details", createdchallenge);
+            return RedirectToAction("OwnCampaigns", "Challenges");
         }
 
         [HttpGet]

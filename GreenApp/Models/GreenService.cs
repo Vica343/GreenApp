@@ -29,18 +29,15 @@ namespace GreenApp.Models
         }
         public IEnumerable<Challenge> Challenges => _context.Challenges;
         public IEnumerable<Cupon> Cupons => _context.Cupons;
-        public Int32 GetCurrentUserId(HttpContext user) {
-            return  _userManager.GetUserAsync(user.User).Result.Id;            
-        }
-        
+      
         public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
         {
            return  _context.UserChallenges.Where(u => u.ChallengeId == challengeid).Include(i => i.User).Include(c => c.Challenge).OrderBy(u => u.Status);
         }
         
-        public IEnumerable<Challenge> GetOwnChallenges(Int32? creator)
+        public IEnumerable<Challenge> GetOwnChallenges(Int32? creatorId)
         {
-            return _context.Challenges.Where(c => c.CreatorId == creator);
+            return _context.Challenges.Where(c => c.CreatorId == creatorId);
         }
 
         public async Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge)
@@ -141,6 +138,22 @@ namespace GreenApp.Models
             }
             return true;
 
+
+        }
+
+        public async Task<Boolean> DeleteChallengeAsync(Int32? id)
+        {
+            var challenge = await _context.Challenges.Where(c => c.Id == id).FirstOrDefaultAsync();
+            try
+            {
+                _context.Challenges.Remove(challenge);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
 
         }
 
