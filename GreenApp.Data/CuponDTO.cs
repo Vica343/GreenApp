@@ -23,6 +23,7 @@ namespace GreenApp.Data
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public String Company { get; set; }
+        public String Value { get; set; }
         public Byte[] Image { get; set; }
         public ValidType Valid { get; set; }
         public StateType State { get; set; }

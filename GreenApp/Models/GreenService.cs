@@ -53,7 +53,8 @@ namespace GreenApp.Models
                 StartDate = challenge.ChallengeStartDate,
                 EndDate = challenge.ChallengeEndDate,
                 Type = challenge.ChallengeSelectedType,
-                Reward = challenge.ChallengeReward,               
+                Reward = challenge.ChallengeReward,   
+                RewardValue = challenge.ChallengeRewardValue,
                 Image = bytes,
                 QRCode = challenge.ChallengeQr,
                 Status = Data.StatusType.Pending             
@@ -91,6 +92,7 @@ namespace GreenApp.Models
                 Name = cupon.CuponName,
                 StartDate = cupon.CuponStartDate,
                 EndDate = cupon.CuponEndDate,
+                Value = cupon.CuponValue,
                 Image = bytes
             });
 

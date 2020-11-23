@@ -142,6 +142,7 @@ namespace GreenApp.Models
 					StartDate = new DateTime(2020,12,20),
 					EndDate = new DateTime(2021,05,20),
 					CreatorId = 2,
+					Value = "QWE3243WA3",
 					Image = image1
 
 				}

@@ -3,57 +3,44 @@
 
 @model CuponViewModel
 
-<form asp-controller="Cupons" asp-action="Add" method="post" enctype="multipart/form-data">
-    @* Automatikus védelem XSRF támadás ellen *@
 
-    <table>
-        <tr>
-            <td colspan="2">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-controller="Cupons" asp-action="Add" method="post" enctype="multipart/form-data">
+                <div class="contentHead py-3">
+                    <h1>A kupon adatai: </h1>
+                </div>
+                <div class="form-group">
+                    <h5>A kupon neve::</h5>
+                    <input class="form-control" asp-for="CuponName" />
+                    <span asp-validation-for="CuponName"></span>
+                </div>
+                <div class="form-group">
+                    <h5>A kupon:</h5>
+                    <input class="form-control" asp-for="CuponValue" />
+                    <span asp-validation-for="CuponValue"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Kezdődátum:</h5>
+                    <input asp-for="CuponStartDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="CuponStartDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Végső dátum:</h5>
+                    <input asp-for="CuponEndDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="CuponEndDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Kép feltöltése:</h5>
+                    <input type="file" name="CuponImage" id="CuponImage" multiple required />
+                </div>
                 <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
-            </td>
-        </tr>        
-        <tr>
-            <td>
-                A kupon neve:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="CuponName" />
-                <span asp-validation-for="CuponName"></span>
-            </td>
-        </tr>       
-        <tr>
-            <td>
-                Kezdődátum:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="CuponStartDate" asp-format="{0:yyyy-MM-dd}" />
-                <span asp-validation-for="CuponStartDate"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Végső dátum:
-            </td>
-            <td class="failureNotification">
-                <input asp-for="CuponEndDate" asp-format="{0:yyyy-MM-dd}" />
-                <span asp-validation-for="CuponEndDate"></span>
-            </td>
-        </tr>        
-        <tr>
-            <td>
-                Kép feltöltése:
-            </td>
-            <td class="failureNotification">
-                <input type="file" name="CuponImage" id="CuponImage" multiple required />
-            </td>
-        </tr>       
-        <tr>
-            <td colspan="2" height="50">
-                <input type="submit" value="Beküldés" class="button" />
-            </td>
-        </tr>
-    </table>
-</form>
+                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts
 {

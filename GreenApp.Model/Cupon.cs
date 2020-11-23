@@ -1,5 +1,4 @@
-﻿using GreenApp.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +8,7 @@ namespace GreenApp.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Value { get; set; }
         public int CreatorId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

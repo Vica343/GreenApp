@@ -56,8 +56,19 @@ namespace GreenApp.Controllers
                 Value = ((int)v).ToString()
             }).ToList(), "Value", "Text");
 
-            ViewBag.cupons = new SelectList(cupons, "Id", "Name");
+            ViewBag.cupons = cupons.ConvertAll(a =>
+           {
+               return new SelectListItem()
+               {
+                   Text = a.Name,
+                   Value = a.Id.ToString()
+               };
+           }
+                );
+           
+              
             ViewBag.rewards = rewards;
+
             ViewBag.types = types;
             return View("AddChallenge");
         }

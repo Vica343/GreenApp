@@ -64,8 +64,8 @@ namespace GreenApp.Service.Controllers
             if (identity != null)
             {
                 try
-                 {
-               
+                {
+
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
                     var userchallenges = _context.UserChallenges
@@ -91,12 +91,12 @@ namespace GreenApp.Service.Controllers
                             Reward = challenge.Reward
                         }));
                 }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                catch
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
             }
-        }
-    
+
             return StatusCode(StatusCodes.Status401Unauthorized);
         }
 
@@ -120,6 +120,17 @@ namespace GreenApp.Service.Controllers
             {
                 var challenge = _context.Challenges
                     .Single(c => c.Id == id);
+                byte[] cupon = null;
+                Int32 money = -1;
+                if (challenge.Reward == RewardType.Cupon)
+                {
+                   cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Image;
+                }
+                else
+                {
+                    money = challenge.RewardValue;
+                }
+
                 return Ok(new ChallangeDTO
                 {
                     Id = challenge.Id,
@@ -130,6 +141,8 @@ namespace GreenApp.Service.Controllers
                     Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                     Type = challenge.Type,
                     Reward = challenge.Reward,
+                    CuponReward = cupon,
+                    MoneyReward = money,
                     Image = challenge.Image
                 });
             }
@@ -152,11 +165,10 @@ namespace GreenApp.Service.Controllers
             {
                 file.CopyTo(memoryStream);
                 bytes = memoryStream.ToArray();
-            }         
+            }
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
-                
                 try
                 {
                     Challenge challenge = _context.Challenges
@@ -169,20 +181,18 @@ namespace GreenApp.Service.Controllers
                     var uc = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
                     if (uc == null)
                     {
-
-
                         if (challenge.UserChallenges == null)
                         {
                             challenge.UserChallenges = new List<UserChallenge>
-                    {
-                        new UserChallenge
-                        {
-                            Challenge = challenge,
-                            User = user,
-                            Status = StatusType.Pending,
-                            Image = bytes
-                        }
-                    };
+                            {
+                                new UserChallenge
+                                {
+                                    Challenge = challenge,
+                                    User = user,
+                                    Status = StatusType.Pending,
+                                    Image = bytes
+                                }
+                            };
                         }
                         else
                         {
@@ -194,33 +204,37 @@ namespace GreenApp.Service.Controllers
                                 Image = bytes
                             });
                         }
-                  
-                    if (challenge.Reward == RewardType.Cupon)
-                    {
-                        var cupon = _context.Cupons.Where(c => c.Id == (challenge.RewardValue)).FirstOrDefault();
-                        if (cupon.UserCupons == null)
+
+                        if (challenge.Reward == RewardType.Cupon)
                         {
-                            cupon.UserCupons = new List<UserCupon>
-                    {
-                        new UserCupon
-                        {
-                            Cupon = cupon,
-                            User = user,
-                            State = StateType.UnUsed
-                        }
-                    };
-                        }
-                        else
-                        {
-                            cupon.UserCupons.Add(new UserCupon
+                            var cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault();
+                            var ucupon = _context.UserCupons.Where(c => c.CuponId == cupon.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
+                            if (ucupon == null)
                             {
-                                Cupon = cupon,
-                                User = user,
-                                State = StateType.UnUsed
-                            });
+                                if (cupon.UserCupons == null)
+                                {
+                                    cupon.UserCupons = new List<UserCupon>
+                                {
+                                    new UserCupon
+                                    {
+                                        Cupon = cupon,
+                                        User = user,
+                                        State = StateType.UnUsed
+                                    }
+                                };
+                                }
+                                else
+                                {
+                                    cupon.UserCupons.Add(new UserCupon
+                                    {
+                                        Cupon = cupon,
+                                        User = user,
+                                        State = StateType.UnUsed
+                                    });
+                                }
+                                _context.Cupons.Update(cupon);
+                            }                            
                         }
-                        _context.Cupons.Update(cupon);
-                    }
                     }
                     else
                     {
@@ -255,10 +269,10 @@ namespace GreenApp.Service.Controllers
                 try
                 {
                     IEnumerable<Claim> claims = identity.Claims;
-                var user = await _userManager.FindByNameAsync(identity.Name);
-                if (challenge.UserChallenges == null)
-                {
-                    challenge.UserChallenges = new List<UserChallenge>
+                    var user = await _userManager.FindByNameAsync(identity.Name);
+                    if (challenge.UserChallenges == null)
+                    {
+                        challenge.UserChallenges = new List<UserChallenge>
                     {
                         new UserChallenge
                         {
@@ -267,55 +281,56 @@ namespace GreenApp.Service.Controllers
                             Status = StatusType.Accepted
                         }
                     };
-                }
-                else
-                {
-                    challenge.UserChallenges.Add(new UserChallenge
-                    {
-                        Challenge = challenge,
-                        User = user,
-                        Status = StatusType.Accepted,
-                    });
-                }
-
-                if (challenge.Reward == RewardType.Cupon)
-                {
-                    var cupon = _context.Cupons.Where(c => c.Id == (challenge.RewardValue +1)).FirstOrDefault();
-                    if (cupon.UserCupons == null)
-                    {
-                        cupon.UserCupons = new List<UserCupon>
-                    {
-                        new UserCupon
-                        {
-                            Cupon = cupon,
-                            User = user,
-                            State = StateType.UnUsed
-                        }
-                    };
                     }
                     else
                     {
-                        cupon.UserCupons.Add(new UserCupon
+                        challenge.UserChallenges.Add(new UserChallenge
                         {
-                            Cupon = cupon,
+                            Challenge = challenge,
                             User = user,
-                            State = StateType.UnUsed
+                            Status = StatusType.Accepted,
                         });
                     }
-                    _context.Cupons.Update(cupon);
+
+                    if (challenge.Reward == RewardType.Cupon)
+                    {
+                        var cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault();
+                        var ucupon = _context.UserCupons.Where(c => c.CuponId == cupon.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
+                        if (ucupon == null)
+                        {
+                            if (cupon.UserCupons == null)
+                            {
+                                cupon.UserCupons = new List<UserCupon>
+                            {
+                                new UserCupon
+                                {
+                                    Cupon = cupon,
+                                    User = user,
+                                    State = StateType.UnUsed
+                                }
+                            };
+                            }
+                            else
+                            {
+                                cupon.UserCupons.Add(new UserCupon
+                                {
+                                    Cupon = cupon,
+                                    User = user,
+                                    State = StateType.UnUsed
+                                });
+                            }
+                            _context.Cupons.Update(cupon);
+                        }
+                    }
+                    _context.Challenges.Update(challenge);
+                    _context.SaveChanges();
+
+                    return Ok();
                 }
-           
-
-          
-                _context.Challenges.Update(challenge);
-                _context.SaveChanges();
-
-                return Ok();
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+                catch
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
             }
             return StatusCode(StatusCodes.Status401Unauthorized);
         }
@@ -323,7 +338,7 @@ namespace GreenApp.Service.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingChallenges()
-        {          
+        {
             try
             {
                 var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -474,7 +489,7 @@ namespace GreenApp.Service.Controllers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
-                                
+
                     var challenges = _context.Challenges
                         .ToList()
                         .Where(c => c.Name.ToLower().Contains(search.Trim().ToLower()) || c.Description.ToLower().Contains(search.Trim().ToLower()));
@@ -509,6 +524,6 @@ namespace GreenApp.Service.Controllers
     }
 }
 
-   
+
 
 

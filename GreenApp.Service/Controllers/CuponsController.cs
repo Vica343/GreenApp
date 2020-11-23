@@ -62,6 +62,7 @@ namespace GreenApp.Service.Controllers
                         EndDate = cupon.EndDate,
                         Company = _context.Users.Where(u => u.Id == cupon.CreatorId).Select(u => u.Company).FirstOrDefault(),
                         Image = cupon.Image,
+                        Value = cupon.Value,
                         Valid = (cupon.EndDate >DateTime.Now && cupon.StartDate < DateTime.Now) ? ValidType.Valid : ValidType.NotValid
                     }));
                 }
@@ -104,7 +105,8 @@ namespace GreenApp.Service.Controllers
                         EndDate = cupon.EndDate,
                         Company = _context.Users.Where(u => u.Id == cupon.CreatorId).Select(u => u.Company).FirstOrDefault(),
                         Valid = (cupon.EndDate > DateTime.Now && cupon.StartDate < DateTime.Now) ? ValidType.Valid : ValidType.NotValid,
-                        Image = cupon.Image                      
+                        Image = cupon.Image,
+                        Value = cupon.Value
                     }));
                 }
                 catch
@@ -146,6 +148,7 @@ namespace GreenApp.Service.Controllers
                         EndDate = cupon.EndDate,
                         Company = _context.Users.Where(u => u.Id == cupon.CreatorId).Select(u => u.Company).FirstOrDefault(),
                         Valid = (cupon.EndDate > DateTime.Now && cupon.StartDate < DateTime.Now) ? ValidType.Valid : ValidType.NotValid,
+                        Value = cupon.Value,
                         Image = cupon.Image                        
                     }));
                 }
@@ -188,6 +191,7 @@ namespace GreenApp.Service.Controllers
                         EndDate = cupon.EndDate,
                         Company = _context.Users.Where(u => u.Id == cupon.CreatorId).Select(u => u.Company).FirstOrDefault(),
                         State = _context.UserCupons.Where(c => c.CuponId == cupon.Id).FirstOrDefault().State,
+                        Value = cupon.Value,
                         Image = cupon.Image
                     }));
                 }
@@ -231,6 +235,7 @@ namespace GreenApp.Service.Controllers
                         EndDate = cupon.EndDate,
                         Company = _context.Users.Where(u => u.Id == cupon.CreatorId).Select(u => u.Company).FirstOrDefault(),
                         State = _context.UserCupons.Where(c => c.CuponId == cupon.Id).FirstOrDefault().State,
+                        Value = cupon.Value,
                         Image = cupon.Image
                     }));
                 }
