@@ -40,6 +40,14 @@ else
             </div>
         </div>
     </div>
+    @if (TempData["Success"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+    }
     <div class="pt-5">
         @for (Int32 i = 0; i < Model.Count; i++)
         {
@@ -67,10 +75,22 @@ else
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="row d-flex justify-content-center py-3">
-                        <button class="btn btn-light" onclick="location.href='@Url.Action("Disable", "Challenges")'">Letiltás</button>
-                    </div>
+                        @if (Model[i].Disabled)
+                        {
+                            <form method="post" asp-controller="Challenges" asp-action="Enable" asp-route-challengeId="@Model[i].Id">
+                                <button type="submit" class="btn btn-success">Engedélyezés</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post" asp-controller="Challenges" asp-action="Disable" asp-route-challengeId="@Model[i].Id">
+                                <button type="submit" class="btn btn-danger">Letiltás</button>
+                            </form>
+                        }
+                        </div>
                 </div>
             </div>
         }

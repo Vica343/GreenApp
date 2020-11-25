@@ -118,7 +118,7 @@ namespace GreenApp.Models
 					Type = ChallengeType.Upload,
 					Reward = RewardType.Cupon,
 					RewardValue = 1,
-					Status = StatusType.Accepted,
+					Disabled = false,
 					CreatorId = 2,
 					Image = image1
 				}				

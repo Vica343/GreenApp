@@ -30,12 +30,12 @@ namespace GreenApp.Models
         public IEnumerable<Challenge> Challenges => _context.Challenges;
         public IEnumerable<Challenge> ChallengesWithCreator => _context.Challenges.Include(u => u.Creator);
         public IEnumerable<Cupon> Cupons => _context.Cupons;
-      
+
         public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
         {
-           return  _context.UserChallenges.Where(u => u.ChallengeId == challengeid).Include(i => i.User).Include(c => c.Challenge).OrderBy(u => u.Status);
+            return _context.UserChallenges.Where(u => u.ChallengeId == challengeid).Include(i => i.User).Include(c => c.Challenge).OrderBy(u => u.Status);
         }
-        
+
         public IEnumerable<Challenge> GetOwnChallenges(Int32? creatorId)
         {
             return _context.Challenges.Where(c => c.CreatorId == creatorId);
@@ -74,14 +74,14 @@ namespace GreenApp.Models
                 StartDate = challenge.ChallengeStartDate,
                 EndDate = challenge.ChallengeEndDate,
                 Type = challenge.ChallengeSelectedType,
-                Reward = challenge.ChallengeReward,   
+                Reward = challenge.ChallengeReward,
                 RewardValue = challenge.ChallengeRewardValue,
                 Image = bytes,
                 QRCode = challenge.ChallengeQr,
-                Status = Data.StatusType.Pending             
+                Disabled = false
             });
 
-            try 
+            try
             {
                 _context.SaveChanges();
             }
@@ -130,7 +130,7 @@ namespace GreenApp.Models
                 dbchallenge.Image = bytes;
             }
 
-                    
+
             dbchallenge.Name = challenge.ChallengeName;
             dbchallenge.Description = challenge.ChallengeDescription;
             dbchallenge.StartDate = challenge.ChallengeStartDate;
@@ -207,6 +207,41 @@ namespace GreenApp.Models
             }
             return true;
 
+        }
+
+        public async Task<Boolean> DisableChallengeAsync(Int32? id)
+        {
+            Challenge challenge = await _context.Challenges.Where(c => c.Id == id).FirstOrDefaultAsync();
+            challenge.Disabled = true;
+
+            try
+            {
+                _context.Challenges.Update(challenge);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+
+        }
+
+        public async Task<Boolean> EnableChallengeAsync(Int32? id)
+        {
+            Challenge challenge = await _context.Challenges.Where(c => c.Id == id).FirstOrDefaultAsync();
+            challenge.Disabled = false;
+
+            try
+            {
+                _context.Challenges.Update(challenge);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<Boolean> DeleteCuponAsync(Int32? id)

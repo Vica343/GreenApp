@@ -49,6 +49,39 @@ namespace GreenApp.Controllers
             return View("Superadmin/Index", challanges);
         }
 
+        [Authorize(Roles = "superAdmin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Disable(Int32? challengeId)
+        {
+            if (!await _greenService.DisableChallengeAsync(challengeId))
+            {
+                TempData["ErrorMessage"] = "A kihívás letiltása sikertelen, próbálja újra!";
+                return RedirectToAction("Details", "Challenges");
+            }
+
+            TempData["Success"] = "A kihívás sikeresen letiltva!";
+
+            return RedirectToAction("Index", "Challenges");
+        }
+
+        [Authorize(Roles = "superAdmin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Enable(Int32? challengeId)
+        {
+            if (!await _greenService.EnableChallengeAsync(challengeId))
+            {
+                TempData["ErrorMessage"] = "A kihívás engedélyezése sikertelen, próbálja újra!";
+                return RedirectToAction("Details", "Challenges");
+            }
+
+            TempData["Success"] = "A kihívás sikeresen engedélyezve!";
+
+            return RedirectToAction("Index", "Challenges");
+        }
+
+
         [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> OwnCampaigns()
@@ -282,8 +315,7 @@ namespace GreenApp.Controllers
 
             return RedirectToAction("Participants", "Challenges");
         }
-
-
+        
         public ActionResult ChallengeImage(Int32? challangeId)
         {
             Byte[] imageContent = _greenService.GetChallangeImage(challangeId);
