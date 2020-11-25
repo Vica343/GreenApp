@@ -1,0 +1,100 @@
+﻿@using GreenApp.Model;
+
+@model RegistrationViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GreenApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav class="navbar navbar-custom">
+        <a class="navbar-brand" href="#">
+            <img class="img-fluid" id="image" src="~/Images/logo.png" alt="">
+        </a>
+        <div class="text-right">
+            <div class="navbar-inner">
+                <button class="btn btn-dark btn-lg" onclick="location.href='@Url.Action("Register", "Account")'">Regisztráció</button>
+                <button class="btn btn-dark btn-lg m-4" onclick="location.href='@Url.Action("Login", "Account")'">Bejelentkezés</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <form asp-controller="Account" asp-action="Register">
+                    <div class="contentHead py-3">
+                        <h1>Regisztráció:</h1>
+                    </div>
+                    <hr />
+                    <h3>Személyes adatok:</h3>
+                    <div class="form-group">
+                        <h5>Vezetéknév:</h5>
+                        <input class="form-control" asp-for="GuestLastName" size="40" />
+                        <span asp-validation-for="GuestLastName"></span>
+                    </div>
+                    <div class="form-group">
+                        <h5>Keresztnév:</h5>
+                        <input class="form-control" asp-for="GuestFirstName" size="40" />
+                        <span asp-validation-for="GuestFirstName"></span>
+                    </div>
+                    <div class="form-group">
+                        <h5>Cég neve:</h5>
+                        <input class="form-control" asp-for="GuestCompany" size="40" />
+                        <span asp-validation-for="GuestCompany"></span>
+                    </div>
+                    <div class="form-group">
+                        <h5>E-mail cím:</h5>
+                        <input class="form-control" asp-for="GuestEmail" size="40" />
+                        <span asp-validation-for="GuestEmail"></span>
+                    </div>
+                    <div class="form-group">
+                        <h5>Telefonszám:</h5>
+                        <input class="form-control" asp-for="GuestPhoneNumber" size="40" />
+                        <span asp-validation-for="GuestPhoneNumber"></span>
+                    </div>
+                    <hr />
+                    <h3>Bejelentkezési adatok:</h3>
+                    <div class="form-group">
+                        <h5>Felhasználónév:</h5>
+                        <input class="form-control" asp-for="UserName" />
+                        <span asp-validation-for="UserName"></span>
+                    </div>
+                    <div class="form-group">
+                        <h5>Jelszó:</h5>
+                        <input class="form-control" asp-for="UserPassword" />
+                        <span asp-validation-for="UserPassword"></span>
+                    </div>
+                    <div class="form-group">
+                        <h5>Jelszó még egyszer:</h5>
+                        <input class="form-control" asp-for="UserConfirmPassword" />
+                        <span asp-validation-for="UserConfirmPassword"></span>
+                    </div>
+                    <div class="form-group">
+                        <h6><br />A felhasználónév és a jelszó minimum 5, maximum 40 karakter hosszú lehet. Csak betűt, számot és kötőjelet tartalmathat.<br /><br /></h6>
+                    </div>
+                    <div class="failureNotification">@Html.ValidationSummary(true, "A regisztráció sikertelen!")</div>
+                    <button type="submit" class="btn btn-primary btn-lg">Regisztráció</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts
+{
+        @* jQuery Validation használata a kliens oldali validációra *@
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</body>
+</html>
+

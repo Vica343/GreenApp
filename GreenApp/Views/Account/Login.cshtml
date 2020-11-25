@@ -1,0 +1,68 @@
+﻿@using GreenApp.Model;
+@model LoginViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GreenApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div id="bg2">    </div>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">
+            <img class="img-fluid" id="image" src="~/Images/logo.png" alt="">
+        </a>
+        <div class="text-right">
+            <div class="navbar-inner">
+                <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("Register", "Account")'">Regisztráció</button>
+                <button class="btn btn-light btn-lg m-4" onclick="location.href='@Url.Action("Login", "Account")'">Bejelentkezés</button>
+            </div>
+        </div>
+    </nav>
+    <div class="wrapper mx-auto">
+        <div class="container-fluid containerbg">
+                <div class="containersection">
+                    <div class="col-md-6 ">
+                        <form asp-controller="Account" asp-action="Login">
+                            <div class="contentHead py-3">
+                                <h1 class="text-light">Bejelentkezés:</h1>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-light">Felhasználó név:</h5>
+                                <input class="form-control" asp-for="UserName" />
+                                <span asp-validation-for="UserName"></span>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="text-light">Jelszó:</h5>
+                                <input class="form-control" asp-for="UserPassword" />
+                                <span asp-validation-for="UserPassword"></span>
+                            </div>
+                            <div class="form-group">
+                                <h6 class="form-check-label px-4 text-light" for="cb">
+                                    <input id="cb" class="form-check-input" type="checkbox" asp-for="RememberLogin" />
+                                    Bejelentkezés megjegyzése
+                                </h6>
+                            </div>
+                            <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+                            <button type="submit" class="btn btn-light btn-lg">Bejelentkezés</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    @section Scripts
+{
+        @* jQuery Validation használata a kliens oldali validációra *@
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</body>
+</html>

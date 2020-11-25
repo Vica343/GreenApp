@@ -1,0 +1,101 @@
+﻿@using GreenApp.Model
+@using GreenApp.Data
+
+@model Challenge
+
+@if (Model == null)
+{
+    <div class="contentText">Nincs ilyen kihívás.</div>
+}
+else
+{
+    @if (TempData["Success"] != null)
+    {
+        <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+    }
+    <div class="pt-5">
+        <div class="row challenges mb-5 shadow-sm pb-2 pt-3">
+            <div class="col">
+                <img class="img-thumbnail" src="@Url.Action("ChallengeImage", "Challenges", new { challangeId = @Model.Id })" />
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <h3> @Model.Name </h3>
+                    <p class="ml-auto mr-3"> @Model.StartDate.Year. @Model.StartDate.Month. @Model.StartDate.Day. - @Model.EndDate.Year. @Model.EndDate.Month. @Model.EndDate.Day. </p>
+                </div>
+                <div class="row">
+                    <p class="description"> @Model.Description </p>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Típus: @Model.Type </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p> Jutalom: @Model.Reward </p>
+                    </div>
+                    @if (Model.Reward == RewardType.Cupon)
+                    {
+                        <div class="col-md-4">
+                            <p> Kupon: @ViewBag.cuponname</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4">
+                            <p> Jutalom értéke: @Model.RewardValue</p>
+                        </div>
+                    }
+
+                </div>
+                @if (Model.Type == ChallengeType.QRCode)
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p> QR kód: </p>
+                        </div>
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="@Url.Action("QRImage", "Challenges", new { challangeId = @Model.Id })" />
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" onclick="PrintImage('@Url.Action("QRImage", "Challenges", new { challangeId = @Model.Id })'); return false;">Nyomtatás</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+
+    </div>
+
+}
+
+
+@section Scripts
+{
+    <script>
+
+        function ImagetoPrint(source) {
+            return "<html><head><scri" + "pt>function step1(){\n" +
+                "setTimeout('step2()', 10);}\n" +
+                "function step2(){window.print();window.close()}\n" +
+                "</scri" + "pt></head><body onload='step1()'>\n" +
+                "<img src='" + source + "' /></body></html>";
+        }
+
+        function PrintImage(source) {
+            var Pagelink = "about:blank";
+            var pwa = window.open(Pagelink, "_new");
+            pwa.document.open();
+            pwa.document.write(ImagetoPrint(source));
+            pwa.document.close();
+        }
+
+    </script>
+}

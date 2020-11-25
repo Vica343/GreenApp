@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\GreenApp"
+    "\\GreenApp",
+    "\\GreenApp.Data",
+    "\\GreenApp.Model",
+    "\\GreenApp.Service",
+    "\\GreenApp\\Views",
+    "\\GreenApp\\Views\\Shared"
   ],
+  "SelectedNode": "\\GreenApp\\GreenApp.csproj",
   "PreviewInSolutionExplorer": false
 }

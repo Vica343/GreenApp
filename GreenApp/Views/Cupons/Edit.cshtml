@@ -1,0 +1,71 @@
+﻿@using GreenApp.Model;
+@using GreenApp.Data;
+
+@model CuponViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-controller="Cupons" asp-action="Edit" method="post"  asp-route-id="@Context.Request.Query["cuponId"]"  enctype="multipart/form-data">
+                <div class="contentHead py-3">
+                    <h1>A kupon adatai: </h1>
+                </div>
+                <div class="form-group">
+                    <h5>A kupon neve::</h5>
+                    <input class="form-control" asp-for="CuponName" />
+                    <span asp-validation-for="CuponName"></span>
+                </div>
+                <div class="form-group">
+                    <h5>A kupon:</h5>
+                    <input class="form-control" asp-for="CuponValue" />
+                    <span asp-validation-for="CuponValue"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Kezdődátum:</h5>
+                    <input asp-for="CuponStartDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="CuponStartDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Végső dátum:</h5>
+                    <input asp-for="CuponEndDate" asp-format="{0:yyyy-MM-dd}" />
+                    <span asp-validation-for="CuponEndDate"></span>
+                </div>
+                <div class="form-group">
+                    <h5>Jelenlegi kép:</h5>
+                    <img class="img-thumbnail" src="@Url.Action("CuponImage", "Cupons", new { cuponid = ViewBag.image })" />
+                    <label for="myCheck">Kép megváltoztatása:</label>
+                    <input type="checkbox" id="myCheck" onclick="myFunction()">
+                </div>
+                <div class="form-group" id="imageupload">
+                    <h5>Kép feltöltése:</h5>
+                    <input type="file" name="CuponImage" id="CuponImage" multiple required />
+                </div>
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+<script>
+    document.getElementById("imageupload").style.display = "none";
+    function myFunction() {
+        var checkBox = document.getElementById("myCheck");
+        var text = document.getElementById("imageupload");
+        if (checkBox.checked == true){
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+    }
+</script>
+    
+}
+
+
+
