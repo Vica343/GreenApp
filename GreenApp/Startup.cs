@@ -86,12 +86,9 @@ namespace GreenApp
                     };
                 });
 
-            
-            services.AddMvc()
-                .AddJsonOptions(opts =>
-                {
-                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                });
+
+            services.AddMvc();
+                
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)

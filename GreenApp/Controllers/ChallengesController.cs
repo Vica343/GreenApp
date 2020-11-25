@@ -270,8 +270,8 @@ namespace GreenApp.Controllers
         {
             if (!await _greenService.AcceptChallengeSolution(challengeId, userId)) 
             {
-                ModelState.AddModelError("", "A kihívás elfogadása sikertelen, kérem próbálja újra!");
-                return View("CompanyAdmin/Participants");
+                TempData["ErrorMessage"] = "A megoldás elfogadása sikertelen, kérem próbálja újra!";
+                return RedirectToAction("Participants", "Challenges");
             }
 
             TempData["Success"] = "A megoldás sikeresen elfogadva!";
@@ -284,8 +284,8 @@ namespace GreenApp.Controllers
         {
             if (!await _greenService.DeclineChallengeSolution(challengeId, userId))
             {
-                ModelState.AddModelError("", "A kihívás elutasítása sikertelen, kérem próbálja újra!");
-                return View("CompanyAdmin/Participants");
+                TempData["ErrorMessage"] = "A megoldás elutasítása sikertelen, kérem próbálja újra!";
+                return RedirectToAction("Participants", "Challenges");
             }
 
             TempData["Success"] = "A megoldás sikeresen elutasítva!";

@@ -88,6 +88,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
+                            Status = StatusType.Future,
                             Reward = challenge.Reward
                         }));
                 }

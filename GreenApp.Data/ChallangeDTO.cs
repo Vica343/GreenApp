@@ -6,9 +6,10 @@ namespace GreenApp.Data
 {
     public enum StatusType
     {
+        Future,
         Pending,
         Accepted,
-        Declined
+        Declined        
     }
 
     public enum RewardType

@@ -80,14 +80,9 @@ namespace GreenApp.Service
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes((Configuration["Jwt:Key"])))
 
                     };
-                });         
-
-            services.AddMvc()
-                .AddJsonOptions(opts =>
-                {
-                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
+            services.AddMvc();
 
         }
 
