@@ -20,6 +20,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GreenApp.Service
@@ -81,7 +82,11 @@ namespace GreenApp.Service
                     };
                 });         
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
 
         }

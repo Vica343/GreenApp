@@ -372,7 +372,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
-                            Status = challenge.Status,
+                            Status = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
                             Reward = challenge.Reward
                         }));
                 }
@@ -421,7 +421,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
-                            Status = challenge.Status,
+                            Status = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
                             Reward = challenge.Reward
                         }));
                 }
@@ -470,7 +470,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
-                            Status = challenge.Status,
+                            Status = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
                             Reward = challenge.Reward
                         }));
                 }
@@ -511,6 +511,7 @@ namespace GreenApp.Service.Controllers
                             StartDate = challenge.StartDate,
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
+                            Status = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
                             Type = challenge.Type,
                             Reward = challenge.Reward
                         }));
