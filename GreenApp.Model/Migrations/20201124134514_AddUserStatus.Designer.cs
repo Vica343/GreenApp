@@ -4,14 +4,16 @@ using GreenApp.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GreenApp.Model.Migrations
 {
     [DbContext(typeof(GreenAppContext))]
-    partial class GreenAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201124134514_AddUserStatus")]
+    partial class AddUserStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,37 +1,45 @@
 ﻿@using GreenApp.Model
-
 @model IList<Challenge>
 
+<div class="d-flex flex-row-reverse">
+    <div class="p-3">
+        <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddChallenge", "Challenges")'">Hozzáadás</button>
+    </div>
+
+    <div class="p-3">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="p-3">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Típus
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+}
 @if (Model == null || !Model.Any())
 {
-    <div class="contentText">Jelenleg nincs semmilyen kihívás.</div>
+    <div class="contentText">Jelenleg nincs semmilyen kupon.</div>
 }
 else
 {
-    <div class="d-flex flex-row-reverse">
-        <div class="p-3">
-            <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddChallenge", "Challenges")'">Hozzáadás</button>
-        </div>
-
-        <div class="p-3">
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-
-        <div class="p-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Típus
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div>
-    </div>
     <div class="pt-5">
         @for (Int32 i = 0; i < Model.Count; i++)
         {
@@ -90,17 +98,17 @@ else
 @section Scripts
 {
     <script>
-    function confirmDelete(uniqueId, isDeleteClicked) {
-    var deleteSpan = 'deleteSpan_' + uniqueId;
-    var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+        function confirmDelete(uniqueId, isDeleteClicked) {
+            var deleteSpan = 'deleteSpan_' + uniqueId;
+            var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
 
-    if (isDeleteClicked) {
-    $('#' + deleteSpan).hide();
-    $('#' + confirmDeleteSpan).show();
-    } else {
-    $('#' + deleteSpan).show();
-    $('#' + confirmDeleteSpan).hide();
-    }
-    }
+            if (isDeleteClicked) {
+                $('#' + deleteSpan).hide();
+                $('#' + confirmDeleteSpan).show();
+            } else {
+                $('#' + deleteSpan).show();
+                $('#' + confirmDeleteSpan).hide();
+            }
+        }
     </script>
 }

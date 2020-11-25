@@ -46,6 +46,7 @@ namespace GreenApp.Controllers
             return View("Superadmin/Index", challanges);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> OwnCampaigns()
         {
@@ -55,7 +56,15 @@ namespace GreenApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(Int32? challengeId)
+        public async Task<IActionResult> OtherCampaigns()
+        {
+            Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+            var challanges = _greenService.GetOtherChallenges(guest.Id).ToList();
+            return View("CompanyAdmin/OtherChallenges", challanges);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Int32? challengeId)
         {
             var challange = _greenService.GetChallengeById(challengeId);
             var stream = new MemoryStream(challange.Image);
@@ -74,7 +83,8 @@ namespace GreenApp.Controllers
                 ChallengeRewardValue = challange.RewardValue
             };
 
-            var cupons = _greenService.Cupons.ToList();
+            Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+            var cupons = _greenService.GetOwnCupons(guest.Id).ToList();
             var rewards = new SelectList(Enum.GetValues(typeof(RewardType)).Cast<RewardType>().Select(v => new SelectListItem
             {
                 Text = v.ToString(),
@@ -85,7 +95,8 @@ namespace GreenApp.Controllers
                 Text = v.ToString(),
                 Value = ((int)v).ToString()
             }).ToList(), "Value", "Text");
-
+            
+            
             ViewBag.cupons = cupons.ConvertAll(a =>
             {
                 return new SelectListItem()
@@ -100,7 +111,7 @@ namespace GreenApp.Controllers
 
             ViewBag.types = types;
 
-            ViewBag.image = File(challange.Image, "image/png");
+            ViewBag.image = _greenService.GetChallenge(challengeview).Id;
 
             return View("CompanyAdmin/Edit", challengeview);
         }
@@ -119,14 +130,13 @@ namespace GreenApp.Controllers
 
             if (!await _greenService.UpdateChallengeAsync(guest.UserName, challenge, id, inputText))
             {
-                ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
-                return View("CompanyAdmin/AddChallenge");
+                TempData["ErrorMessage"] = "A kihívás módosítása sikertelen, próbáld újra!";
+                return RedirectToAction("Details", "Challenges");
             }
-               
-            var createdchallenge = _greenService.GetChallengeById(id);
-            ViewBag.result = "A kihívás sikeresen módosítva!";
 
-            return View("CompanyAdmin/Details", createdchallenge);
+            TempData["Success"] = "A kihívás sikeresen módosítva!";
+
+            return RedirectToAction("Details", "Challenges");
         }
 
 
@@ -136,17 +146,21 @@ namespace GreenApp.Controllers
         {
             if (!await _greenService.DeleteChallengeAsync(id))
             {
-                ModelState.AddModelError("", "A kihívás törlése sikertelen, kérem próbálja újra!");
-                return View("CompanyAdmin/AddChallenge");
+                TempData["ErrorMessage"] = "A kihívás törlése sikertelen! Ellenőrizd, hogy nincs-e már beküldött megoldás!";
+                return RedirectToAction("OwnCampaigns", "Challenges");
             }
+
+            TempData["Success"] = "A kihívás sikeresen törölve!";
+
 
             return RedirectToAction("OwnCampaigns", "Challenges");
         }
 
         [HttpGet]
-        public IActionResult AddChallenge()
+        public async Task<IActionResult> AddChallenge()
         {
-            var cupons = _greenService.Cupons.ToList();
+            Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+            var cupons = _greenService.GetOwnCupons(guest.Id).ToList();
             var rewards = new SelectList(Enum.GetValues(typeof(RewardType)).Cast<RewardType>().Select(v => new SelectListItem
             {
                 Text = v.ToString(),
@@ -179,6 +193,11 @@ namespace GreenApp.Controllers
         public IActionResult Participants(int challengeid)
         {
             var solutions = _greenService.GetSolutions(challengeid).ToList();
+
+            if (solutions.Count == 0)
+            {
+                ViewBag.Message = "Erre a kihívásra még nem érkezett megoldás.";
+            }
          
             return View("CompanyAdmin/Participants", solutions);
         }
@@ -195,8 +214,8 @@ namespace GreenApp.Controllers
             
             if (!await _greenService.SaveChallengeAsync(guest.UserName, challenge))
             {
-                ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
-                return View("CompanyAdmin/AddChallenge");
+                TempData["ErrorMessage"] = "A kihívás létrehozása sikertelen, kérem próbálja újra!";
+                return RedirectToAction("AddChallenge", "Challenges");
             }
 
             ViewBag.Message = "A kihívást sikeresen rögzítettük!";
@@ -215,15 +234,15 @@ namespace GreenApp.Controllers
 
                         if (!_greenService.UpdateChallange(challenge))
                         {
-                            ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
-                            return View("CompanyAdmin/AddChallenge");
+                            TempData["ErrorMessage"] = "A kihívás létrehozása sikertelen, kérem próbálja újra!";
+                            return RedirectToAction("AddChallenge", "Challenges");
                         }
                        
                     }
                 }
             }
-            var createdchallenge = _greenService.GetChallenge(challenge);
-            ViewBag.result = "A kihívás sikeresen létrehozva!";
+            TempData["Success"] = "A kihívás sikeresen hozzáadva!";
+
             return RedirectToAction("OwnCampaigns", "Challenges");
         }
 
@@ -255,9 +274,9 @@ namespace GreenApp.Controllers
                 return View("CompanyAdmin/Participants");
             }
 
-            var solutions = _greenService.GetSolutions(challengeId).ToList();
-            ViewBag.Message = "A kihívás megoldása elfogadva.";
-            return View("CompanyAdmin/Participants", solutions);
+            TempData["Success"] = "A megoldás sikeresen elfogadva!";
+
+            return RedirectToAction("Participants", "Challenges");
         }
 
         [HttpGet]
@@ -269,9 +288,9 @@ namespace GreenApp.Controllers
                 return View("CompanyAdmin/Participants");
             }
 
-            var solutions = _greenService.GetSolutions(challengeId).ToList();
-            ViewBag.Message = "A kihívás megoldása elutasítva.";
-            return View("CompanyAdmin/Participants", solutions);
+            TempData["Success"] = "A megoldás sikeresen elutasítva!";
+
+            return RedirectToAction("Participants", "Challenges");
         }
 
 

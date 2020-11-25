@@ -2,36 +2,46 @@
 
 @model IList<Cupon>
 
+
+<div class="d-flex flex-row-reverse">
+    <div class="p-3">
+        <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddCupon", "Cupons")'">Hozzáadás</button>
+    </div>
+
+    <div class="p-3">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="p-3">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Típus
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+    </div>
+</div>
+@if (TempData["Success"] != null)
+{
+    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+}
 @if (Model == null || !Model.Any())
 {
-    <div class="contentText">Jelenleg nincs semmilyen kihívás.</div>
+    <div class="contentText">Jelenleg nincs semmilyen kupon.</div>
 }
 else
 {
-    <div class="d-flex flex-row-reverse">
-        <div class="p-3">
-            <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddCupon", "Cupons")'">Hozzáadás</button>
-        </div>
 
-        <div class="p-3">
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-
-        <div class="p-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Típus
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div>
-    </div>
     <div class="pt-5">
         @for (Int32 i = 0; i < Model.Count; i++)
         {
@@ -42,18 +52,30 @@ else
                         <p class="ml-auto mr-3"> @Model[i].StartDate.Year. @Model[i].StartDate.Month. @Model[i].StartDate.Day. - @Model[i].EndDate.Year. @Model[i].EndDate.Month. @Model[i].EndDate.Day. </p>
                     </div>
                     <div class="row">
-                        <p> @Model[i].Value </p>
+                        <p> Kuponkód: @Model[i].Value </p>
                     </div>
                     <div class="row">
                         <img class="img-fluid" src="@Url.Action("CuponImage", "Cupons", new { cuponid = @Model[i].Id })" />
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="row d-flex justify-content-center">
-                        <button class="btn btn-light" onclick="location.href='@Url.Action("Delete", "Cupons")'">Törlés</button>
-                    </div>
                     <div class="row d-flex justify-content-center py-3">
-                        <button class="btn btn-light" onclick="location.href='@Url.Action("Edit", "Cupons")'">Szerkesztés</button>
+                        <button class="btn btn-light" onclick="location.href='@Url.Action("Edit", "Cupons", new { cuponId = @Model[i].Id})'">Szerkesztés</button>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <form method="post" asp-controller="Cupons" asp-action="Delete" asp-route-id="@Model[i].Id">
+
+                            <span id="confirmDeleteSpan_@Model[i].Id" style="display:none">
+                                <span>Biztosan ki akarja törölni?</span>
+                                <button type="submit" class="btn btn-danger">Igen</button>
+                                <a href="#" class="btn btn-primary"
+                                   onclick="confirmDelete('@Model[i].Id', false)">Nem</a>
+                            </span>
+                            <span id="deleteSpan_@Model[i].Id">
+                                <a href="#" class="btn btn-danger"
+                                   onclick="confirmDelete('@Model[i].Id', true)">Törlés</a>
+                            </span>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -61,4 +83,22 @@ else
 
     </div>
 
+}
+
+@section Scripts
+{
+    <script>
+        function confirmDelete(uniqueId, isDeleteClicked) {
+            var deleteSpan = 'deleteSpan_' + uniqueId;
+            var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+
+            if (isDeleteClicked) {
+                $('#' + deleteSpan).hide();
+                $('#' + confirmDeleteSpan).show();
+            } else {
+                $('#' + deleteSpan).show();
+                $('#' + confirmDeleteSpan).hide();
+            }
+        }
+    </script>
 }

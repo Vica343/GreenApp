@@ -53,8 +53,7 @@ namespace GreenApp.Controllers
 			{
 				ModelState.AddModelError("", "Csak admin jelentkezhet be.");
 				return View("Login", user);
-			}
-			
+			}			
 			
 			var result2 = await _signInManager.PasswordSignInAsync(user.UserName, user.UserPassword, user.RememberLogin, false);
 			if (!result2.Succeeded)
@@ -87,7 +86,8 @@ namespace GreenApp.Controllers
 				FirstName = user.GuestFirstName,
 				LastName = user.GuestLastName,
 				Company = user.GuestCompany,
-				PhoneNumber = user.GuestPhoneNumber
+				PhoneNumber = user.GuestPhoneNumber,
+				Status = Data.StatusType.Pending
 			};
 			var result = await _userManager.CreateAsync(guest, user.UserPassword);		
 			if (!result.Succeeded)
@@ -105,8 +105,9 @@ namespace GreenApp.Controllers
 				return View("Register", user);
 			}
 			await _signInManager.SignInAsync(guest, false); 
-			_applicationState.UserCount++; 
-			return RedirectToAction("Index", "Home"); 
+			_applicationState.UserCount++;
+
+			return RedirectToAction("Index", "Home");
 		}
 
 		public async Task<IActionResult> Logout()

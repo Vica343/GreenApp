@@ -179,7 +179,7 @@ namespace GreenApp.Service.Controllers
                     var user = await _userManager.FindByNameAsync(identity.Name);
 
                     var uc = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
-                    if (uc.Status == StatusType.Accepted)
+                    if (uc != null && uc.Status == StatusType.Accepted)
                     {
                         return StatusCode(StatusCodes.Status400BadRequest);
                     }
@@ -372,6 +372,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
+                            Status = challenge.Status,
                             Reward = challenge.Reward
                         }));
                 }
@@ -420,6 +421,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
+                            Status = challenge.Status,
                             Reward = challenge.Reward
                         }));
                 }
@@ -468,6 +470,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
+                            Status = challenge.Status,
                             Reward = challenge.Reward
                         }));
                 }

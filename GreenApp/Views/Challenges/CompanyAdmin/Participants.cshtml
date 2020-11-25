@@ -3,9 +3,9 @@
 
 @model IList<UserChallenge>
 
-@if (Model == null)
+@if (ViewBag.Message != null)
 {
-    <div class="row"><p> Nincs résztvevő erre a kihvásra még. </p></div>
+    <p> @ViewBag.Message </p>
 }
 else
 {

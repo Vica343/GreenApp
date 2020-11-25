@@ -69,6 +69,7 @@ namespace GreenApp.Models
 				LastName = "Kiss",
 				Email = "kissbela@example.com",
 				PhoneNumber = "+36123456789",
+				Status = StatusType.Accepted,
 				Company = "Running Kft."
 			};
 			var User1Password = "Bela1234";
@@ -81,6 +82,7 @@ namespace GreenApp.Models
 				FirstName = "Anna",
 				LastName = "Nagy",
 				Email = "nagyanna@example.com",
+				Status = StatusType.Accepted,
 				PhoneNumber = "+36123456789",
 				Company = "Zöld jövő Zrt."
 			};

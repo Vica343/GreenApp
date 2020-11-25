@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using GreenApp.Data;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,6 +14,8 @@ namespace GreenApp.Model
         public string LastName { get; set; }
 
         public string Company { get; set; }
+
+        public StatusType Status { get; set; }
 
         public virtual IList<UserChallenge> UserChallenges { get; set; }
 

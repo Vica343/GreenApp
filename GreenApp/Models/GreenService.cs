@@ -40,6 +40,16 @@ namespace GreenApp.Models
             return _context.Challenges.Where(c => c.CreatorId == creatorId);
         }
 
+        public IEnumerable<Challenge> GetOtherChallenges(Int32? creatorId)
+        {
+            return _context.Challenges.Where(c => c.CreatorId != creatorId);
+        }
+
+        public IEnumerable<Cupon> GetOwnCupons(Int32? creatorId)
+        {
+            return _context.Cupons.Where(c => c.CreatorId == creatorId);
+        }
+
         public async Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge)
         {
             if (!Validator.TryValidateObject(challenge, new ValidationContext(challenge, null, null), null))
@@ -118,7 +128,8 @@ namespace GreenApp.Models
                 }
                 dbchallenge.Image = bytes;
             }
-            
+
+                    
             dbchallenge.Name = challenge.ChallengeName;
             dbchallenge.Description = challenge.ChallengeDescription;
             dbchallenge.StartDate = challenge.ChallengeStartDate;
@@ -141,9 +152,49 @@ namespace GreenApp.Models
 
         }
 
+        public async Task<Boolean> UpdateCuponAsync(String userName, CuponViewModel cupon, Int32? id)
+        {
+            Guest guest = await _userManager.FindByNameAsync(userName);
+            Cupon dbcupon = await _context.Cupons.Where(c => c.Id == id).FirstOrDefaultAsync();
+
+            dbcupon.Name = cupon.CuponName;
+            dbcupon.Value = cupon.CuponValue;
+            dbcupon.StartDate = cupon.CuponStartDate;
+            dbcupon.EndDate = cupon.CuponEndDate;
+
+            if (cupon.CuponImage != null)
+            {
+                byte[] bytes = null;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await cupon.CuponImage.CopyToAsync(memoryStream);
+                    bytes = memoryStream.ToArray();
+
+                }
+                dbcupon.Image = bytes;
+            }
+
+            try
+            {
+                _context.Cupons.Update(dbcupon);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+
+
+        }
+
         public async Task<Boolean> DeleteChallengeAsync(Int32? id)
         {
             var challenge = await _context.Challenges.Where(c => c.Id == id).FirstOrDefaultAsync();
+            if (challenge.UserChallenges != null)
+            {
+                return false;
+            }
             try
             {
                 _context.Challenges.Remove(challenge);
@@ -155,6 +206,26 @@ namespace GreenApp.Models
             }
             return true;
 
+        }
+
+        public async Task<Boolean> DeleteCuponAsync(Int32? id)
+        {
+            var cupon = await _context.Cupons.Where(c => c.Id == id).FirstOrDefaultAsync();
+            var cuponchallenge = await _context.Challenges.Where(c => c.Reward == RewardType.Cupon).Where(c => c.RewardValue == id).FirstOrDefaultAsync();
+            if (cuponchallenge != null)
+            {
+                return false;
+            }
+            try
+            {
+                _context.Cupons.Remove(cupon);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<Boolean> SaveCuponAsync(String userName, CuponViewModel cupon)
@@ -322,6 +393,27 @@ namespace GreenApp.Models
                 .FirstOrDefault();
             return c;
 
+        }
+
+        public Cupon GetCupon(CuponViewModel cupon)
+        {
+            if (cupon == null)
+                return null;
+            Cupon c = _context.Cupons
+                .Where(ch => ch.Name == cupon.CuponName)
+                .Where(ch => ch.Value == cupon.CuponValue)
+                .Where(ch => ch.StartDate == cupon.CuponStartDate)
+                .Where(ch => ch.EndDate == cupon.CuponEndDate)
+                .FirstOrDefault();
+            return c;
+        }
+
+        public Cupon GetCuponById(Int32? cupon)
+        {
+            Cupon c = _context.Cupons
+                .Where(ch => ch.Id == cupon)
+                .FirstOrDefault();
+            return c;
         }
     }
 }

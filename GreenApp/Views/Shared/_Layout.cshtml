@@ -28,7 +28,14 @@
                         if (ViewBag.menulist[i] == "Saját kampányok")
                         {
                             <button class="btn btn-dark btn-lg" onclick="location.href='@Url.Action("OwnCampaigns", "Challenges")'">@ViewBag.menulist[i]</button>
-
+                        }
+                        else if (ViewBag.menulist[i] == "Egyéb kampányok")
+                        {
+                            <button class="btn btn-dark btn-lg" onclick="location.href='@Url.Action("OtherCampaigns", "Challenges")'">@ViewBag.menulist[i]</button>
+                        }
+                        else if (ViewBag.menulist[i] == "Kuponok")
+                        {
+                            <button class="btn btn-dark btn-lg" onclick="location.href='@Url.Action("Index", "Cupons")'">@ViewBag.menulist[i]</button>
                         }
                         else
                         {

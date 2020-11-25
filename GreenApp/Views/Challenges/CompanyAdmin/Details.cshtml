@@ -9,9 +9,13 @@
 }
 else
 {
-    @if (ViewBag.result != null)
+    @if (TempData["Success"] != null)
     {
-        <div class="h5">@ViewBag.result</div>
+        <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
     }
     <div class="pt-5">
         <div class="row challenges mb-5 shadow-sm pb-2 pt-3">

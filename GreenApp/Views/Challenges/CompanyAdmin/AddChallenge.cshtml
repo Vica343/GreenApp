@@ -3,7 +3,14 @@
 
 @model ChallengeViewModel
 
-
+@if (TempData["Success"] != null)
+{
+    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+}
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -57,35 +64,35 @@
                     <span asp-validation-for="ChallengeRewardValue"></span>
                 </div>
                 <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
-                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>                
+                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>
             </form>
-            </div>
         </div>
+    </div>
 </div>
 
-            @section Scripts
+@section Scripts
 {
-                @* jQuery Validation használata a kliens oldali validációra *@
-                <partial name="_ValidationScriptsPartial" />
+    @* jQuery Validation használata a kliens oldali validációra *@
+    <partial name="_ValidationScriptsPartial" />
 
-                <script>
-                    document.getElementById('money').style.display = 'none';
-                    document.getElementById('cupon').style.display = 'none';
-                    document.getElementById('reward').addEventListener('change', function () {
-                        var style = this.value == 1 ? 'block' : 'none';
-                        document.getElementById('money').style.display = style;
-                        var style2 = this.value == 0 ? 'block' : 'none';
-                        document.getElementById('cupon').style.display = style2;
-                        if (this.value == 1) {
-                            $('input[name$=ChallengeRewardValue]').prop('disabled', false);
-                            $('select[name$=ChallengeRewardValue]').prop('disabled', true);
-                        } else {
-                            $('select[name$=ChallengeRewardValue]').prop('disabled', false);
-                            $('input[name$=ChallengeRewardValue]').prop('disabled', true);
-                        }
-                    });
-                </script>
+    <script>
+        document.getElementById('money').style.display = 'none';
+        document.getElementById('cupon').style.display = 'none';
+        document.getElementById('reward').addEventListener('change', function () {
+            var style = this.value == 1 ? 'block' : 'none';
+            document.getElementById('money').style.display = style;
+            var style2 = this.value == 0 ? 'block' : 'none';
+            document.getElementById('cupon').style.display = style2;
+            if (this.value == 1) {
+                $('input[name$=ChallengeRewardValue]').prop('disabled', false);
+                $('select[name$=ChallengeRewardValue]').prop('disabled', true);
+            } else {
+                $('select[name$=ChallengeRewardValue]').prop('disabled', false);
+                $('input[name$=ChallengeRewardValue]').prop('disabled', true);
             }
+        });
+    </script>
+}
 
 
 
