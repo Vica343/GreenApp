@@ -46,6 +46,6 @@ namespace GreenApp.Models
         public IFormFile ChallengeImage { get; set; }
 
         public byte[] ChallengeQr { get; set; }
-
+        
     }
 }

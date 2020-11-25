@@ -42,6 +42,12 @@ namespace GreenApp.Model
                .HasOne(bc => bc.Cupon)
                .WithMany(b => b.UserCupons)
                .HasForeignKey(bc => bc.CuponId);
+
+            builder.Entity<Guest>()
+                .HasMany(c => c.CreatedChallenges)
+                .WithOne(g => g.Creator)
+                .HasForeignKey(k => k.CreatorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public virtual DbSet<Challenge> Challenges { get; set; }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using GreenApp.Data;
 using GreenApp.Model;
 using GreenApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace GreenApp.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public IActionResult Details(int id)
         {           
@@ -39,14 +41,15 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/Details", challange);            
         }
 
+        [Authorize(Roles = "superAdmin")]
         [HttpGet]
         public IActionResult Index()
         {
-            var challanges = _greenService.Challenges.ToList();
+            var challanges = _greenService.ChallengesWithCreator.ToList();
             return View("Superadmin/Index", challanges);
         }
 
-
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> OwnCampaigns()
         {
@@ -55,6 +58,7 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/Index", challanges);
         }
 
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> OtherCampaigns()
         {
@@ -63,6 +67,7 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/OtherChallenges", challanges);
         }
 
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> Edit(Int32? challengeId)
         {
@@ -116,7 +121,7 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/Edit", challengeview);
         }
 
-
+        [Authorize(Roles = "companyAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ChallengeViewModel challenge, Int32? id)
@@ -139,7 +144,7 @@ namespace GreenApp.Controllers
             return RedirectToAction("Details", "Challenges");
         }
 
-
+        [Authorize(Roles = "companyAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Int32? id)
@@ -156,6 +161,7 @@ namespace GreenApp.Controllers
             return RedirectToAction("OwnCampaigns", "Challenges");
         }
 
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> AddChallenge()
         {
@@ -189,6 +195,7 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/AddChallenge");
         }
 
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public IActionResult Participants(int challengeid)
         {
@@ -202,7 +209,7 @@ namespace GreenApp.Controllers
             return View("CompanyAdmin/Participants", solutions);
         }
 
-
+        [Authorize(Roles = "companyAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Add(ChallengeViewModel challenge)
@@ -246,25 +253,7 @@ namespace GreenApp.Controllers
             return RedirectToAction("OwnCampaigns", "Challenges");
         }
 
-        [HttpGet]
-        public IActionResult QRGenerate(ChallengeViewModel challange, int id)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                string inputText = Request.Scheme + "://" + Request.Host.Value + "/api/Challenges/QR/" + id;
-                QRCodeGenerator oQRCodeGenerator = new QRCodeGenerator();
-                QRCodeData oQRCodeData = oQRCodeGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.Q);
-                QRCode oQRCode = new QRCode(oQRCodeData);
-                using (Bitmap oBitmap = oQRCode.GetGraphic(20))
-                {
-                    oBitmap.Save(ms, ImageFormat.Png);
-                    ViewBag.QrCode = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                }
-            }
-
-            return View("CompanyAdmin/AddChallenge", challange);
-        }
-
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> Accept(Int32? challengeId, Int32? userId)
         {
@@ -279,6 +268,7 @@ namespace GreenApp.Controllers
             return RedirectToAction("Participants", "Challenges");
         }
 
+        [Authorize(Roles = "companyAdmin")]
         [HttpGet]
         public async Task<IActionResult> Decline(Int32? challengeId, Int32? userId)
         {

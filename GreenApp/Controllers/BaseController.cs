@@ -36,7 +36,7 @@ namespace GreenApp.Controllers
                     "Kuponok"
                 };
                 }
-                else if (User.IsInRole("companyAdmin"))
+                else if (User.IsInRole("superAdmin"))
                 {
                     ViewBag.menulist = new List<string>
                 {

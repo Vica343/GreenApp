@@ -60,10 +60,14 @@ namespace GreenApp.Controllers
 			{				
 				ModelState.AddModelError("", "Hibás felhasználónév, vagy jelszó.");
 				return View("Login", user);
-			}	
-			
-			_applicationState.UserCount++; 
-			return RedirectToAction("OwnCampaigns", "Challenges"); 
+			}
+
+			_applicationState.UserCount++;
+			if (userRoles.Contains("companyAdmin"))
+			{
+				return RedirectToAction("OwnCampaigns", "Challenges");
+			}
+			return RedirectToAction("Index", "Challenges");
 		}
 
 		[HttpGet]

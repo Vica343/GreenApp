@@ -13,6 +13,7 @@ namespace GreenApp.Models
         IEnumerable<Challenge> Challenges { get; }
         IEnumerable<Cupon> Cupons { get; }
         IEnumerable<UserChallenge> GetSolutions(Int32? challengeid);
+        IEnumerable<Challenge> ChallengesWithCreator { get; }
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
         Task<Boolean> UpdateChallengeAsync(String userName, ChallengeViewModel challenge, Int32? id, String input);
         Task<Boolean> UpdateCuponAsync(String userName, CuponViewModel cupon, Int32? id);
@@ -20,7 +21,7 @@ namespace GreenApp.Models
         Task<Boolean> DeleteCuponAsync (Int32? id);
         Task<Boolean> SaveCuponAsync(String userName, CuponViewModel cupon);       
         Task<Boolean> AcceptChallengeSolution(Int32? challengeId, Int32? userId);       
-        Task<Boolean> DeclineChallengeSolution(Int32? challengeId, Int32? userId);       
+        Task<Boolean> DeclineChallengeSolution(Int32? challengeId, Int32? userId);  
         Byte[] GetChallangeImage(Int32? challangeId);
         Byte[] GetChallangeSolutionImage(Int32? challengeId, Int32? userId);
         Byte[] GetQRImage(Int32? challangeId);
@@ -34,5 +35,6 @@ namespace GreenApp.Models
         IEnumerable<Challenge> GetOtherChallenges(Int32? creatorId);
         IEnumerable<Cupon> GetOwnCupons(Int32? creatorId);
         Boolean UpdateChallange(ChallengeViewModel challenge);
+        
     }
 }

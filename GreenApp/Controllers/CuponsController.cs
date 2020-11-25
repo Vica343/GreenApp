@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreenApp.Model;
 using GreenApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenApp.Controllers
 {
+    [Authorize(Roles = "companyAdmin")]
     public class CuponsController : BaseController
     {
         private readonly UserManager<Guest> _userManager;
@@ -99,7 +101,7 @@ namespace GreenApp.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken] // védelem XSRF támadás ellen
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Add(CuponViewModel cupon)
         {
             if (cupon == null)

@@ -17,6 +17,8 @@ namespace GreenApp.Model
 
         public StatusType Status { get; set; }
 
+        public virtual ICollection<Challenge> CreatedChallenges { get; set; }
+
         public virtual IList<UserChallenge> UserChallenges { get; set; }
 
         public virtual IList<UserCupon> UserCupons { get; set; }

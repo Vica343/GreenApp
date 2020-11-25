@@ -23,16 +23,16 @@ namespace GreenApp.Models
 			_userManager = serviceProvider.GetRequiredService<UserManager<Guest>>();
 			_roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
-			_context.Database.Migrate();
-
-			if (!_context.Challenges.Any())
-			{
-				SeedChallenges();
-			}
+			_context.Database.Migrate();		
 
 			if (!_context.Users.Any())
 			{
 				SeedUsers();
+			}
+
+			if (!_context.Challenges.Any())
+			{
+				SeedChallenges();
 			}
 
 			if (!_context.Cupons.Any())

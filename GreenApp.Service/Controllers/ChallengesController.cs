@@ -531,6 +531,7 @@ namespace GreenApp.Service.Controllers
                         .ToList()
                         .Where(c => c.Name.ToLower().Contains(search.Trim().ToLower()) || c.Description.ToLower().Contains(search.Trim().ToLower()));
 
+                    
                     return Ok(challenges
                         .ToList()
                         .Select(challenge => new ChallangeDTO
@@ -541,7 +542,7 @@ namespace GreenApp.Service.Controllers
                             StartDate = challenge.StartDate,
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
-                            Status = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
+                            Status = (_context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault() == null) ? 0 : _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
                             Type = challenge.Type,
                             Reward = challenge.Reward
                         }));

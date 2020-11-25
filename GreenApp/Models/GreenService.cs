@@ -28,6 +28,7 @@ namespace GreenApp.Models
             _userManager = userManager;
         }
         public IEnumerable<Challenge> Challenges => _context.Challenges;
+        public IEnumerable<Challenge> ChallengesWithCreator => _context.Challenges.Include(u => u.Creator);
         public IEnumerable<Cupon> Cupons => _context.Cupons;
       
         public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
@@ -415,5 +416,6 @@ namespace GreenApp.Models
                 .FirstOrDefault();
             return c;
         }
+       
     }
 }
