@@ -64,6 +64,7 @@ namespace GreenApp.Controllers
 
             return RedirectToAction("Index", "Challenges");
         }
+        
 
         [Authorize(Roles = "superAdmin")]
         [HttpPost]

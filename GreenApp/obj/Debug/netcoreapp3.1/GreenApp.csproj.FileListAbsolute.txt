@@ -221,3 +221,5 @@ C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debu
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\GreenApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Challenges\CompanyAdmin\OtherChallenges.cshtml.g.cs
 C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Cupons\Edit.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\CompanyAdmins.cshtml.g.cs
+C:\Users\Eva\Documents\Egyetem\szoftverarchitektúrák\website\GreenApp\obj\Debug\netcoreapp3.1\Razor\Views\Account\Result.cshtml.g.cs

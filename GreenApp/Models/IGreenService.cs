@@ -14,12 +14,15 @@ namespace GreenApp.Models
         IEnumerable<Cupon> Cupons { get; }
         IEnumerable<UserChallenge> GetSolutions(Int32? challengeid);
         IEnumerable<Challenge> ChallengesWithCreator { get; }
+        Task<IEnumerable<Guest>> CompanyAdminsAsync();
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
         Task<Boolean> UpdateChallengeAsync(String userName, ChallengeViewModel challenge, Int32? id, String input);
         Task<Boolean> UpdateCuponAsync(String userName, CuponViewModel cupon, Int32? id);
         Task<Boolean> DeleteChallengeAsync (Int32? id);
         Task<Boolean> DisableChallengeAsync (Int32? id);
         Task<Boolean> EnableChallengeAsync (Int32? id);
+        Task<Boolean> EnableUserAsync (Int32? id);
+        Task<Boolean> DisableUserAsync (Int32? id);
         Task<Boolean> DeleteCuponAsync (Int32? id);
         Task<Boolean> SaveCuponAsync(String userName, CuponViewModel cupon);       
         Task<Boolean> AcceptChallengeSolution(Int32? challengeId, Int32? userId);       

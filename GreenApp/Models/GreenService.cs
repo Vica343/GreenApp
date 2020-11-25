@@ -31,6 +31,11 @@ namespace GreenApp.Models
         public IEnumerable<Challenge> ChallengesWithCreator => _context.Challenges.Include(u => u.Creator);
         public IEnumerable<Cupon> Cupons => _context.Cupons;
 
+        public async Task<IEnumerable<Guest>> CompanyAdminsAsync()
+        {
+           return await _userManager.GetUsersInRoleAsync("companyAdmin");
+        }
+
         public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
         {
             return _context.UserChallenges.Where(u => u.ChallengeId == challengeid).Include(i => i.User).Include(c => c.Challenge).OrderBy(u => u.Status);
@@ -236,6 +241,38 @@ namespace GreenApp.Models
             {
                 _context.Challenges.Update(challenge);
                 _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<Boolean> EnableUserAsync(Int32? id)
+        {
+            var user = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            user.Status = StatusType.Accepted;
+
+            try
+            {
+                await _userManager.UpdateAsync(user);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<Boolean> DisableUserAsync(Int32? id)
+        {
+            var user = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            user.Status = StatusType.Declined;
+
+            try
+            {
+                await _userManager.UpdateAsync(user);             
             }
             catch (Exception)
             {
