@@ -114,44 +114,73 @@ namespace GreenApp.Service.Controllers
         }
 
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id}")]
-        public IActionResult GetChallenge(Int32 id)
+        public async Task<IActionResult> GetChallenge(Int32 id)
         {
             try
             {
-                var challenge = _context.Challenges
-                    .Single(c => c.Id == id);
-                byte[] cupon = null;
-                Int32 money = -1;
-                if (challenge.Reward == RewardType.Cupon)
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity != null)
                 {
-                   cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Image;
-                }
-                else
-                {
-                    money = challenge.RewardValue;
-                }
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var user = await _userManager.FindByNameAsync(identity.Name);
 
-                return Ok(new ChallangeDTO
+                    var userchallenge = _context.UserChallenges
+                       .ToList()
+                       .Where(c => c.User == user)
+                       .Where(c => c.ChallengeId == id)
+                       .FirstOrDefault();
+
+                    StatusType status;
+                    var challenge = _context.Challenges.Where(c => c.Id == id).FirstOrDefault();
+                    if (userchallenge == null)
+                    {
+                        status = StatusType.Future;
+                    } else
+                    {
+                        status = userchallenge.Status;
+                    }
+
+
+                    byte[] cupon = null;
+                    Int32 money = -1;
+                    if (challenge.Reward == RewardType.Cupon)
+                    {
+                        cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Image;
+                    }
+                    else
+                    {
+                        money = challenge.RewardValue;
+                    } 
+
+                        return Ok(new ChallangeDTO
+                        {
+                            Id = challenge.Id,
+                            Name = challenge.Name,
+                            Description = challenge.Description,
+                            StartDate = challenge.StartDate,
+                            EndDate = challenge.EndDate,
+                            Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
+                            Type = challenge.Type,
+                            Reward = challenge.Reward,
+                            CuponReward = cupon,
+                            MoneyReward = money,
+                            Status = status,
+                            Image = challenge.Image
+                        });
+                } else
                 {
-                    Id = challenge.Id,
-                    Name = challenge.Name,
-                    Description = challenge.Description,
-                    StartDate = challenge.StartDate,
-                    EndDate = challenge.EndDate,
-                    Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
-                    Type = challenge.Type,
-                    Reward = challenge.Reward,
-                    CuponReward = cupon,
-                    MoneyReward = money,
-                    Image = challenge.Image
-                });
+                    return StatusCode(StatusCodes.Status401Unauthorized);
+                }
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
+        
+       
+    }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("Image/{id}")]
