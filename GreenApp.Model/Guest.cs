@@ -16,6 +16,7 @@ namespace GreenApp.Model
         public string Company { get; set; }
 
         public StatusType Status { get; set; }
+        public int CollectedMoney { get; set; }
 
         public virtual ICollection<Challenge> CreatedChallenges { get; set; }
 

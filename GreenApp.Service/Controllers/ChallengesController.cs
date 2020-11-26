@@ -271,6 +271,11 @@ namespace GreenApp.Service.Controllers
                                 _context.Cupons.Update(cupon);
                             }                            
                         }
+                        else
+                        {
+                            user.CollectedMoney += challenge.RewardValue;
+                            await _userManager.UpdateAsync(user);
+                        }
                     }
                     else
                     {
@@ -357,6 +362,11 @@ namespace GreenApp.Service.Controllers
                             }
                             _context.Cupons.Update(cupon);
                         }
+                    }
+                    else
+                    {
+                        user.CollectedMoney += challenge.RewardValue;
+                        await _userManager.UpdateAsync(user);
                     }
                     _context.Challenges.Update(challenge);
                     _context.SaveChanges();
