@@ -12,7 +12,8 @@ namespace GreenApp.Models
     {
         IEnumerable<Challenge> Challenges { get; }
         IEnumerable<Cupon> Cupons { get; }
-        IEnumerable<UserChallenge> GetSolutions(Int32? challengeid);
+        IEnumerable<Nonprofit> Nonprofits { get; }
+        IEnumerable<UserChallenge> GetSolutions(Int32? challengeid);     
         IEnumerable<Challenge> ChallengesWithCreator { get; }
         Task<IEnumerable<Guest>> CompanyAdminsAsync();
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
@@ -26,11 +27,16 @@ namespace GreenApp.Models
         Task<Boolean> DeleteCuponAsync (Int32? id);
         Task<Boolean> SaveCuponAsync(String userName, CuponViewModel cupon);       
         Task<Boolean> AcceptChallengeSolution(Int32? challengeId, Int32? userId);       
-        Task<Boolean> DeclineChallengeSolution(Int32? challengeId, Int32? userId);  
+        Task<Boolean> DeclineChallengeSolution(Int32? challengeId, Int32? userId);
+        Task<Boolean> SaveNonprofitAsync(NonprofitViewModel nonprofit);
+        Task<Boolean> DeleteNonprofitAsync(Int32? id);
+        Task<Boolean> DisableNonprofitAsync(Int32? id);
+        Task<Boolean> EnableNonprofitAsync(Int32? id);
         Byte[] GetChallangeImage(Int32? challangeId);
         Byte[] GetChallangeSolutionImage(Int32? challengeId, Int32? userId);
         Byte[] GetQRImage(Int32? challangeId);
         Byte[] GetCuponImage(Int32? cuponId);
+        Byte[] GetNonprofitImage(Int32? id);
         Task<byte[]> SaveQRAsync(Int32? id);
         Challenge GetChallenge(ChallengeViewModel challenge);
         Challenge GetChallengeById(Int32? challenge);

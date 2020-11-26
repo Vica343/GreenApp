@@ -39,6 +39,11 @@ namespace GreenApp.Models
 			{
 				SeedCupons();
 			}
+
+			if (!_context.Nonprofits.Any())
+			{
+				SeedNonprofit();
+			}
 		}
 		private static void SeedUsers()
 		{
@@ -153,6 +158,30 @@ namespace GreenApp.Models
 			foreach (Cupon c in cupons)
 			{
 				_context.Cupons.Add(c);
+			}
+
+			_context.SaveChanges();
+		}
+
+		private static void SeedNonprofit()
+		{
+			var image1 = File.ReadAllBytes("Images/nonprofit1.jpg");
+
+			var nonprofits = new Nonprofit[]
+			{
+				new Nonprofit
+				{
+					Name = "Seals Kft.",
+					Image = image1,
+					Disabled = false,
+					CollectedMoney = 0
+
+				}
+			};
+
+			foreach (Nonprofit n in nonprofits)
+			{
+				_context.Nonprofits.Add(n);
 			}
 
 			_context.SaveChanges();

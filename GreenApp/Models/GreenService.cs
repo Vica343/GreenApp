@@ -30,6 +30,7 @@ namespace GreenApp.Models
         public IEnumerable<Challenge> Challenges => _context.Challenges;
         public IEnumerable<Challenge> ChallengesWithCreator => _context.Challenges.Include(u => u.Creator);
         public IEnumerable<Cupon> Cupons => _context.Cupons;
+        public IEnumerable<Nonprofit> Nonprofits => _context.Nonprofits;
 
         public async Task<IEnumerable<Guest>> CompanyAdminsAsync()
         {
@@ -214,6 +215,56 @@ namespace GreenApp.Models
 
         }
 
+        public async Task<Boolean> DeleteNonprofitAsync(Int32? id)
+        {
+            var nonprofit = await _context.Nonprofits.Where(c => c.Id == id).FirstOrDefaultAsync();
+           
+            try
+            {
+                _context.Nonprofits.Remove(nonprofit);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<Boolean> DisableNonprofitAsync(Int32? id)
+        {
+            Nonprofit nonprofit = await _context.Nonprofits.Where(c => c.Id == id).FirstOrDefaultAsync();
+            nonprofit.Disabled = true;
+
+            try
+            {
+                _context.Nonprofits.Update(nonprofit);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<Boolean> EnableNonprofitAsync(Int32? id)
+        {
+            Nonprofit nonprofit = await _context.Nonprofits.Where(c => c.Id == id).FirstOrDefaultAsync();
+            nonprofit.Disabled = false;
+
+            try
+            {
+                _context.Nonprofits.Update(nonprofit);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<Boolean> DisableChallengeAsync(Int32? id)
         {
             Challenge challenge = await _context.Challenges.Where(c => c.Id == id).FirstOrDefaultAsync();
@@ -336,6 +387,37 @@ namespace GreenApp.Models
             return true;
         }
 
+        public async Task<Boolean> SaveNonprofitAsync(NonprofitViewModel nonprofit)
+        {
+            if (!Validator.TryValidateObject(nonprofit, new ValidationContext(nonprofit, null, null), null))
+                return false;
+
+            byte[] bytes = null;
+            using (var memoryStream = new MemoryStream())
+            {
+                await nonprofit.NonprofitImage.CopyToAsync(memoryStream);
+                bytes = memoryStream.ToArray();
+            }
+
+            _context.Nonprofits.Add(new Nonprofit
+            {
+                Name = nonprofit.NonprofitName,
+                Disabled = false,
+                CollectedMoney = 0,
+                Image = bytes
+            });
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<Boolean> AcceptChallengeSolution(Int32? challengeId, Int32? userId)
         {
             UserChallenge c = await _context.UserChallenges
@@ -440,6 +522,17 @@ namespace GreenApp.Models
 
             Cupon c = _context.Cupons
                 .Where(image => image.Id == cuponId)
+                .FirstOrDefault();
+            return c.Image;
+        }
+
+        public Byte[] GetNonprofitImage(Int32? id)
+        {
+            if (id == null)
+                return null;
+
+            Nonprofit c = _context.Nonprofits
+                .Where(image => image.Id == id)
                 .FirstOrDefault();
             return c.Image;
         }
