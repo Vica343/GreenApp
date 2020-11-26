@@ -204,6 +204,18 @@ namespace GreenApp.Service.Controllers
             return StatusCode(StatusCodes.Status401Unauthorized);
         }
 
+        [HttpGet("Image/{id}")]
+        public IActionResult GetImageCupon(Int32 id)
+        {
+            var cupon = _context.Cupons.FirstOrDefault(c => c.Id == id);
+            var image = cupon.Image;
+
+            if (image == null)
+                return NotFound();
+
+            return File(image, "image/jpeg");
+        }
+
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("notValid")]

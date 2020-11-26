@@ -54,6 +54,19 @@ namespace GreenApp.Service.Controllers
             }
         }
 
+        [HttpGet("Image/{id}")]
+        public IActionResult GetImageNonProfit(Int32 id)
+        {
+            var nonprofit = _context.Nonprofits.FirstOrDefault(c => c.Id == id);
+            var image = nonprofit.Image;
+
+            if (image == null)
+                return NotFound();
+
+            return File(image, "image/jpeg");
+        }
+
+
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("OwnMoney")]

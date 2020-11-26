@@ -420,6 +420,10 @@ namespace GreenApp.Models
 
         public async Task<Boolean> AcceptChallengeSolution(Int32? challengeId, Int32? userId)
         {
+            var challenge = _context.Challenges.Where(u => u.Id == challengeId).FirstOrDefault();
+            var user = _userManager.Users.Where(u => u.Id == userId).FirstOrDefault();
+            user.CollectedMoney += challenge.RewardValue;           
+            
             UserChallenge c = await _context.UserChallenges
                 .Where(i => i.ChallengeId == challengeId)
                 .Where(i => i.UserId == userId)
@@ -427,6 +431,7 @@ namespace GreenApp.Models
             c.Status = StatusType.Accepted;
             try
             {
+                await _userManager.UpdateAsync(user);
                 _context.UserChallenges.Update(c);
                 _context.SaveChanges();
             }
