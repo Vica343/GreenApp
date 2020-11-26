@@ -145,11 +145,11 @@ namespace GreenApp.Service.Controllers
                     }
 
 
-                    byte[] cupon = null;
+                    String cupon = "";
                     Int32 money = -1;
                     if (challenge.Reward == RewardType.Cupon)
                     {
-                        cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Image;
+                        cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Name;
                     }
                     else
                     {
