@@ -4,14 +4,16 @@ using GreenApp.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GreenApp.Model.Migrations
 {
     [DbContext(typeof(GreenAppContext))]
-    partial class GreenAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201125180739_RemoveChallengeStatus")]
+    partial class RemoveChallengeStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,9 +108,6 @@ namespace GreenApp.Model.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("CollectedMoney")
-                        .HasColumnType("int");
-
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
 
@@ -176,30 +175,6 @@ namespace GreenApp.Model.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Guests");
-                });
-
-            modelBuilder.Entity("GreenApp.Model.Nonprofit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CollectedMoney")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Disabled")
-                        .HasColumnType("bit");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Nonprofits");
                 });
 
             modelBuilder.Entity("GreenApp.Model.UserChallenge", b =>

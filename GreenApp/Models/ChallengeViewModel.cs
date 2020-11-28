@@ -19,10 +19,10 @@ namespace GreenApp.Models
         [Required(ErrorMessage = "A leírás megadása kötelező.")]
         [StringLength(200, ErrorMessage = "A leírás maximum 200 karakter lehet.")]
         public String ChallengeDescription { get; set; }
-
-
-        [Required(ErrorMessage = "A kezdődátum megadása kötelező.")]
+        
         [DataType(DataType.Date)]
+        [FromNow]
+        [Required(ErrorMessage = "A kezdődátum megadása kötelező.")]
         public DateTime ChallengeStartDate { get; set; }
 
         [Required(ErrorMessage = "A végső dátum megadása kötelező.")]

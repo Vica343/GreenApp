@@ -3,6 +3,7 @@
 
 @model IList<UserChallenge>
 
+
 @if (TempData["Success"] != null)
 {
     <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
@@ -11,8 +12,28 @@
 {
     <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
 }
+@if (TempData["Info"] != null)
+{
+    <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
+}
 @for (Int32 i = 0; i < Model.Count; i++)
 {
+    <div class="d-flex flex-row-reverse">
+        <div class="p-3">
+            @if (ViewBag.radio == null)
+            {
+                <form method="post" asp-controller="Challenges" asp-action="ListPending" asp-route-id="@Model[i].ChallengeId">
+                    <p>Függőben lévők listázása</p><input type="checkbox">
+                </form>
+            }
+            else
+            {
+                <form method="post" asp - controller="Challenges" asp-action="GetParticipants" asp-route-challengeid="@Model[i].ChallengeId">
+                    <p>Függőben lévők listázása</p><input type="checkbox" checked>
+                </form>
+            }
+        </div>
+    </div>
     <div class="pt-5">
         <div class="row challenges mb-5 shadow-sm pb-2 pt-3">
             <div class="col-md-6">
@@ -33,14 +54,6 @@
                         </div>
                     </div>
                 }
-
-                @if (ViewBag.Message != null)
-                {
-                    <div class="row">
-                        <p> @ViewBag.Message </p>
-                    </div>
-
-                }
             </div>
 
             @if (Model[i].Image != null)
@@ -55,4 +68,15 @@
     </div>
 
 
+}
+
+
+
+@section Scripts
+{
+    <script>        
+        $('input[type=checkbox]').change(function () {
+                $("form").submit();
+        });
+    </script>
 }

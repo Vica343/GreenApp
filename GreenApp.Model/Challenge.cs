@@ -17,7 +17,7 @@ namespace GreenApp.Model
         public ChallengeType Type { get; set; }
         public RewardType Reward { get; set; }
         public int RewardValue { get; set; }
-        public StatusType Status { get; set; }
+        public bool Disabled { get; set; }
         public byte[] Image { get; set; }
         public byte[] QRCode { get; set; }
         public virtual IList<UserChallenge> UserChallenges { get; set; }

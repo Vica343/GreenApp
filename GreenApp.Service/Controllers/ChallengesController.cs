@@ -65,17 +65,18 @@ namespace GreenApp.Service.Controllers
             {
                 try
                 {
-
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
-                    var userchallenges = _context.UserChallenges
+                    var userchallenge = _context.UserChallenges
                      .ToList()
-                     .Where(c => c.User == user)
-                     .Select(c => c.ChallengeId);
+                     .Where(c => c.User == user);
+                    var userchallengeid = userchallenge.Select(s => s.ChallengeId);
+                    var userchallengestatus = userchallenge.Select(s => s.Status);
 
                     var challenges = _context.Challenges
                         .ToList()
-                        .Where(c => !(userchallenges.Contains(c.Id)) || c.Status == StatusType.Declined);
+                        .Where(c => !(userchallengeid.Contains(c.Id)) || userchallengestatus.Contains(StatusType.Declined))
+                        .Where(c => c.Disabled == false);
 
                     return Ok(challenges
                         .ToList()
@@ -88,7 +89,7 @@ namespace GreenApp.Service.Controllers
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
                             Type = challenge.Type,
-                            Status = StatusType.Future,
+                            Status = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.User == user).FirstOrDefault() == null ? StatusType.Future : _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.User == user).FirstOrDefault().Status,
                             Reward = challenge.Reward
                         }));
                 }
@@ -143,11 +144,11 @@ namespace GreenApp.Service.Controllers
                     }
 
 
-                    byte[] cupon = null;
+                    String cupon = "";
                     Int32 money = -1;
                     if (challenge.Reward == RewardType.Cupon)
                     {
-                        cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Image;
+                        cupon = _context.Cupons.Where(c => c.Id == challenge.RewardValue).FirstOrDefault().Name;
                     }
                     else
                     {
@@ -203,16 +204,25 @@ namespace GreenApp.Service.Controllers
                 {
                     Challenge challenge = _context.Challenges
                        .Where(ch => ch.Id == id)
-                       .FirstOrDefault();
-
+                       .FirstOrDefault();                                       
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
+
+                    if (challenge.StartDate > DateTime.Now)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                    }
+                    else if (challenge.EndDate < DateTime.Now)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                    }
 
                     var uc = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
                     if (uc != null && uc.Status == StatusType.Accepted)
                     {
                         return StatusCode(StatusCodes.Status400BadRequest);
                     }
+
                     if (uc == null)
                     {
                         if (challenge.UserChallenges == null)
@@ -268,7 +278,7 @@ namespace GreenApp.Service.Controllers
                                 }
                                 _context.Cupons.Update(cupon);
                             }                            
-                        }
+                        }                        
                     }
                     else
                     {
@@ -297,6 +307,16 @@ namespace GreenApp.Service.Controllers
         {
             var challenge = _context.Challenges
                 .Single(c => c.Id == id);
+            if (challenge.StartDate > DateTime.Now)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            else if (challenge.EndDate < DateTime.Now)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
@@ -356,6 +376,11 @@ namespace GreenApp.Service.Controllers
                             _context.Cupons.Update(cupon);
                         }
                     }
+                    else
+                    {
+                        user.CollectedMoney += challenge.RewardValue;
+                        await _userManager.UpdateAsync(user);
+                    }
                     _context.Challenges.Update(challenge);
                     _context.SaveChanges();
 
@@ -389,7 +414,8 @@ namespace GreenApp.Service.Controllers
 
                     var challenges = _context.Challenges
                         .ToList()
-                        .Where(c => userchallenges.Contains(c.Id));
+                        .Where(c => userchallenges.Contains(c.Id))
+                        .Where(c => c.Disabled == false);
 
                     return Ok(challenges
                         .ToList()
@@ -438,7 +464,8 @@ namespace GreenApp.Service.Controllers
 
                     var challenges = _context.Challenges
                         .ToList()
-                        .Where(c => userchallenges.Contains(c.Id));
+                        .Where(c => userchallenges.Contains(c.Id))
+                        .Where(c => c.Disabled == false); 
 
                     return Ok(challenges
                         .ToList()
@@ -487,7 +514,8 @@ namespace GreenApp.Service.Controllers
 
                     var challenges = _context.Challenges
                         .ToList()
-                        .Where(c => userchallenges.Contains(c.Id));
+                        .Where(c => userchallenges.Contains(c.Id))
+                        .Where(c => c.Disabled == false);
 
                     return Ok(challenges
                         .ToList()
@@ -529,9 +557,10 @@ namespace GreenApp.Service.Controllers
 
                     var challenges = _context.Challenges
                         .ToList()
-                        .Where(c => c.Name.ToLower().Contains(search.Trim().ToLower()) || c.Description.ToLower().Contains(search.Trim().ToLower()));
+                        .Where(c => c.Name.ToLower().Contains(search.Trim().ToLower()) || c.Description.ToLower().Contains(search.Trim().ToLower()))
+                        .Where(c => c.Disabled == false);
 
-                    
+
                     return Ok(challenges
                         .ToList()
                         .Select(challenge => new ChallangeDTO
@@ -542,7 +571,7 @@ namespace GreenApp.Service.Controllers
                             StartDate = challenge.StartDate,
                             EndDate = challenge.EndDate,
                             Company = _context.Users.Where(u => u.Id == challenge.CreatorId).Select(u => u.Company).FirstOrDefault(),
-                            Status = (_context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault() == null) ? 0 : _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
+                            Status = (_context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.User == user).FirstOrDefault() == null) ? 0 : _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).FirstOrDefault().Status,
                             Type = challenge.Type,
                             Reward = challenge.Reward
                         }));

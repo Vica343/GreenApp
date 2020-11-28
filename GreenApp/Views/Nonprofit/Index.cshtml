@@ -1,15 +1,15 @@
 ﻿@using GreenApp.Model
 
-@model IList<Cupon>
+@model IList<Nonprofit>
 
 
 <div class="d-flex flex-row-reverse">
     <div class="p-3">
-        <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddCupon", "Cupons")'">Hozzáadás</button>
+        <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddNonprofit", "Nonprofit")'">Hozzáadás</button>
     </div>
 
     <div class="p-3">
-        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Cupons" asp-action="Search">
+        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Nonprofit" asp-action="Search">
             <input class="form-control" type="search" name="SearchString" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -29,7 +29,6 @@
 }
 else
 {
-
     <div class="pt-5">
         @for (Int32 i = 0; i < Model.Count; i++)
         {
@@ -37,21 +36,29 @@ else
                 <div class="col-md-9">
                     <div class="row">
                         <h3> @Model[i].Name </h3>
-                        <p class="ml-auto mr-3"> @Model[i].StartDate.Year. @Model[i].StartDate.Month. @Model[i].StartDate.Day. - @Model[i].EndDate.Year. @Model[i].EndDate.Month. @Model[i].EndDate.Day. </p>
+                        <p class="ml-auto mr-3"> Összegyűjtött pénz: @Model[i].CollectedMoney </p>
                     </div>
                     <div class="row">
-                        <p> Kuponkód: @Model[i].Value </p>
-                    </div>
-                    <div class="row">
-                        <img class="img-fluid" src="@Url.Action("CuponImage", "Cupons", new { cuponid = @Model[i].Id })" />
+                        <img class="img-fluid" src="@Url.Action("NonprofitImage", "Nonprofit", new { id = @Model[i].Id })" />
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="row d-flex justify-content-center py-3">
-                        <button class="btn btn-light" onclick="location.href='@Url.Action("Edit", "Cupons", new { cuponId = @Model[i].Id})'">Szerkesztés</button>
+                        @if (Model[i].Disabled)
+                        {
+                            <form method="post" asp-controller="Nonprofit" asp-action="Enable" asp-route-id="@Model[i].Id">
+                                <button type="submit" class="btn btn-success">Engedélyezés</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post" asp-controller="Nonprofit" asp-action="Disable" asp-route-id="@Model[i].Id">
+                                <button type="submit" class="btn btn-danger">Letiltás</button>
+                            </form>
+                        }
                     </div>
                     <div class="row d-flex justify-content-center">
-                        <form method="post" asp-controller="Cupons" asp-action="Delete" asp-route-id="@Model[i].Id">
+                        <form method="post" asp-controller="Nonprofit" asp-action="Delete" asp-route-id="@Model[i].Id">
 
                             <span id="confirmDeleteSpan_@Model[i].Id" style="display:none">
                                 <span>Biztosan ki akarja törölni?</span>

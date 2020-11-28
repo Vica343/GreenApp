@@ -1,0 +1,12 @@
+﻿@if (TempData["Success"] != null)
+{
+    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+}
+@if (TempData["Info"] != null)
+{
+    <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
+}

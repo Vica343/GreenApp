@@ -102,8 +102,8 @@ namespace GreenApp.Service.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-  
+        }        
+
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]GuestDTO guestDTO)
@@ -113,7 +113,8 @@ namespace GreenApp.Service.Controllers
                 UserName = guestDTO.Username,
                 Email = guestDTO.Email,                
                 FirstName = guestDTO.FirstName,
-                LastName = guestDTO.LastName,                
+                LastName = guestDTO.LastName,
+                CollectedMoney = 0
             };           
             try
             {
@@ -197,7 +198,8 @@ namespace GreenApp.Service.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Email = user.Email,
-                        Username = user.UserName
+                        Username = user.UserName,
+                        CollectedMoney = user.CollectedMoney
                     });
 
                 }

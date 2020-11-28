@@ -1,0 +1,37 @@
+﻿@using GreenApp.Model;
+@using GreenApp.Data;
+
+@model NonprofitViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-controller="Nonprofit" asp-action="Add" method="post" enctype="multipart/form-data">
+                <div class="contentHead py-3">
+                    <h1>A nonprofit adatai: </h1>
+                </div>
+                <div class="form-group">
+                    <h5>A nonprofit neve:</h5>
+                    <input class="form-control" asp-for="NonprofitName" />
+                    <span asp-validation-for="NonprofitName"></span>
+                </div>  
+                <div class="form-group">
+                    <h5>Kép feltöltése:</h5>
+                    <input type="file" name="NonprofitImage" id="NonprofitImage" multiple required />
+                </div>
+                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+                <button type="submit" class="btn btn-primary btn-lg">Beküldés</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @* jQuery Validation használata a kliens oldali validációra *@
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+

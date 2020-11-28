@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GreenApp.Model;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,8 +18,10 @@ namespace GreenApp.Models
         [StringLength(15, ErrorMessage = "A kupon maximum 15 karakter lehet.")]
         public String CuponValue { get; set; }
 
-        [Required(ErrorMessage = "A kezdődátum megadása kötelező.")]
+
         [DataType(DataType.Date)]
+        [FromNow]
+        [Required(ErrorMessage = "A kezdődátum megadása kötelező.")]
         public DateTime CuponStartDate { get; set; }
 
         [Required(ErrorMessage = "A végső dátum megadása kötelező.")]

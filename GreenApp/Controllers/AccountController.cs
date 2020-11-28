@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GreenApp.Model;
 using GreenApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,6 +49,18 @@ namespace GreenApp.Controllers
 				ModelState.AddModelError("", "Hibás felhasználónév, vagy jelszó.");
 				return View("Login", user);
 			}
+
+			if (result1.Status == Data.StatusType.Declined)
+			{
+				TempData["ErrorMessage"] = "Ez a fiók le lett tiltva.";
+				return View("Result");
+			} 
+			else if (result1.Status == Data.StatusType.Pending)
+			{
+				TempData["Info"] = "Ez a fiók még jóváhagyásra vár.";
+				return View("Result");
+			}
+
 			var userRoles = await _userManager.GetRolesAsync(result1);
 			if (!userRoles.Contains("companyAdmin") && !userRoles.Contains("superAdmin"))
 			{
@@ -75,7 +88,7 @@ namespace GreenApp.Controllers
 		{
 			return View("Register");
 		}
-	
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Register(RegistrationViewModel user)
@@ -93,7 +106,7 @@ namespace GreenApp.Controllers
 				PhoneNumber = user.GuestPhoneNumber,
 				Status = Data.StatusType.Pending
 			};
-			var result = await _userManager.CreateAsync(guest, user.UserPassword);		
+			var result = await _userManager.CreateAsync(guest, user.UserPassword);
 			if (!result.Succeeded)
 			{
 				foreach (var error in result.Errors)
@@ -108,10 +121,9 @@ namespace GreenApp.Controllers
 					ModelState.AddModelError("", error.Description);
 				return View("Register", user);
 			}
-			await _signInManager.SignInAsync(guest, false); 
-			_applicationState.UserCount++;
 
-			return RedirectToAction("Index", "Home");
+			TempData["Info"] = "Ez a fiók még jóváhagyásra vár.";
+			return View("Result");
 		}
 
 		public async Task<IActionResult> Logout()
@@ -121,5 +133,105 @@ namespace GreenApp.Controllers
 			_applicationState.UserCount--;
 			return RedirectToAction("Index", "Home");
 		}
+
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpGet]
+		public async Task<IActionResult> ListCompanyAdmins()
+		{
+
+			var users = await _greenService.CompanyAdminsAsync();
+			users.ToList();
+
+			if (users == null)
+			{
+				TempData["Info"] = "Nincs függőben lévő felhasználó.";
+			}
+
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ListCompanyAdminsPost()
+		{
+
+			var users = await _greenService.CompanyAdminsAsync();
+			users.ToList();
+
+			if (users.ToList().Count == 0)
+			{
+				TempData["Info"] = "Nincs még cégadmin.";
+			}
+
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ListPending()
+		{
+
+			var users = await _greenService.CompanyAdminsPendingAsync();
+			if (users.ToList().Count == 0)
+			{
+				TempData["Info"] = "Nincs függőben lévő cégadmin.";
+			}
+
+			ViewBag.radio = "checked";
+
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> SearchUser(string searchString)
+		{
+			Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+			var users = await _greenService.SearchUser(searchString);
+			users.ToList();
+			if (users.ToList().Count == 0)
+			{
+				TempData["Info"] = "Nincs ilyen cégadmin.";
+			}
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Enable(Int32? id)
+		{
+			if(! await _greenService.EnableUserAsync(id))
+			{
+				TempData["ErrorMessage"] = "A felhasználó engedélyezése sikertelen, próbálja újra!";
+			}
+
+			TempData["Success"] = "A felhasználó sikeresen engedélyezve!";
+			return RedirectToAction("ListCompanyAdmins", "Account");
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Disable(Int32? id)
+		{
+			if (!await _greenService.DisableUserAsync(id))
+			{
+				TempData["ErrorMessage"] = "A felhasználó letiltása sikertelen, próbálja újra!";
+			}
+
+			TempData["Success"] = "A felhasználó sikeresen letiltva!";
+			return RedirectToAction("ListCompanyAdmins", "Account");
+		}
+
+
+	
+
+
+
 	}
 }

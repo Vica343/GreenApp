@@ -54,6 +54,7 @@ namespace GreenApp.Model
         public virtual DbSet<Cupon> Cupons { get; set; }
         public virtual DbSet<UserChallenge> UserChallenges { get; set; }
         public virtual DbSet<UserCupon> UserCupons { get; set; }
+        public virtual DbSet<Nonprofit> Nonprofits { get; set; }
 
     }
 }

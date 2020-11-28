@@ -39,7 +39,8 @@ namespace GreenApp.Service.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {
-                try                {
+                try
+                {
 
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
@@ -201,6 +202,18 @@ namespace GreenApp.Service.Controllers
                 }
             }
             return StatusCode(StatusCodes.Status401Unauthorized);
+        }
+
+        [HttpGet("Image/{id}")]
+        public IActionResult GetImageCupon(Int32 id)
+        {
+            var cupon = _context.Cupons.FirstOrDefault(c => c.Id == id);
+            var image = cupon.Image;
+
+            if (image == null)
+                return NotFound();
+
+            return File(image, "image/jpeg");
         }
 
 
