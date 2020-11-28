@@ -48,6 +48,7 @@ namespace GreenApp.Models
         Byte[] GetNonprofitImage(Int32? id);
         Task<byte[]> SaveQRAsync(Int32? id);
         Challenge GetChallenge(ChallengeViewModel challenge);
+        Nonprofit GetNonprofit(NonprofitViewModel nonprofit);
         Challenge GetChallengeById(Int32? challenge);
         Cupon GetCupon(CuponViewModel cupon);
         Cupon GetCuponById(Int32? cupon);

@@ -357,12 +357,12 @@ namespace GreenApp.Controllers
             if (!await _greenService.AcceptChallengeSolution(challengeId, userId)) 
             {
                 TempData["ErrorMessage"] = "A megoldás elfogadása sikertelen, kérem próbálja újra!";
-                return RedirectToAction("Participants", "Challenges");
+                return RedirectToAction("Participants", "Challenges", new { challengeid = challengeId });
             }
 
             TempData["Success"] = "A megoldás sikeresen elfogadva!";
 
-            return RedirectToAction("Participants", "Challenges");
+            return RedirectToAction("Participants", "Challenges", new { challengeid = challengeId });
         }
 
         [Authorize(Roles = "companyAdmin")]
@@ -492,12 +492,12 @@ namespace GreenApp.Controllers
             if (!await _greenService.DeclineChallengeSolution(challengeId, userId))
             {
                 TempData["ErrorMessage"] = "A megoldás elutasítása sikertelen, kérem próbálja újra!";
-                return RedirectToAction("Participants", "Challenges");
+                return RedirectToAction("Participants", "Challenges", new { challengeid = challengeId });
             }
 
             TempData["Success"] = "A megoldás sikeresen elutasítva!";
 
-            return RedirectToAction("Participants", "Challenges");
+            return RedirectToAction("Participants", "Challenges", new { challengeid = challengeId });
         }
         
         public ActionResult ChallengeImage(Int32? challangeId)

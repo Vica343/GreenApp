@@ -158,6 +158,21 @@ namespace GreenApp.Models
             if (!Validator.TryValidateObject(challenge, new ValidationContext(challenge, null, null), null))
                 return false;
 
+            if (GetChallenge(challenge) != null)
+            {
+                return false;
+            }
+
+            if (challenge.ChallengeStartDate < DateTime.Now)
+            {
+                return false;
+            }
+
+            if (challenge.ChallengeStartDate > challenge.ChallengeEndDate)
+            {
+                return false;
+            }
+
             Guest guest = await _userManager.FindByNameAsync(userName);
 
             byte[] bytes = null;
@@ -167,6 +182,21 @@ namespace GreenApp.Models
                 bytes = memoryStream.ToArray();
 
             }
+
+            using (var imageReadStream = new MemoryStream(bytes))
+            {
+                try
+                {
+                    using (var possibleImage = Image.FromStream(imageReadStream))
+                    {
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
 
             _context.Challenges.Add(new Challenge
             {
@@ -453,6 +483,21 @@ namespace GreenApp.Models
             if (!Validator.TryValidateObject(cupon, new ValidationContext(cupon, null, null), null))
                 return false;
 
+            if (GetCupon(cupon) != null)
+            {
+                return false;
+            }
+
+            if (cupon.CuponStartDate < DateTime.Now)
+            {
+                return false;
+            }
+
+            if (cupon.CuponStartDate > cupon.CuponEndDate)
+            {
+                return false;
+            }
+
             Guest guest = await _userManager.FindByNameAsync(userName);
 
             byte[] bytes = null;
@@ -460,6 +505,20 @@ namespace GreenApp.Models
             {
                 await cupon.CuponImage.CopyToAsync(memoryStream);
                 bytes = memoryStream.ToArray();
+            }
+
+            using (var imageReadStream = new MemoryStream(bytes))
+            {
+                try
+                {
+                    using (var possibleImage = Image.FromStream(imageReadStream))
+                    {
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
             }
 
             _context.Cupons.Add(new Cupon
@@ -488,11 +547,30 @@ namespace GreenApp.Models
             if (!Validator.TryValidateObject(nonprofit, new ValidationContext(nonprofit, null, null), null))
                 return false;
 
+            if(GetNonprofit(nonprofit) != null)
+            {
+                return false;
+            }
+
             byte[] bytes = null;
             using (var memoryStream = new MemoryStream())
             {
                 await nonprofit.NonprofitImage.CopyToAsync(memoryStream);
                 bytes = memoryStream.ToArray();
+            }
+
+            using (var imageReadStream = new MemoryStream(bytes))
+            {
+                try
+                {
+                    using (var possibleImage = Image.FromStream(imageReadStream))
+                    {
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
             }
 
             _context.Nonprofits.Add(new Nonprofit
@@ -650,7 +728,6 @@ namespace GreenApp.Models
                 .Where(ch => ch.Description == challenge.ChallengeDescription)
                 .FirstOrDefault();
             return c;
-
         }
 
         public Challenge GetChallengeById(Int32? id)
@@ -671,6 +748,16 @@ namespace GreenApp.Models
                 .Where(ch => ch.Value == cupon.CuponValue)
                 .Where(ch => ch.StartDate == cupon.CuponStartDate)
                 .Where(ch => ch.EndDate == cupon.CuponEndDate)
+                .FirstOrDefault();
+            return c;
+        }
+
+        public Nonprofit GetNonprofit(NonprofitViewModel nonprofit)
+        {
+            if (nonprofit == null)
+                return null;
+            Nonprofit c = _context.Nonprofits
+                .Where(ch => ch.Name == nonprofit.NonprofitName)
                 .FirstOrDefault();
             return c;
         }

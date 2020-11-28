@@ -65,7 +65,6 @@ namespace GreenApp.Service.Controllers
             {
                 try
                 {
-
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
                     var userchallenge = _context.UserChallenges
@@ -205,16 +204,25 @@ namespace GreenApp.Service.Controllers
                 {
                     Challenge challenge = _context.Challenges
                        .Where(ch => ch.Id == id)
-                       .FirstOrDefault();
-
+                       .FirstOrDefault();                                       
                     IEnumerable<Claim> claims = identity.Claims;
                     var user = await _userManager.FindByNameAsync(identity.Name);
+
+                    if (challenge.StartDate > DateTime.Now)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                    }
+                    else if (challenge.EndDate < DateTime.Now)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                    }
 
                     var uc = _context.UserChallenges.Where(c => c.ChallengeId == challenge.Id).Where(c => c.UserId == user.Id).FirstOrDefault();
                     if (uc != null && uc.Status == StatusType.Accepted)
                     {
                         return StatusCode(StatusCodes.Status400BadRequest);
                     }
+
                     if (uc == null)
                     {
                         if (challenge.UserChallenges == null)
@@ -299,6 +307,16 @@ namespace GreenApp.Service.Controllers
         {
             var challenge = _context.Challenges
                 .Single(c => c.Id == id);
+            if (challenge.StartDate > DateTime.Now)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            else if (challenge.EndDate < DateTime.Now)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             if (identity != null)
             {

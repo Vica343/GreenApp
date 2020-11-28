@@ -133,7 +133,7 @@ namespace GreenApp.Controllers
             if (!await _greenService.SaveCuponAsync(guest.UserName, cupon))
             {
                 TempData["ErrorMessage"] = "A kupon létrehozása sikertelen, kérem próbálja újra!";
-                return View("Index");
+                return RedirectToAction("Index", "Cupons");
             }
 
             TempData["Success"] = "A kupon sikeresen hozzáadva!";

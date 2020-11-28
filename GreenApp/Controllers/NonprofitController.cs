@@ -59,7 +59,7 @@ namespace GreenApp.Controllers
             if (!await _greenService.SaveNonprofitAsync(nonprofit))
             {
                 TempData["ErrorMessage"] = "A nonprofit hozzáadása sikertelen, kérem próbálja újra!";
-                return View("Index");
+                return RedirectToAction("Index", "Nonprofit");
             }
 
             TempData["Success"] = "A nonprofit sikeresen hozzáadva!";
