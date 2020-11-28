@@ -53,8 +53,7 @@ namespace GreenApp.Models
 				FirstName = "Adminisztrátor",
 				LastName = "Admin",
 				Email = "admin@example.com",
-				PhoneNumber = "+36123456789",
-				Company = "Company"
+				PhoneNumber = "+36123456789"
 			};
 			var adminPassword = "Almafa123";
 			var adminRole = new IdentityRole<int>("superAdmin");

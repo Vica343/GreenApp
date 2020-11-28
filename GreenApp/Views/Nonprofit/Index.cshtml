@@ -9,8 +9,8 @@
     </div>
 
     <div class="p-3">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Nonprofit" asp-action="Search">
+            <input class="form-control" type="search" name="SearchString" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
@@ -23,13 +23,12 @@
 {
     <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
 }
-@if (Model == null || !Model.Any())
+@if (TempData["Info"] != null)
 {
-    <div class="contentText">Jelenleg nincsenek nonfprofit szervezetek.</div>
+    <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
 }
 else
 {
-
     <div class="pt-5">
         @for (Int32 i = 0; i < Model.Count; i++)
         {
@@ -38,7 +37,7 @@ else
                     <div class="row">
                         <h3> @Model[i].Name </h3>
                         <p class="ml-auto mr-3"> Összegyűjtött pénz: @Model[i].CollectedMoney </p>
-                    </div>                   
+                    </div>
                     <div class="row">
                         <img class="img-fluid" src="@Url.Action("NonprofitImage", "Nonprofit", new { id = @Model[i].Id })" />
                     </div>

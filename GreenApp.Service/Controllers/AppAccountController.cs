@@ -102,8 +102,8 @@ namespace GreenApp.Service.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-  
+        }        
+
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]GuestDTO guestDTO)

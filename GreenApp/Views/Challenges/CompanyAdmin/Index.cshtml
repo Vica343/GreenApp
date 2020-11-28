@@ -7,23 +7,27 @@
     </div>
 
     <div class="p-3">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Challenges" asp-action="SearchOwnChallenge">
+            <input class="form-control" type="search" name="SearchString" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
+    @if (ViewBag.types != null)
+    {
+        <div class="p-3">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Típusok
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @for (int i = 0; i < ViewBag.Types.Count; i++)
+                {
+                    <a class="dropdown-item" asp-controller="Challenges" asp-action="SelectFromOwn" asp-route-type="@ViewBag.types[i]">@ViewBag.types[i]</a>
+                }
 
-    <div class="p-3">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Típus
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            </div>
         </div>
-    </div>
+    }
+
 </div>
 
 @if (TempData["Success"] != null)
@@ -34,9 +38,9 @@
 {
     <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
 }
-@if (Model == null || !Model.Any())
+@if (TempData["Info"] != null)
 {
-    <div class="contentText">Jelenleg nincs semmilyen kihívás.</div>
+    <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
 }
 else
 {

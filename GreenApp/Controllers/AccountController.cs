@@ -143,6 +143,60 @@ namespace GreenApp.Controllers
 			var users = await _greenService.CompanyAdminsAsync();
 			users.ToList();
 
+			if (users == null)
+			{
+				TempData["Info"] = "Nincs függőben lévő felhasználó.";
+			}
+
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ListCompanyAdminsPost()
+		{
+
+			var users = await _greenService.CompanyAdminsAsync();
+			users.ToList();
+
+			if (users.ToList().Count == 0)
+			{
+				TempData["Info"] = "Nincs még cégadmin.";
+			}
+
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ListPending()
+		{
+
+			var users = await _greenService.CompanyAdminsPendingAsync();
+			if (users.ToList().Count == 0)
+			{
+				TempData["Info"] = "Nincs függőben lévő cégadmin.";
+			}
+
+			ViewBag.radio = "checked";
+
+			return View("CompanyAdmins", users);
+		}
+
+		[Authorize(Roles = "superAdmin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> SearchUser(string searchString)
+		{
+			Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+			var users = await _greenService.SearchUser(searchString);
+			users.ToList();
+			if (users.ToList().Count == 0)
+			{
+				TempData["Info"] = "Nincs ilyen cégadmin.";
+			}
 			return View("CompanyAdmins", users);
 		}
 

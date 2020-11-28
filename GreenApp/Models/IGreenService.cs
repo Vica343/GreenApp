@@ -12,10 +12,19 @@ namespace GreenApp.Models
     {
         IEnumerable<Challenge> Challenges { get; }
         IEnumerable<Cupon> Cupons { get; }
-        IEnumerable<Nonprofit> Nonprofits { get; }
-        IEnumerable<UserChallenge> GetSolutions(Int32? challengeid);     
-        IEnumerable<Challenge> ChallengesWithCreator { get; }
+        IEnumerable<Nonprofit> Nonprofits { get; }        
+        IEnumerable<Challenge> ChallengesWithCreator { get; }        
+        IEnumerable<UserChallenge> GetSolutions(Int32? challengeid);
+        IEnumerable<String> GetCompanies(Int32? id);
+        IEnumerable<Challenge> SearchOwnChallenge(Int32? id, String searchstring);
+        IEnumerable<Challenge> SelectOwnChallenge(Int32? id, String type);
+        IEnumerable<Challenge> SearchOtherChallenge(Int32? id, String searchstring);
+        IEnumerable<Challenge> SelectOtherChallenge(Int32? id, String type);
+        IEnumerable<Cupon> SearchCupon(Int32? id, String searchstring);
+        IEnumerable<Nonprofit> SearchNonprofit(String searchstring);
+        Task<IEnumerable<Guest>> SearchUser(String searchString);
         Task<IEnumerable<Guest>> CompanyAdminsAsync();
+        Task<IEnumerable<Guest>> CompanyAdminsPendingAsync();
         Task<Boolean> SaveChallengeAsync(String userName, ChallengeViewModel challenge);
         Task<Boolean> UpdateChallengeAsync(String userName, ChallengeViewModel challenge, Int32? id, String input);
         Task<Boolean> UpdateCuponAsync(String userName, CuponViewModel cupon, Int32? id);

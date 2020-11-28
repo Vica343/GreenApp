@@ -23,6 +23,10 @@ namespace GreenApp.Controllers
         public IActionResult Index()
         {
             var nonprofits = _greenService.Nonprofits.ToList();
+            if (nonprofits.Count == 0)
+            {
+                TempData["Info"] = "Nincs ilyen nonprofit.";
+            }
 
             return View("index", nonprofits);
         }
@@ -35,6 +39,18 @@ namespace GreenApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public IActionResult Search(string SearchString)
+        {
+            var nonprofits =  _greenService.SearchNonprofit(SearchString).ToList();
+            if (nonprofits.Count == 0)
+            {
+                TempData["Info"] = "Nincs ilyen nonprofit.";
+            }
+            return View("Index", nonprofits);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(NonprofitViewModel nonprofit)
         {
             if (nonprofit == null)
@@ -42,7 +58,7 @@ namespace GreenApp.Controllers
 
             if (!await _greenService.SaveNonprofitAsync(nonprofit))
             {
-                ModelState.AddModelError("", "A nonprofit hozzáadása sikertelen, kérem próbálja újra!");
+                TempData["ErrorMessage"] = "A nonprofit hozzáadása sikertelen, kérem próbálja újra!";
                 return View("Index");
             }
 

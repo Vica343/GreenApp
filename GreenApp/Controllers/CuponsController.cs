@@ -28,6 +28,12 @@ namespace GreenApp.Controllers
         {
             Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
             var cupons = _greenService.GetOwnCupons(guest.Id).ToList();
+
+            if (cupons.Count == 0)
+            {
+                TempData["Info"] = "Jelenleg nincsenek saját kuponok.";
+            }
+
             return View("Index", cupons);
         }
 
@@ -37,6 +43,21 @@ namespace GreenApp.Controllers
             return View("AddCupon");
         }
 
+        [Authorize(Roles = "companyAdmin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search(string searchString)
+        {
+            Guest guest = await _userManager.FindByNameAsync(User.Identity.Name);
+            var searchresult = _greenService.SearchCupon(guest.Id, searchString).ToList();
+
+            if (searchresult.Count == 0)
+            {
+                TempData["Info"] = "Nincs ilyen kupon.";
+            }
+
+            return View("Index", searchresult);
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Int32? cuponId)
@@ -75,7 +96,7 @@ namespace GreenApp.Controllers
 
             if (!await _greenService.UpdateCuponAsync(guest.UserName, cupon, id))
             {
-                ModelState.AddModelError("", "A kihívás létrehozása sikertelen, kérem próbálja újra!");
+                TempData["ErrorMessage"] = "A kupon módosítása sikertelen, kérem próbálja újra!";
                 return View("CompanyAdmin/AddChallenge");
             }
 
@@ -111,7 +132,7 @@ namespace GreenApp.Controllers
 
             if (!await _greenService.SaveCuponAsync(guest.UserName, cupon))
             {
-                ModelState.AddModelError("", "A foglalás rögzítése sikertelen, kérem próbálja újra!");
+                TempData["ErrorMessage"] = "A kupon létrehozása sikertelen, kérem próbálja újra!";
                 return View("Index");
             }
 

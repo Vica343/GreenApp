@@ -32,10 +32,23 @@ namespace GreenApp.Models
         public IEnumerable<Cupon> Cupons => _context.Cupons;
         public IEnumerable<Nonprofit> Nonprofits => _context.Nonprofits;
 
+        public IEnumerable<String> GetCompanies(Int32? id)
+        {
+            return _context.Users.Where(u=> u.Id != id).Select(u => u.Company);
+        }
         public async Task<IEnumerable<Guest>> CompanyAdminsAsync()
         {
            return await _userManager.GetUsersInRoleAsync("companyAdmin");
         }
+        
+        public async Task<IEnumerable<Guest>> CompanyAdminsPendingAsync()
+        {
+           var admins = await _userManager.GetUsersInRoleAsync("companyAdmin");
+            var users = admins.Where(u => u.Status == StatusType.Pending).ToList();
+
+           return users;
+        }
+
 
         public IEnumerable<UserChallenge> GetSolutions(Int32? challengeid)
         {
@@ -45,6 +58,89 @@ namespace GreenApp.Models
         public IEnumerable<Challenge> GetOwnChallenges(Int32? creatorId)
         {
             return _context.Challenges.Where(c => c.CreatorId == creatorId);
+        }
+
+        public IEnumerable<Challenge> SearchOwnChallenge(Int32? id, String searchstring)
+        {
+            if(searchstring == null)
+            {
+                return _context.Challenges.Where(c => c.CreatorId == id);
+            }
+            return _context.Challenges.Where(c => c.CreatorId == id).Where(c => c.Name.Contains(searchstring) || c.Description.Contains(searchstring));
+        }
+
+        public async Task<IEnumerable<Guest>> SearchUser(String searchString)
+        {
+            var admins = await _userManager.GetUsersInRoleAsync("companyAdmin");
+            if (searchString == null)
+            {
+                return admins.ToList();
+            }
+            
+            return admins.Where(c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString) || c.Email.Contains(searchString) || c.Company.Contains(searchString)).ToList();
+        }
+
+      
+        public IEnumerable<Challenge> SelectOwnChallenge(Int32? id, String type)
+        {
+            if (type == null)
+            {
+                return null;
+            }
+
+            ChallengeType chtype;
+            if (Enum.TryParse(type, out chtype))
+            {
+                return _context.Challenges.Where(c => c.CreatorId == id).Where(c => c.Type == chtype);
+            }
+
+            return null;           
+        }
+
+        public IEnumerable<Challenge> SelectOtherChallenge(Int32? id, String type)
+        {
+            if (type == null)
+            {
+                return null;
+            }
+
+            ChallengeType chtype;
+            if (Enum.TryParse(type, out chtype))
+            {
+                return _context.Challenges.Include(c => c.Creator).Where(c => c.CreatorId != id).Where(c => c.Type == chtype);
+            }
+            else
+            {
+                return _context.Challenges.Include(i => i.Creator).Where(c => c.CreatorId != id).Where(i => i.Creator.Company == type);
+            }
+
+        }
+
+        public IEnumerable<Challenge> SearchOtherChallenge(Int32? id, String searchstring)
+        {
+            if (searchstring == null)
+            {
+                return _context.Challenges.Include(c => c.Creator).Where(c => c.CreatorId != id);
+            }
+            return _context.Challenges.Include(c => c.Creator).Where(c => c.CreatorId != id).Where(c => c.Name.Contains(searchstring) || c.Description.Contains(searchstring));
+        }
+
+        public IEnumerable<Cupon> SearchCupon(Int32? id, String searchstring)
+        {
+            if (searchstring == null)
+            {
+                return _context.Cupons.Where(c => c.CreatorId == id);
+            }
+            return _context.Cupons.Where(c => c.CreatorId == id).Where(c => c.Name.Contains(searchstring));
+        }
+
+        public IEnumerable<Nonprofit> SearchNonprofit(String searchstring)
+        {
+            if (searchstring == null)
+            {
+                return _context.Nonprofits;
+            }
+            return _context.Nonprofits.Where(c => c.Name.Contains(searchstring));
         }
 
         public IEnumerable<Challenge> GetOtherChallenges(Int32? creatorId)
