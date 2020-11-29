@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GreenApp</title>
@@ -16,8 +17,9 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <nav class="navbar navbar-custom">
-        <a class="navbar-brand" href="#">
+    <div id="bg2">    </div>
+    <nav class="navbar mt-0">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <img class="img-fluid" id="image" src="~/Images/logo.png" alt="">
         </a>
         <div class="text-right">
@@ -28,66 +30,68 @@
         </div>
     </nav>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-9">
-                <form asp-controller="Account" asp-action="Register">
-                    <div class="contentHead py-3">
-                        <h1>Regisztráció:</h1>
+    <section id="cover" class="min-vh-50">
+        <div id="cover-caption">
+            <div class="container">
+                <div class="row text-white">
+                    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                        <h1 class="display-4 py-2 text-truncate">Regisztráció:</h1>
+                        <div class="px-2">
+                            <form asp-controller="Account" asp-action="Register" class="myform justify-content-center">
+                                <hr />                               
+                                <div class="form-group">
+                                    <h5>Vezetéknév:</h5>
+                                    <input class="form-control" asp-for="GuestLastName" size="40" />
+                                    <span asp-validation-for="GuestLastName"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Keresztnév:</h5>
+                                    <input class="form-control" asp-for="GuestFirstName" size="40" />
+                                    <span asp-validation-for="GuestFirstName"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Cég neve:</h5>
+                                    <input class="form-control" asp-for="GuestCompany" size="40" />
+                                    <span asp-validation-for="GuestCompany"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5>E-mail cím:</h5>
+                                    <input class="form-control" asp-for="GuestEmail" size="40" />
+                                    <span asp-validation-for="GuestEmail"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Telefonszám:</h5>
+                                    <input class="form-control" asp-for="GuestPhoneNumber" size="40" />
+                                    <span asp-validation-for="GuestPhoneNumber"></span>
+                                </div>
+                                <hr />                               
+                                <div class="form-group">
+                                    <h5>Felhasználónév:</h5>
+                                    <input class="form-control" asp-for="UserName" />
+                                    <span asp-validation-for="UserName"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Jelszó:</h5>
+                                    <input class="form-control" asp-for="UserPassword" />
+                                    <span asp-validation-for="UserPassword"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Jelszó még egyszer:</h5>
+                                    <input class="form-control" asp-for="UserConfirmPassword" />
+                                    <span asp-validation-for="UserConfirmPassword"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h6><br />A felhasználónév és a jelszó minimum 5, maximum 40 karakter hosszú lehet. Csak betűt, számot és kötőjelet tartalmathat.<br /><br /></h6>
+                                </div>
+                                <div class="failureNotification">@Html.ValidationSummary(true, "A regisztráció sikertelen!")</div>
+                                <button type="submit" class="btn btn-primary btn-lg">Regisztráció</button>
+                            </form>
+                        </div>
                     </div>
-                    <hr />
-                    <h3>Személyes adatok:</h3>
-                    <div class="form-group">
-                        <h5>Vezetéknév:</h5>
-                        <input class="form-control" asp-for="GuestLastName" size="40" />
-                        <span asp-validation-for="GuestLastName"></span>
-                    </div>
-                    <div class="form-group">
-                        <h5>Keresztnév:</h5>
-                        <input class="form-control" asp-for="GuestFirstName" size="40" />
-                        <span asp-validation-for="GuestFirstName"></span>
-                    </div>
-                    <div class="form-group">
-                        <h5>Cég neve:</h5>
-                        <input class="form-control" asp-for="GuestCompany" size="40" />
-                        <span asp-validation-for="GuestCompany"></span>
-                    </div>
-                    <div class="form-group">
-                        <h5>E-mail cím:</h5>
-                        <input class="form-control" asp-for="GuestEmail" size="40" />
-                        <span asp-validation-for="GuestEmail"></span>
-                    </div>
-                    <div class="form-group">
-                        <h5>Telefonszám:</h5>
-                        <input class="form-control" asp-for="GuestPhoneNumber" size="40" />
-                        <span asp-validation-for="GuestPhoneNumber"></span>
-                    </div>
-                    <hr />
-                    <h3>Bejelentkezési adatok:</h3>
-                    <div class="form-group">
-                        <h5>Felhasználónév:</h5>
-                        <input class="form-control" asp-for="UserName" />
-                        <span asp-validation-for="UserName"></span>
-                    </div>
-                    <div class="form-group">
-                        <h5>Jelszó:</h5>
-                        <input class="form-control" asp-for="UserPassword" />
-                        <span asp-validation-for="UserPassword"></span>
-                    </div>
-                    <div class="form-group">
-                        <h5>Jelszó még egyszer:</h5>
-                        <input class="form-control" asp-for="UserConfirmPassword" />
-                        <span asp-validation-for="UserConfirmPassword"></span>
-                    </div>
-                    <div class="form-group">
-                        <h6><br />A felhasználónév és a jelszó minimum 5, maximum 40 karakter hosszú lehet. Csak betűt, számot és kötőjelet tartalmathat.<br /><br /></h6>
-                    </div>
-                    <div class="failureNotification">@Html.ValidationSummary(true, "A regisztráció sikertelen!")</div>
-                    <button type="submit" class="btn btn-primary btn-lg">Regisztráció</button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     @section Scripts
 {
