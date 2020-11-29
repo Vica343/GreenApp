@@ -201,12 +201,12 @@ namespace GreenApp.Controllers
             if (!await _greenService.UpdateChallengeAsync(guest.UserName, challenge, id, inputText))
             {
                 TempData["ErrorMessage"] = "A kihívás módosítása sikertelen, próbáld újra!";
-                return RedirectToAction("Details", "Challenges");
+                return RedirectToAction("OwnCampaigns", "Challenges");
             }
 
             TempData["Success"] = "A kihívás sikeresen módosítva!";
 
-            return RedirectToAction("Details", "Challenges");
+            return RedirectToAction("OwnCampaigns", "Challenges");
         }
 
         [Authorize(Roles = "companyAdmin")]
