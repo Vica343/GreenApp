@@ -7,13 +7,13 @@
     <div class="p-3">
         <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Challenges" asp-action="SearchChallenge">
             <input class="form-control" type="search" name="SearchString" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-light" type="submit">Search</button>
         </form>
     </div>
     @if (ViewBag.types != null && ViewBag.companies != null)
     {
         <div class="p-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn btn-secondary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Típusok
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="p-3">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn btn-secondary dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Cégek
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -65,14 +65,14 @@
                     <p class="description"> @Model[i].Description </p>
                 </div>
                 <div class="row bottomrow">
-                    <div class="col-md-4">
-                        <p class="font-italic float-right">@Model[i].Creator.Email </p>
+                    <div class="col">
+                        <p class="font-italic">@Model[i].Creator.Email </p>
                     </div>
-                    <div class="col-md-4">
-                        <p class="font-italic ml-auto mr-3"> @Model[i].Type </p>
+                    <div class="col">
+                        <p class="font-italic"> @Model[i].Type </p>
                     </div>
-                    <div class="col-md-4">
-                        <p class="font-italic ml-auto mr-3"> @Model[i].Creator.Company </p>
+                    <div class="col">
+                        <p class="font-italic"> @Model[i].Creator.Company </p>
                     </div>
                 </div>
             </div>

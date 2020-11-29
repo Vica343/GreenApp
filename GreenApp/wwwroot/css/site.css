@@ -63,6 +63,7 @@ body {
     margin-bottom: 60px;
     height: 100%;
     background-color: rgb(231, 232, 227);
+   
 }
 .footer {
   position: absolute;
@@ -94,12 +95,13 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    opacity: 0.3;
+    opacity: 0.8;
 }
 
 
 #wrapper {
     overflow-x: hidden;
+    position:absolute;
 }
 
 #sidebar-wrapper {
@@ -121,7 +123,7 @@ body {
     }
 
 #page-content-wrapper {
-    min-width: 100vw;
+    min-width: 100vw;   
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -143,18 +145,10 @@ body {
     }
 }
 
-.navbar.transparent.navbar-inverse .navbar-inner {
-    border-width: 0px;
-    -webkit-box-shadow: 0px 0px;
-    box-shadow: 0px 0px;
-    background-color: rgba(0,0,0,0.0);
-    background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0%, rgba(0,0,0,0.00)),color-stop( 100%, rgba(0,0,0,0.00)));
-    background-image: -webkit-linear-gradient(270deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
-    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
-}
 
 .navbar-custom {
-    background-color: rgb(69, 93, 88);
+    background-image: url('../Images/background2.jpg');
+    height: 300px;
 }
 
 .custom-image {
@@ -167,10 +161,6 @@ body {
     height: 200px;
 }
 
-
-.description {
-    text-decoration: none;
-}
 
 .bottomrow {
     position: absolute;
@@ -187,15 +177,32 @@ body {
 .containerbg {
     height: 100vh;
     display: flex;
-    flex-wrap: wrap;
+    max-width: 640px;
+    max-height: 800px;
+    text-align: center;
     background: rgb(69, 93, 88);
 }
 
-.containersection {
+#cover {
+    background: center center no-repeat;
+    background-size: cover;
     height: 100%;
-    width: 80%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
-.wrapper{
-    width: 60%;
+#cover-caption {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+
+.sticky-custom {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
 }

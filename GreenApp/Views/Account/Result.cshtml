@@ -1,12 +1,61 @@
-﻿@if (TempData["Success"] != null)
-{
-    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+﻿@using GreenApp.Model;
+@model LoginViewModel
+
+@{
+    Layout = null;
 }
-@if (TempData["ErrorMessage"] != null)
-{
-    <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
-}
-@if (TempData["Info"] != null)
-{
-    <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GreenApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div id="bg2">    </div>
+    <nav class="navbar mt-0">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <img class="img-fluid" id="image" src="~/Images/logo.png" alt="">
+        </a>
+        <div class="text-right">
+            <div class="navbar-inner">
+                <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("Register", "Account")'">Regisztráció</button>
+                <button class="btn btn-light btn-lg m-4" onclick="location.href='@Url.Action("Login", "Account")'">Bejelentkezés</button>
+            </div>
+        </div>
+    </nav>
+    <section id="cover" class="min-vh-50">
+        <div id="cover-caption">
+            <div class="container">
+                <div class="row text-white">
+                    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                        <div class="px-2">
+                            @if (TempData["Success"] != null)
+                            {
+                                <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+                            }
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+                            }
+                            @if (TempData["Info"] != null)
+                            {
+                                <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    @section Scripts
+    {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</body>
+</html>

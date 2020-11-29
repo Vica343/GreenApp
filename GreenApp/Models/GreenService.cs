@@ -162,12 +162,7 @@ namespace GreenApp.Models
             {
                 return false;
             }
-
-            if (challenge.ChallengeStartDate < DateTime.Now)
-            {
-                return false;
-            }
-
+            
             if (challenge.ChallengeStartDate > challenge.ChallengeEndDate)
             {
                 return false;
@@ -486,12 +481,7 @@ namespace GreenApp.Models
             if (GetCupon(cupon) != null)
             {
                 return false;
-            }
-
-            if (cupon.CuponStartDate < DateTime.Now)
-            {
-                return false;
-            }
+            }           
 
             if (cupon.CuponStartDate > cupon.CuponEndDate)
             {

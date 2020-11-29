@@ -15,8 +15,8 @@
 </head>
 <body>
     <div id="bg2">    </div>
-    <nav class="navbar">
-        <a class="navbar-brand" href="#">
+    <nav class="navbar mt-0">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <img class="img-fluid" id="image" src="~/Images/logo.png" alt="">
         </a>
         <div class="text-right">
@@ -26,42 +26,45 @@
             </div>
         </div>
     </nav>
-    <div class="wrapper mx-auto">
-        <div class="container-fluid containerbg">
-                <div class="containersection">
-                    <div class="col-md-6 ">
-                        <form asp-controller="Account" asp-action="Login">
-                            <div class="contentHead py-3">
-                                <h1 class="text-light">Bejelentkezés:</h1>
-                            </div>
-                            <div class="form-group">
-                                <h5 class="text-light">Felhasználó név:</h5>
-                                <input class="form-control" asp-for="UserName" />
-                                <span asp-validation-for="UserName"></span>
-                            </div>
-                            <div class="form-group">
-                                <h5 class="text-light">Jelszó:</h5>
-                                <input class="form-control" asp-for="UserPassword" />
-                                <span asp-validation-for="UserPassword"></span>
-                            </div>
-                            <div class="form-group">
-                                <h6 class="form-check-label px-4 text-light" for="cb">
-                                    <input id="cb" class="form-check-input" type="checkbox" asp-for="RememberLogin" />
-                                    Bejelentkezés megjegyzése
-                                </h6>
-                            </div>
-                            <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
-                            <button type="submit" class="btn btn-light btn-lg">Bejelentkezés</button>
-                        </form>
+    <section id="cover" class="min-vh-50">
+        <div id="cover-caption">
+            <div class="container">
+                <div class="row text-white">
+                    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                        <h1 class="display-4 py-2 text-truncate">Bejelentkezés:</h1>
+                        <div class="px-2">
+                            <form asp-controller="Account" asp-action="Login" class="justify-content-center">
+                                <div class="form-group">
+                                    <h5 class="text-light text-center">Felhasználó név:</h5>
+                                    <input class="form-control" asp-for="UserName" />
+                                    <span asp-validation-for="UserName"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h5 class="text-light text-center">Jelszó:</h5>
+                                    <input class="form-control" asp-for="UserPassword" />
+                                    <span asp-validation-for="UserPassword"></span>
+                                </div>
+                                <div class="form-group">
+                                    <h6 class="form-check-label px-4 text-light text-center" for="cb">
+                                        <input id="cb" class="form-check-input" type="checkbox" asp-for="RememberLogin" />
+                                        Bejelentkezés megjegyzése
+                                    </h6>
+                                </div>
+                                <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+                                <button type="submit" class="btn btn-light btn-lg">Bejelentkezés</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-    </div>
 
-    @section Scripts
+        </div>
+    </section>
+
+        @section Scripts
     {
-        <partial name="_ValidationScriptsPartial" />
-    }
+            <partial name="_ValidationScriptsPartial" />
+        }
 
 </body>
 </html>

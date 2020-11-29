@@ -5,13 +5,13 @@
 
 <div class="d-flex flex-row-reverse">
     <div class="p-3">
-        <button class="btn btn-light btn-lg" onclick="location.href='@Url.Action("AddCupon", "Cupons")'">Hozzáadás</button>
+        <button class="btn btn-light" onclick="location.href='@Url.Action("AddCupon", "Cupons")'">Hozzáadás</button>
     </div>
 
     <div class="p-3">
         <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Cupons" asp-action="Search">
             <input class="form-control" type="search" name="SearchString" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-light" type="submit">Search</button>
         </form>
     </div>
 </div>
