@@ -21,7 +21,6 @@ namespace GreenApp.Models
         public String ChallengeDescription { get; set; }
         
         [DataType(DataType.Date)]
-        [FromNow]
         [Required(ErrorMessage = "A kezdődátum megadása kötelező.")]
         public DateTime ChallengeStartDate { get; set; }
 

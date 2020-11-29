@@ -17,6 +17,5 @@ namespace GreenApp.Models
         [DataType(DataType.Upload)]
         public IFormFile NonprofitImage { get; set; }
 
-        public String NonprofitMoney { get; set; }
     }
 }
