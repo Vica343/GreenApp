@@ -10,6 +10,7 @@ namespace GreenApp.Model
         public string Name { get; set; }
         public string Value { get; set; }
         public int CreatorId { get; set; }
+        public virtual Guest Creator { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public byte[] Image { get; set; }

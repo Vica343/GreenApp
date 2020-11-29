@@ -22,15 +22,23 @@
         <div class="p-3">
             @if (ViewBag.radio == null)
             {
-                <form method="post" asp-controller="Challenges" asp-action="ListPending" asp-route-id="@Model[i].ChallengeId">
-                    <p>Függőben lévők listázása</p><input type="checkbox">
-                </form>
+            <form method="post" asp-controller="Challenges" asp-action="ListPending" asp-route-id="@Model[i].ChallengeId">
+                <p class="form-check-label px-4" for="cb">
+                    <input id="cb" class="form-check-input" type="checkbox" />
+                    Függőben lévők listázása
+                </p>
+            </form>
             }
             else
             {
-                <form method="post" asp - controller="Challenges" asp-action="GetParticipants" asp-route-challengeid="@Model[i].ChallengeId">
-                    <p>Függőben lévők listázása</p><input type="checkbox" checked>
+                <form method="post" asp-controller="Challenges" asp-action="GetParticipants" asp-route-challengeid="@Model[i].ChallengeId">
+                    <p class="form-check-label px-4" for="cb">
+                        <input id="cb" class="form-check-input" type="checkbox" checked />
+                        Függőben lévők listázása
+                    </p>
                 </form>
+
+               
             }
         </div>
     </div>

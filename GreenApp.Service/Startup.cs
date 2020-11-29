@@ -1,5 +1,4 @@
 using GreenApp.Model;
-using GreenApp.Models;
 using Jose;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

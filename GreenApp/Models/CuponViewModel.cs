@@ -20,7 +20,6 @@ namespace GreenApp.Models
 
 
         [DataType(DataType.Date)]
-        [FromNow]
         [Required(ErrorMessage = "A kezdődátum megadása kötelező.")]
         public DateTime CuponStartDate { get; set; }
 

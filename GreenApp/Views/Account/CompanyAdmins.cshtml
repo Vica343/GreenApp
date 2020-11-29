@@ -3,101 +3,108 @@
 
 @model IList<Guest>
 
-<div class="d-flex flex-row-reverse">
-    <div class="p-3">
-        @if (ViewBag.radio == null)
-        {
-            <form method="post" id="list" asp-controller="Account" asp-action="ListPending">
-                <p>Függőben lévők listázása</p><input type="checkbox">
-            </form>
-        }
-        else
-        {
-            <form method="post" id="list" asp-controller="Account" asp-action="ListCompanyAdminsPost">
-                <p>Függőben lévők listázása</p><input type="checkbox" checked>
-            </form>
-        }
-    </div>
-    <div class="p-3">
-        <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Account" asp-action="SearchUser">
-            <input class="form-control" type="search" name="searchString" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
-</div>
-@if (TempData["Success"] != null)
-{
-    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
-}
-@if (TempData["Info"] != null)
-{
-    <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
-}
-<div class="pt-5">
-    @for (Int32 i = 0; i < Model.Count; i++)
-    {
-
-        <div class="row challenges mb-5 shadow-sm pb-2 pt-3">
-            <div class="col-md-9">
-                <div class="row">
-                    <h3> @Model[i].LastName @Model[i].FirstName </h3>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                            <p> Cég: </p>
-                        </div>
-                        <div class="row">
-                            <p> Email: </p>
-                        </div>
-                        <div class="row">
-                            <p> Telefon: </p>
-                        </div>
-                        <div class="row">
-                            <p> Státusz: </p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="row">
-                            <p> @Model[i].Company </p>
-                        </div>
-                        <div class="row">
-                            <p> @Model[i].Email </p>
-                        </div>
-                        <div class="row">
-                            <p> @Model[i].PhoneNumber </p>
-                        </div>
-                        <div class="row">
-                            <p> @Model[i].Status </p>
-                        </div>
-                    </div>
-                </div>
+    <div class="justify-content-center">
+        <div class="d-flex flex-row-reverse">
+            <div class="p-3">
+                @if (ViewBag.radio == null)
+                {
+                    <form method="post" id="list" asp-controller="Account" asp-action="ListPending">
+                        <p class="form-check-label px-4" for="cb">
+                            <input id="cb" class="form-check-input" type="checkbox" />
+                            Függőben lévők listázása
+                        </p>
+                    </form>
+                }
+                else
+                {
+                    <form method="post" id="list" asp-controller="Account" asp-action="ListCompanyAdminsPost">
+                        <p class="form-check-label px-4" for="cb">
+                            <input id="cb" class="form-check-input" type="checkbox" checked/>
+                            Függőben lévők listázása
+                        </p>
+                    </form>
+                }
             </div>
-
-            <div class="col">
-                <div class="row d-flex justify-content-center py-3">
-                    <div class="col">
-                        <form method="post" asp-controller="Account" asp-action="Enable" asp-route-id="@Model[i].Id">
-                            <button type="submit" class="btn btn-light" @if (Model[i].Status == StatusType.Accepted) { Write("disabled"); }>Engedélyezés</button>
-                        </form>
-                    </div>
-                    <div class="col">
-
-                        <form method="post" asp-controller="Account" asp-action="Disable" asp-route-id="@Model[i].Id">
-                            <button type="submit" class="btn btn-light" @if (Model[i].Status == StatusType.Declined) { Write("disabled"); }>Letiltás</button>
-                        </form>
-                    </div>
-                </div>
+            <div class="p-3">
+                <form class="form-inline my-2 my-lg-0" method="post" asp-controller="Account" asp-action="SearchUser">
+                    <input class="form-control" type="search" name="searchString" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
             </div>
         </div>
-    }
+        @if (TempData["Success"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <p class="alert alert-danger" id="errorMessage">@TempData["ErrorMessage"]</p>
+        }
+        @if (TempData["Info"] != null)
+        {
+            <p class="alert alert-info" id="errorMessage">@TempData["Info"]</p>
+        }
+        <div class="pt-5">
+            @for (Int32 i = 0; i < Model.Count; i++)
+            {
 
-</div>
+                <div class="row challenges mb-5 shadow-sm pb-2 pt-3">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <h3> @Model[i].LastName @Model[i].FirstName </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <p> Cég: </p>
+                                </div>
+                                <div class="row">
+                                    <p> Email: </p>
+                                </div>
+                                <div class="row">
+                                    <p> Telefon: </p>
+                                </div>
+                                <div class="row">
+                                    <p> Státusz: </p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <p> @Model[i].Company </p>
+                                </div>
+                                <div class="row">
+                                    <p> @Model[i].Email </p>
+                                </div>
+                                <div class="row">
+                                    <p> @Model[i].PhoneNumber </p>
+                                </div>
+                                <div class="row">
+                                    <p> @Model[i].Status </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col">
+                        <div class="row d-flex justify-content-center py-3">
+                            <div class="col">
+                                <form method="post" asp-controller="Account" asp-action="Enable" asp-route-id="@Model[i].Id">
+                                    <button type="submit" class="btn btn-light" @if (Model[i].Status == StatusType.Accepted) { Write("disabled"); }>Engedélyezés</button>
+                                </form>
+                            </div>
+                            <div class="col">
+
+                                <form method="post" asp-controller="Account" asp-action="Disable" asp-route-id="@Model[i].Id">
+                                    <button type="submit" class="btn btn-light" @if (Model[i].Status == StatusType.Declined) { Write("disabled"); }>Letiltás</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
 @section Scripts
 {
     <script>

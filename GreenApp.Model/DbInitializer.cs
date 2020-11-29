@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using GreenApp.Data;
 using System.IO;
 
-namespace GreenApp.Models
+namespace GreenApp.Model
 {
     public static class DbInitializer
     {

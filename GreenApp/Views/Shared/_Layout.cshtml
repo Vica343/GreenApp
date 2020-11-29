@@ -18,51 +18,53 @@
             </div>
         </div>
     </nav>
-    <div class="d-flex" id="wrapper">
-        <div class="bg-dark border-right" id="sidebar-wrapper">
-            <div class="list-group list-group-flush">
-                @if (ViewBag.menulist.Count != null)
-                {
-                    for (Int32 i = 0; i < ViewBag.menulist.Count; i++)
+    <div class="justify-content-center">
+        <div class="d-flex" id="wrapper">
+            <div class="bg-dark border-right" id="sidebar-wrapper">
+                <div class="list-group list-group-flush">
+                    @if (ViewBag.menulist.Count != null)
                     {
-                        if (ViewBag.menulist[i] == "Saját kampányok")
+                        for (Int32 i = 0; i < ViewBag.menulist.Count; i++)
                         {
-                            <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Challenges" asp-action="OwnCampaigns">@ViewBag.menulist[i]</a>
-                        }
-                        else if (ViewBag.menulist[i] == "Egyéb kampányok")
-                        {
-                            <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Challenges" asp-action="OtherCampaigns">@ViewBag.menulist[i]</a>
-                        }
-                        else if (ViewBag.menulist[i] == "Kuponok")
-                        {
-                            <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Cupons" asp-action="Index">@ViewBag.menulist[i]</a>
-                        }
-                        else if (ViewBag.menulist[i] == "Kampányok")
-                        {
-                            <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Challenges" asp-action="Index">@ViewBag.menulist[i]</a>
-                        }
-                        else if (ViewBag.menulist[i] == "Cégadminok")
-                        {
-                            <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Account" asp-action="ListCompanyAdmins">@ViewBag.menulist[i]</a>
-                        }
-                        else if (ViewBag.menulist[i] == "Non-profit szervezetek")
-                        {
-                            <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Nonprofit" asp-action="Index">@ViewBag.menulist[i]</a>
+                            if (ViewBag.menulist[i] == "Saját kampányok")
+                            {
+                                <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Challenges" asp-action="OwnCampaigns">@ViewBag.menulist[i]</a>
+                            }
+                            else if (ViewBag.menulist[i] == "Egyéb kampányok")
+                            {
+                                <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Challenges" asp-action="OtherCampaigns">@ViewBag.menulist[i]</a>
+                            }
+                            else if (ViewBag.menulist[i] == "Kuponok")
+                            {
+                                <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Cupons" asp-action="Index">@ViewBag.menulist[i]</a>
+                            }
+                            else if (ViewBag.menulist[i] == "Kampányok")
+                            {
+                                <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Challenges" asp-action="Index">@ViewBag.menulist[i]</a>
+                            }
+                            else if (ViewBag.menulist[i] == "Cégadminok")
+                            {
+                                <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Account" asp-action="ListCompanyAdmins">@ViewBag.menulist[i]</a>
+                            }
+                            else if (ViewBag.menulist[i] == "Non-profit szervezetek")
+                            {
+                                <a class="list-group-item list-group-item-action bg-dark text-light" asp-controller="Nonprofit" asp-action="Index">@ViewBag.menulist[i]</a>
+                            }
                         }
                     }
-                }
+                </div>
             </div>
-        </div>
 
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-dark border-bottom">
-                <button class="btn btn-primary" id="menu-toggle" data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
-            </nav>
-            <div class="container-fluid">
-                <div class="container">
-                    <main role="main" class="pb-3">
-                        @RenderBody()
-                    </main>
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg navbar-dark border-bottom">
+                    <button class="btn btn-primary" id="menu-toggle" data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+                </nav>
+                <div class="container-fluid">
+                    <div class="container d-flex align-items-center">
+                        <main role="main" class="pb-3">
+                            @RenderBody()
+                        </main>
+                    </div>
                 </div>
             </div>
         </div>

@@ -19,9 +19,8 @@ namespace GreenApp.Model
         public int CollectedMoney { get; set; }
 
         public virtual ICollection<Challenge> CreatedChallenges { get; set; }
-
+        public virtual ICollection<Cupon> CreatedCupons { get; set; }
         public virtual IList<UserChallenge> UserChallenges { get; set; }
-
         public virtual IList<UserCupon> UserCupons { get; set; }
 
     }
